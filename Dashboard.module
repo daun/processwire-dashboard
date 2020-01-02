@@ -1,6 +1,7 @@
 <?php namespace ProcessWire;
 
 require_once 'DashboardPanel.class.php';
+require_once 'DashboardPanelInstance.class.php';
 
 define('DASHBOARD_VERSION', trim(@file_get_contents(__DIR__ . '/Dashboard.version') ?: '0.0.1'));
 
@@ -66,6 +67,8 @@ class Dashboard extends Process implements Module {
         $this->links = (object) [
             'repo' => 'https://github.com/philippdaun/processwire-dashboard',
         ];
+
+        $this->panels = new DashboardPanelArray();
     }
 
     /**
@@ -169,7 +172,7 @@ class Dashboard extends Process implements Module {
      * @return WireArray
      */
     protected function ___getPanels() {
-        return new WireArray();
+        return $this->panels;
     }
 
     /**

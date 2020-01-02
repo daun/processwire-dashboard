@@ -45,6 +45,18 @@ wire()->addHookAfter('Dashboard::getPanels', function ($event) {
 });
 ```
 
+### Removing panels
+
+Since the panel collection is a WireArray, you can filter and remove existing panels in later hooks.
+
+```php
+/* Remove all chart panels */
+$charts = $panels->find('panel=chart');
+foreach ($charts as $panel) {
+  $panels->remove($panel);
+}
+```
+
 ## Configuration
 
 Each panel configuration is a simple associative array holding the following global configuration keys. The only required option is `panel`. Each panel might additionally require one or more keys in the `data` array to display correctly.
