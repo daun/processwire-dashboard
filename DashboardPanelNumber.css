@@ -1,0 +1,47 @@
+.DashboardPanelNumber .uk-card-body {
+  display: flex;
+  justify-content: stretch;
+}
+
+.DashboardPanelNumber__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  widtH: 100%;
+  text-align: center;
+}
+
+.DashboardPanelNumber__content dt,
+.DashboardPanelNumber__content p {
+  font-size: 2.5em;
+  font-weight: bold;
+}
+
+.DashboardPanelNumber__content dd {
+  font-weight: normal;
+  color: #97aab4;
+  /* opacity: .5; */
+}
+
+/* Trend indicator */
+
+.DashboardPanelNumber__content .fa {
+  display: none;
+  margin-right: -1.3rem;
+  font-size: 1.3rem;
+  font-weight: normal;
+  -webkit-text-stroke: 1px white;
+  mix-blend-mode: darken;
+}
+
+.DashboardPanelNumber__content[data-trend='up'] .fa {
+  display: inline-block;
+  transform: rotate(-45deg);
+  color: rgb(66, 175, 123);
+}
+
+.DashboardPanelNumber__content[data-trend='down'] .fa {
+  display: inline-block;
+  transform: rotate(45deg);
+  color: rgb(227, 78, 66);
+}

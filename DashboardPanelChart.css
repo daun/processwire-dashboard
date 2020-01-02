@@ -1,0 +1,7 @@
+.DashboardPanelChart__placeholder {
+  display: none;
+  position: relative;
+  padding-bottom: 50%;
+  height: 0;
+  overflow: hidden;
+}

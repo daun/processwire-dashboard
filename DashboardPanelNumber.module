@@ -1,0 +1,49 @@
+<?php namespace ProcessWire;
+
+use \NumberFormatter;
+
+// require_once 'DashboardPanel.class.php';
+
+class DashboardPanelNumber extends DashboardPanel {
+
+    public static function getModuleInfo() {
+        return array_merge(parent::getModuleInfo(),
+            [
+                'title'    => __('Dashboard Panel: Number', __FILE__),
+                'summary'  => __('Display a single number with trend indicator', __FILE__),
+                'author'   => 'Philipp Daun',
+                'version'  => DASHBOARD_VERSION,
+            ]
+        );
+    }
+
+    public function getIcon() {
+        return 'bar-chart';
+    }
+
+    public function getContent() {
+        return $this->view('panels/number', [
+            'number' => $this->number,
+            'detail' => $this->detail,
+            'trend' => $this->data['trend'] ?? null,
+        ]);
+    }
+
+    public function setup() {
+        parent::setup();
+        $this->locale = $this->data['locale'] ?? setlocale(LC_ALL, 0);
+        $this->detail = $this->data['detail'] ?? '';
+        $this->number = $this->data['number'] ?? null;
+        if (is_int($this->number)) {
+            $this->number = $this->formatNumber($this->number);
+        } elseif (is_float($this->number)) {
+            $this->number = $this->formatNumber($this->number);
+        }
+    }
+
+    private function formatNumber($number) {
+        $style = NumberFormatter::DECIMAL;
+        $formatter = new NumberFormatter($this->locale, $style);
+        return $formatter->format($number);
+    }
+}

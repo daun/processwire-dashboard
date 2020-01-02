@@ -1,0 +1,6 @@
+.DashboardPanelPageList .uk-card-body {
+  padding: 0;
+}
+.DashboardPanelPageList .PageList {
+  margin-top: 0 !important;
+}

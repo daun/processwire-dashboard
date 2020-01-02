@@ -1,0 +1,72 @@
+<?php namespace ProcessWire;
+
+class DashboardPanelHelloWorld extends DashboardPanel {
+
+    public static function getModuleInfo() {
+        return array_merge(parent::getModuleInfo(),
+            [
+                'title'    => __('Dashboard Panel: Hello World', __FILE__),
+                'summary'  => __('An example dashboard panel', __FILE__),
+                'author'   => 'Philipp Daun',
+                'version'  => '1.0.0',
+            ]
+        );
+    }
+
+    /**
+     * Setup the panel: fetch data, do calculations, check for config errors, etc.
+     */
+    public function setup() {
+        $this->text = $this->data['text'] ?? 'Nothing to see here';
+    }
+
+    /**
+     * Get the panel's FontAwesome icon code (without the fa- prefix)
+     */
+    public function getIcon() {
+        return 'globe';
+    }
+
+    /**
+     * Get the panel's title
+     */
+    public function getTitle() {
+        return $this->_('Hello World');
+    }
+
+    /**
+     * Get the panel's main content
+     */
+    public function getContent() {
+        return $this->renderIcon('star');
+        return "<p>{$this->text}</p>";
+    }
+
+    /**
+     * Get the panel's footer
+     */
+    public function getFooter() {
+        return $this->_('Goodbye World');
+    }
+
+    /**
+     * Get a list of additional class names for the panel card
+     */
+    public function getClassNames() {
+        return ['unique-classname-for-styling'];
+    }
+
+    /**
+     * Get a list of the panel's stylesheets
+     */
+    public function getStyles() {
+        return ['https://cdnjs.cloudflare.com/something.min.css'];
+    }
+
+    /**
+     * Get a list of the panel's script files
+     */
+    public function getScripts() {
+        return ['assets/something.min.js'];
+    }
+}

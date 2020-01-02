@@ -1,0 +1,36 @@
+<?php namespace ProcessWire;
+
+// require_once 'DashboardPanel.class.php';
+
+class DashboardPanelChart extends DashboardPanel {
+
+    public static function getModuleInfo() {
+        return array_merge(parent::getModuleInfo(),
+            [
+                'title'    => __('Dashboard Panel: Chart', __FILE__),
+                'summary'  => __('Display a customizable chart from any data source', __FILE__),
+                'author'   => 'Philipp Daun',
+                'version'  => DASHBOARD_VERSION,
+            ]
+        );
+    }
+
+    public function getIcon() {
+        return 'pie-chart';
+    }
+
+    public function getContent() {
+        return $this->view('panels/chart', [
+            'chart' => $this->chart,
+        ]);
+    }
+
+    public function setup() {
+        parent::setup();
+        $this->chart = $this->data['chart'] ?? [];
+    }
+
+    public function getScripts() {
+        return ['https://cdn.jsdelivr.net/npm/chart.js@2.9.3'];
+    }
+}

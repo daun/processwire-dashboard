@@ -1,0 +1,46 @@
+<?php namespace ProcessWire;
+
+// require_once 'DashboardPanel.class.php';
+
+class DashboardPanelNotice extends DashboardPanel {
+
+    public static function getModuleInfo() {
+        return array_merge(parent::getModuleInfo(),
+            [
+                'title'    => __('Dashboard Panel: Notice', __FILE__),
+                'summary'  => __('Display a notice with icon', __FILE__),
+                'author'   => 'Philipp Daun',
+                'version'  => DASHBOARD_VERSION,
+            ]
+        );
+    }
+
+    public function getContent() {
+        $icon = wireIconMarkup($this->icon, 'fw');
+        $actions = join('', array_map(function($url, $label) {
+            if ($url && $label) {
+                return "<a href='{$url}'>{$label}</a> ";
+            }
+        }, $this->actions, array_keys($this->actions)));
+        if ($this->title) {
+            return "<div>{$icon} <strong>{$this->title}</strong>   {$this->message}</div> <div>{$actions}</div>";
+        } else {
+            return "<div>{$icon} {$this->message}</div> <div>{$actions}</div>";
+        }
+    }
+
+    public function getClassNames() {
+        return [
+            "notice-status--{$this->status}",
+        ];
+    }
+
+    public function setup() {
+        parent::setup();
+        $this->title = $this->options['title'] ?? '';
+        $this->icon = $this->options['icon'] ?? '';
+        $this->message = $this->data['message'] ?? '';
+        $this->status = $this->data['status'] ?? 'notice';
+        $this->actions = $this->data['actions'] ?? [];
+    }
+}

@@ -1,0 +1,231 @@
+<?php namespace ProcessWire;
+
+require_once 'DashboardPanel.class.php';
+
+define('DASHBOARD_VERSION', trim(@file_get_contents(__DIR__ . '/Dashboard.version') ?: '0.0.1'));
+
+class Dashboard extends Process implements Module {
+
+    public static function getModuleInfo() {
+        return [
+            'title'       => __('Dashboard', __FILE__),
+            'summary'     => __('Configurable dashboard page', __FILE__),
+            'href'        => 'https://github.com/philippdaun/processwire-dashboard',
+            'author'      => 'Philipp Daun',
+            'version'     => DASHBOARD_VERSION,
+            'icon'        => 'safari',
+            'permission'  => 'dashboard-view',
+            'permissions' => [
+                'dashboard-view' => 'View dashboard',
+            ],
+            'page' => [
+                'name' => 'dashboard',
+                'title' => __('Dashboard', __FILE__),
+            ],
+            'autoload'    => 2, // high priority to always load base class
+            'singular'    => true,
+        ];
+    }
+
+    /**
+     * Prefix of all panel modules: DashboardPanelExample
+     *
+     */
+    const panelModulePrefix = 'DashboardPanel';
+
+    /**
+     * Supported panel sizes
+     *
+     */
+    const panelSizes = [
+        'normal' => 'Normal (half)',
+        'small'  => 'Small (one third)',
+        'large'  => 'Large (two thirds)',
+        'full'   => 'Full',
+    ];
+
+    /**
+     * Constructor: define texts and view folders
+     *
+     */
+    public function __construct() {
+        $this->installOnHomepage = false;
+
+        $this->moduleFolder = dirname($this->modules->getModuleFile($this));
+        $this->viewFolder = "{$this->moduleFolder}/views/";
+
+        $this->texts = (object) [
+            'title' => $this->_('Dashboard'),
+            'headline' => $this->_('Welcome, %s'),
+            'panel_not_found' => $this->_('Dashboard panel not found: %s'),
+            'empty_panel_notice' => $this->_('Your dashboard is empty'),
+            'setup_hint' => $this->_('Learn how to add and configure panels reading the <a href="%s">documentation</a>.'),
+            'get_started' => $this->_('Get started'),
+        ];
+
+        $this->links = (object) [
+            'repo' => 'https://github.com/philippdaun/processwire-dashboard',
+        ];
+    }
+
+    /**
+     * Module initialization
+     *
+     */
+    public function init() {
+        parent::init();
+    }
+
+    /**
+     * Execute the main view and render the dashboard
+     *
+     */
+    public function ___execute() {
+        // Redirect admin homepage to process page
+        if ($this->page->id === 2) {
+            $page = $this->page->children->get('name=dashboard');
+            if ($page) {
+                $this->session->redirect($page->url);
+            }
+        }
+
+        // Set title and headline
+        $title = $this->texts->title;
+        $headline = $this->getHeadline();
+        if (!$headline) {
+            // Add custom body class to hide empty headline
+            $headline = $this->texts->title;
+            $this->addHookAfter('AdminTheme::getExtraMarkup', function($event) {
+                $event->object->addBodyClass('DashboardNoHeadline');
+            });
+        }
+        $this->browserTitle($title);
+        $this->headline($headline);
+
+        // Render main view
+        return $this->view('dashboard', [
+            'panels'  => $this->renderPanels(),
+            'texts'   => $this->texts,
+            'links'   => $this->links,
+            'module'  => "$this",
+            'version' => $this->modules->getModuleInfoProperty($this, 'version'),
+        ]);
+    }
+
+    /**
+     * Render all installed dashboard panel modules
+     *
+     */
+    private function renderPanels() {
+        // Load panel config from hook
+        $panelConfig = $this->getPanels();
+
+        // For each panel, find the module and return its output
+        $panelOutput = array_map(function ($panel) {
+            $className = $this->getPanelClassName($panel['panel'] ?? '');
+            $module = $this->modules->get($className);
+            if ($this->isValidPanel($module)) {
+                return $module->render($panel);
+            } elseif ($this->config->debug) {
+                $error = sprintf($this->texts->panel_not_found, $className);
+                $this->error($error);
+            }
+        }, $panelConfig->getArray());
+
+        return array_filter($panelOutput);
+    }
+
+    /**
+     * Check if a given panel is valid
+     *
+     */
+    private function isValidPanel($panel) {
+        return is_object($panel) && $panel instanceof DashboardPanel;
+    }
+
+    /**
+     * Return fully qualified panel class name from short name
+     * hello-world -> DashboardPanelHelloWorld
+     *
+     */
+    private function getPanelClassName($name) {
+        $panelName = $this->sanitizer()->pascalCase($name);
+        return self::panelModulePrefix . $panelName;
+    }
+
+    /**
+     * Sanitize panel size to one of allowed values
+     *
+     */
+    public function sanitizePanelSize($size) {
+        $allowed = array_keys(self::panelSizes);
+        $size = $this->sanitizer->option($size, $allowed);
+        return $size ?: $allowed[0];
+    }
+
+    /**
+     * Hook to add and configure visible dashboard panels
+     *
+     * @return WireArray
+     */
+    protected function ___getPanels() {
+        return new WireArray();
+    }
+
+    /**
+     * Hook to set main headline
+     *
+     * @return string
+     */
+    protected function ___getHeadline() {
+        // Get user label from AdminThemeUiKit config
+        $userLabel = $this->modules->getConfig('AdminThemeUikit', 'userLabel') ?: 'title|name';
+        $userName = $this->user->getMarkup($userLabel);
+        // Render Welcome, %s headline
+        return sprintf($this->texts->headline, $userName);
+    }
+
+    /**
+     * Render view with supplied data
+     *
+     */
+    public function view(string $view, array $data) {
+        return $this->files->render($this->viewFolder . $view, $data);
+    }
+
+    /**
+     * Install: set admin page process
+     *
+     */
+    public function ___install() {
+        try {
+            parent::___install();
+            if ($this->installOnHomepage) {
+                // Set the admin process to use this module
+                $admin = $this->pages->get(2);
+                $admin->process = $this;
+                $admin->save();
+            }
+        } catch (\Throwable $th) {
+            $this->error($th->getMessage());
+        }
+    }
+
+    /**
+     * Uninstall: restore admin page process
+     *
+     */
+    public function ___uninstall() {
+        try {
+            parent::___uninstall();
+            if ($this->installOnHomepage) {
+                // Restore the admin process to use ProcessHome again
+                $admin = $this->pages->get(2);
+                $admin->process = 'ProcessHome';
+                $admin->save();
+            }
+        } catch (\Throwable $th) {
+            $this->error($th->getMessage());
+        }
+    }
+}

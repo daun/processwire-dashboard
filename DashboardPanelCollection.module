@@ -1,0 +1,175 @@
+<?php namespace ProcessWire;
+
+// require_once 'DashboardPanel.class.php';
+
+class DashboardPanelCollection extends DashboardPanel {
+
+    public static function getModuleInfo() {
+        return array_merge(parent::getModuleInfo(),
+            [
+                'title'    => __('Dashboard Panel: Collection', __FILE__),
+                'summary'  => __('Display a collection of pages in a table', __FILE__),
+                'author'   => 'Philipp Daun',
+                'version'  => DASHBOARD_VERSION,
+            ]
+        );
+    }
+
+    public function getIcon() {
+        return 'files-o';
+    }
+
+    public function getTitle() {
+        $count = $this->collection->count;
+        return sprintf($this->_n('%d Page', '%d Pages', $count), $count);
+    }
+
+    public function getContent() {
+        $datetime = new WireDateTime;
+
+        $headers = array_values($this->columns);
+        if ($this->actions !== false) {
+            $headers[] = ''; // $this->_('Actions');
+        }
+
+        $rows = array_map(function ($page) use ($datetime) {
+            $row = [];
+            foreach (array_keys($this->columns) as $markup) {
+                // Special case: system timestamps
+                if (in_array($markup, ['modified', 'created'])) {
+                    $row[] = $datetime->date($this->dateFormat, $page->$markup);
+                    continue;
+                }
+                // Special case: timestamps fields
+                // else if ($page->hasField($markup)) {
+                //     $field = $this->fields->get($markup);
+                //     // Render dates
+                //     if ($field && "$field->type" === 'FieldtypeDatetime') {
+                //         $date = $page->$markup;
+                //         if ($date) {
+                //             $row[] = $datetime->date($this->dateFormat, $page->$markup);
+                //             continue;
+                //         }
+                //     }
+                // }
+                $row[] = $page->getText($markup, false, true); // $oneLine, $entities
+            }
+            if ($this->actions !== false) {
+                $row[] = $this->renderPageActions($page);
+            }
+            return $row;
+        }, $this->collection->getArray());
+
+        if ($this->showHeaders) {
+            array_unshift($rows, $headers);
+        }
+
+        return $this->renderTable($rows, [
+            'header' => $this->showHeaders,
+            'sortable' => $this->sortable,
+            'class' => $this->actions !== false ? 'has-actions' : 'has-no-actions',
+        ]);
+    }
+
+    public function getFooter() {
+        if ($this->pagination === false) {
+            return;
+        }
+
+        if ($this->collection->hasPagination()) {
+            $count = $this->collection->count;
+            $total = $this->collection->getTotal();
+            return sprintf($this->_('Showing %d of %d'), $count, $total);
+        }
+    }
+
+    public function setup() {
+        parent::setup();
+        $this->collection = $this->data['collection'] ?? null;
+        $this->columns = $this->data['columns'] ?? [
+            'title' => $this->_('Title'),
+            'url' => $this->_('URL'),
+        ];
+        $this->actions = $this->data['actions'] ?? null;
+        $this->pagination = $this->data['pagination'] ?? null;
+        $this->sortable = $this->data['sortable'] ?? false;
+        $this->showHeaders = $this->data['headers'] ?? true;
+        $this->dateFormat = $this->data['dateFormat'] ?? 'relative';
+
+        if (is_string($this->collection)) {
+            $this->collection = $this->pages->find($this->collection);
+        }
+
+        if (!$this->collection) {
+            $this->collection = new PageArray();
+        }
+
+        if (is_array($this->actions) && !count($this->actions)) {
+            $this->actions = false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Get actions for given page
+     *
+     */
+    protected function getPageActions(Page $page) {
+        $actions = [];
+        if ($this->actions === false) {
+            return $actions;
+        }
+
+        if ($this->actions === null || in_array('edit', $this->actions)) {
+            $actions['edit'] = [
+                'href' => $page->editUrl,
+                'label' =>  $this->_('Edit'),
+                'icon' => 'pencil',
+                'newtab' => true,
+                'disabled' => !$page->editable,
+            ];
+        }
+
+        if ($this->actions === null || in_array('view', $this->actions)) {
+            $actions['view'] = [
+                'href' => $page->url,
+                'label' =>  $this->_('View'),
+                'icon' => 'eye',
+                'newtab' => true,
+                'disabled' => !$page->viewable,
+            ];
+        }
+
+        return $actions;
+    }
+
+    /**
+     * Render action links for given page
+     *
+     */
+    protected function renderPageActions(Page $page) {
+        $actions = $this->getPageActions($page);
+        $links = array_map(function ($action) {
+            if (@$action['disabled']) {
+                return wireIconMarkup($action['icon'], 'fw');
+            }
+            return $this->renderTooltipLink(
+                $action['href'],
+                $action['class'] ?? '',
+                wireIconMarkup($action['icon'], 'fw'),
+                $action['label'],
+                @$action['newtab'] ? '_blank' : ''
+            );
+        }, $actions);
+        return implode('  ', $links);
+    }
+
+    /**
+     * Render a link with tooltip
+     *
+     */
+    protected function renderTooltipLink($href, $class, $label, $description, $target = '') {
+        return "<a href='$href' class='tooltip $class' title='$description' target='$target'>$label</a>";
+    }
+}

@@ -1,0 +1,50 @@
+<?php namespace ProcessWire;
+
+// require_once 'DashboardPanel.class.php';
+
+class DashboardPanelTemplate extends DashboardPanel {
+
+    public static function getModuleInfo() {
+        return array_merge(parent::getModuleInfo(),
+            [
+                'title'    => __('Dashboard Panel: Template', __FILE__),
+                'summary'  => __('Display the output of any file in the templates folder', __FILE__),
+                'author'   => 'Philipp Daun',
+                'version'  => DASHBOARD_VERSION,
+            ]
+        );
+    }
+
+    public function getIcon() {
+        return 'code';
+    }
+
+    public function getTitle() {
+        $basename = basename($this->template, '.php');
+        return $this->sanitizer()->pascalCase($basename);
+    }
+
+    public function getContent() {
+        if (!is_file($this->templatePath)) {
+            $error = sprintf($this->_('Template file missing or invalid: %s'), $this->template);
+            $this->error($error);
+            return;
+        }
+
+        $output = '';
+        try {
+            $output = $this->files->render($this->templatePath, $this->variables);
+        } catch (\Throwable $th) {
+            $this->error($th->getMessage());
+        }
+
+        return $output;
+    }
+
+    public function setup() {
+        parent::setup();
+        $this->template = $this->data['template'] ?? null;
+        $this->templatePath = $this->config->paths->templates . ltrim($this->template);
+        $this->variables = $this->data['variables'] ?? [];
+    }
+}
