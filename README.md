@@ -208,7 +208,7 @@ The panel base class has a few helpers for common tasks.
 
 Render a table using ProcessWire's built-in `MarkupAdminDataTable` module. Returns HTML.
 
-If the `header` option is true, the first row will be dsplayed as a header row. Same for `footer`.
+If the `header` option is true, the first row will be displayed as a header row. Same for `footer`.
 
 ```php
 /* Usage with default values */
@@ -229,7 +229,7 @@ $html = $this->renderTable($rows, [
 
 #### DashboardPanel::renderIcon
 
-Render a FoneAwesome icon in fixed width. No arguments.
+Render a FontAwesome icon in fixed width.
 
 ```php
 $icon = $this->renderIcon('star');
@@ -237,7 +237,7 @@ $icon = $this->renderIcon('star');
 
 #### DashboardPanel::view
 
-Render a template file in a `view` sub-directory relative to the module file. Passes all ProcessWire API variables as well as user-supplied variables.
+Render a template file in a `views` sub-directory relative to the module file. Passes all ProcessWire API variables as well as user-supplied variables.
 
 ```php
 /* Render ./views/content.php and pass a $title var */
