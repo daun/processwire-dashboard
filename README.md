@@ -12,9 +12,9 @@ Upon installation, a dashboard page is created. To access the dashboard, users n
 
 ### Dashboard as entry point
 
-The dashboard can be configured to serve as the default entrypoint of the admin interface. In this case, users will see the dashboard after login and can return to it by clicking the ProcessWire logo. The page list can then only be accessed by clicking the `Page` menu item.
+The dashboard can be configured to serve as the default entry point of the admin interface. In this case, users will see the dashboard after login and can return to it by clicking the ProcessWire logo. The page list can then only be accessed by clicking the `Pages` menu item.
 
-To use the dashboard as entrypoint, you need to manually edit the `Admin` page (ID `2`) and assign it the process `Dashboard`. Make sure to restore it to `ProcessHome` in case you decide to uninstall the dashboard module.
+To use the dashboard as entry point, you need to edit the `Admin` page (ID `2`) and manually assign the process `Dashboard`. Make sure to restore it to `ProcessHome` in case you decide to uninstall the dashboard module.
 
 ## Requirements
 
@@ -90,13 +90,13 @@ All panel-specific options are supplied under the `data` key of the panel's conf
 
 |Image|Panel|Class name|Content|
 |---|---|---|---|
-|<img src="./assets/chart.png" width="120">|`chart`|DashboardPanelChart|Chart.js chart|
-|<img src="./assets/collection.png" width="120">|`collection`|DashboardPanelCollection|List of pages in a table|
-|<img src="./assets/notice.png" width="120">|`notice`|DashboardPanelNotice|Notification-style message|
-|<img src="./assets/number.png" width="120">|`number`|DashboardPanelNumber|Large number with trend indicator|
-|<img src="./assets/page-list.png" width="120">|`page-list`|DashboardPanelPageList|ProcessPageList widget|
-|<img src="./assets/shortcuts.png" width="120">|`shortcuts`|DashboardPanelShortcuts|List of links with icons|
-|<img src="./assets/template.png" width="120">|`template`|DashboardPanelTemplate|Render file in template folder|
+|[<img src="./assets/chart.png" width="120">](#chart)|`chart`|DashboardPanelChart|Chart.js chart|
+|[<img src="./assets/collection.png" width="120">](#collection)|`collection`|DashboardPanelCollection|List of pages in a table|
+|[<img src="./assets/notice.png" width="120">](#notice)|`notice`|DashboardPanelNotice|Notification-style message|
+|[<img src="./assets/number.png" width="120">](#number)|`number`|DashboardPanelNumber|Large number with trend indicator|
+|[<img src="./assets/page-list.png" width="120">](#pagelist)|`page-list`|DashboardPanelPageList|ProcessPageList widget|
+|[<img src="./assets/shortcuts.png" width="120">](#shortcuts)|`shortcuts`|DashboardPanelShortcuts|List of links with icons|
+|[<img src="./assets/template.png" width="120">](#template)|`template`|DashboardPanelTemplate|Render file in template folder|
 
 ### Chart
 
@@ -106,17 +106,17 @@ Display a chart using [Chart.js](https://www.chartjs.org/).
 
 Options:
 
-- `chart`: array of configuration options to pass to Chart.js
+- `chart`: array of configuration options to pass to Chart.js (converted to JSON)
 
 ### Collection
 
-Display a collection of pages in a table. Supply either a PageArray or a selector.
+Display a collection of pages in a table. Supply either a PageArray or a selector string.
 
 <img src="./assets/collection.png" width="400">
 
 Options:
 
-- `collection`: PageArray or selector (required)
+- `collection`: PageArray or selector string (required)
 - `columns`: columns to display (`title` and `url` by default)
 - `actions`: array of actions to allow, or `false` to disable Actions column (`edit` and `view` by default)
 - `pagination`: display pagination info if PageArray has a `limit` set? (bool, `true` by default)
@@ -208,7 +208,7 @@ The panel base class has a few helpers for common tasks.
 
 Render a table using ProcessWire's built-in `MarkupAdminDataTable` module. Returns HTML.
 
-If the `header` option is true, the first row will be dsplayed as a header row. Same for `footer`.
+If the `header` option is true, the first row will be displayed as a header row. Same for `footer`.
 
 ```php
 /* Usage with default values */
@@ -229,7 +229,7 @@ $html = $this->renderTable($rows, [
 
 #### DashboardPanel::renderIcon
 
-Render a FoneAwesome icon in fixed width. No arguments.
+Render a FontAwesome icon in fixed width.
 
 ```php
 $icon = $this->renderIcon('star');
@@ -237,7 +237,7 @@ $icon = $this->renderIcon('star');
 
 #### DashboardPanel::view
 
-Render a template file in a `view` sub-directory relative to the module file. Passes all ProcessWire API variables as well as user-supplied variables.
+Render a template file in a `views` sub-directory relative to the module file. Passes all ProcessWire API variables as well as user-supplied variables.
 
 ```php
 /* Render ./views/content.php and pass a $title var */
