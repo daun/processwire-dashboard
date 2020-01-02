@@ -90,13 +90,13 @@ All panel-specific options are supplied under the `data` key of the panel's conf
 
 |Image|Panel|Class name|Content|
 |---|---|---|---|
-|<img src="./assets/chart.png" width="120">|`chart`|DashboardPanelChart|Chart.js chart|
-|<img src="./assets/collection.png" width="120">|`collection`|DashboardPanelCollection|List of pages in a table|
-|<img src="./assets/notice.png" width="120">|`notice`|DashboardPanelNotice|Notification-style message|
-|<img src="./assets/number.png" width="120">|`number`|DashboardPanelNumber|Large number with trend indicator|
-|<img src="./assets/page-list.png" width="120">|`page-list`|DashboardPanelPageList|ProcessPageList widget|
-|<img src="./assets/shortcuts.png" width="120">|`shortcuts`|DashboardPanelShortcuts|List of links with icons|
-|<img src="./assets/template.png" width="120">|`template`|DashboardPanelTemplate|Render file in template folder|
+|[<img src="./assets/chart.png" width="120">](#chart)|`chart`|DashboardPanelChart|Chart.js chart|
+|[<img src="./assets/collection.png" width="120">](#collection)|`collection`|DashboardPanelCollection|List of pages in a table|
+|[<img src="./assets/notice.png" width="120">](#notice)|`notice`|DashboardPanelNotice|Notification-style message|
+|[<img src="./assets/number.png" width="120">](#number)|`number`|DashboardPanelNumber|Large number with trend indicator|
+|[<img src="./assets/page-list.png" width="120">](#pagelist)|`page-list`|DashboardPanelPageList|ProcessPageList widget|
+|[<img src="./assets/shortcuts.png" width="120">](#shortcuts)|`shortcuts`|DashboardPanelShortcuts|List of links with icons|
+|[<img src="./assets/template.png" width="120">](#template)|`template`|DashboardPanelTemplate|Render file in template folder|
 
 ### Chart
 
