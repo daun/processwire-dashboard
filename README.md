@@ -12,9 +12,9 @@ Upon installation, a dashboard page is created. To access the dashboard, users n
 
 ### Dashboard as entry point
 
-The dashboard can be configured to serve as the default entrypoint of the admin interface. In this case, users will see the dashboard after login and can return to it by clicking the ProcessWire logo. The page list can then only be accessed by clicking the `Page` menu item.
+The dashboard can be configured to serve as the default entry point of the admin interface. In this case, users will see the dashboard after login and can return to it by clicking the ProcessWire logo. The page list can then only be accessed by clicking the `Pages` menu item.
 
-To use the dashboard as entrypoint, you need to manually edit the `Admin` page (ID `2`) and assign it the process `Dashboard`. Make sure to restore it to `ProcessHome` in case you decide to uninstall the dashboard module.
+To use the dashboard as entry point, you need to edit the `Admin` page (ID `2`) and manually assign the process `Dashboard`. Make sure to restore it to `ProcessHome` in case you decide to uninstall the dashboard module.
 
 ## Requirements
 
@@ -106,17 +106,17 @@ Display a chart using [Chart.js](https://www.chartjs.org/).
 
 Options:
 
-- `chart`: array of configuration options to pass to Chart.js
+- `chart`: array of configuration options to pass to Chart.js (converted to JSON)
 
 ### Collection
 
-Display a collection of pages in a table. Supply either a PageArray or a selector.
+Display a collection of pages in a table. Supply either a PageArray or a selector string.
 
 <img src="./assets/collection.png" width="400">
 
 Options:
 
-- `collection`: PageArray or selector (required)
+- `collection`: PageArray or selector string (required)
 - `columns`: columns to display (`title` and `url` by default)
 - `actions`: array of actions to allow, or `false` to disable Actions column (`edit` and `view` by default)
 - `pagination`: display pagination info if PageArray has a `limit` set? (bool, `true` by default)
