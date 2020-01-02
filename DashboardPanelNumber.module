@@ -2,8 +2,6 @@
 
 use \NumberFormatter;
 
-// require_once 'DashboardPanel.class.php';
-
 class DashboardPanelNumber extends DashboardPanel {
 
     public static function getModuleInfo() {
