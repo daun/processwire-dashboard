@@ -38,8 +38,8 @@ wire()->addHookAfter('Dashboard::getPanels', function ($event) {
     'panel' => 'collection',
     'title' => 'News items',
     'data' => [
-        'collection' => 'template=news-item, limit=10',
-        'sortable' => true,
+      'collection' => 'template=news-item, limit=10',
+      'sortable' => true,
     ],
   ]);
 });
@@ -80,17 +80,20 @@ Each panel configuration is a simple associative array holding the following glo
 /* Example using all options */
 
 $panels->add([
+
   /* Global options */
   'panel'  => 'collection',
   'size'   => 'full',
   'layout' => ['centerTitle' => true],
   'title'  => 'News items',
   'icon'   => 'newspaper-o',
+
   /* Options specific to each panel type */
   'data'   => [
     'collection' => 'template=news-item, limit=10',
     'sortable'   => true,
   ],
+
 ]);
 ```
 
