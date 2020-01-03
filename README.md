@@ -76,8 +76,10 @@ Each panel configuration is a simple associative array holding the following glo
   - `minimal`: Display the panel without background, border and shadow (bool, `false` by default)
   - `padding`: Display the panel contents with padding (bool, `true` by default)
 - `title`: Title displayed in the panel header (set to empty string to hide header completely)
-- `icon`: Icon displayed in the panel header (FontAwesome code without leading `fa-`)
+- `icon`: Icon displayed in the panel header \* (FontAwesome code without leading `fa-`)
 - `data`: The data required by the panel type. See the readme section on each panel for information about required keys.
+
+\* Panel icons are hidden by default. See the section on [enabling display of panel icons](#enabling-panel-icons).
 
 
 ```php
@@ -173,6 +175,7 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 - `sortable`: make table columns sortable (bool, `false` by default)
 - `showHeaders`: show table headers? (bool, `true` by default)
 - `dateFormat`: date format to use for DateTime columns (`relative` by default)
+- `maxImageNum`: number of thumbnails to show for image columns (`1` by default)
 
 #### Example
 
@@ -457,6 +460,18 @@ foreach (getNotifications() as $message) {
     'data'  => ['message' => $message],
   ]);
 }
+```
+
+## Enabling Panel Icons
+
+Panel icons are hidden by default to achieve a clean look across the whole dashboard. If you want to display icons in panel headers, hook into the `getSettings` method and set the `displayIcons` switch.
+
+
+```php
+wire()->addHookAfter('Dashboard::getSettings', function ($event) {
+    $settings = $event->return;
+    $settings->displayIcons = true;
+});
 ```
 
 ## Customizing the Headline

@@ -247,6 +247,10 @@ body.DashboardNoHeadline #pw-content-body {
     display: none;
 }
 
+.Dashboard[data-icons='true'] .Dashboard__panel .uk-card-title > .fa:first-child {
+    display: inline-block;
+}
+
 .Dashboard__panel:hover .uk-card-title a {
     visibility: visible;
 }

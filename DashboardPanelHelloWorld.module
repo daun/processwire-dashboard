@@ -38,7 +38,6 @@ class DashboardPanelHelloWorld extends DashboardPanel {
      * Get the panel's main content
      */
     public function getContent() {
-        return $this->renderIcon('star');
         return "<p>{$this->text}</p>";
     }
 
