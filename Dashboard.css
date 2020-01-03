@@ -10,6 +10,18 @@ body.Dashboard {
     background-color: #f0f3f7;
 }
 
+.AdminThemeDefault.Dashboard #main,
+.AdminThemeDefault.Dashboard #breadcrumbs,
+.AdminThemeDefault.Dashboard #headline,
+.AdminThemeDefault.Dashboard #content,
+.AdminThemeDefault.Dashboard #footer {
+    background-color: #f0f3f7;
+}
+
+.AdminThemeDefault.Dashboard #breadcrumbs {
+    border-color: transparent;
+}
+
 .AdminThemeUikit .Dashboard #pw-footer {
     margin-bottom: 0;
 }
