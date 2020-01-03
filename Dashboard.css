@@ -22,7 +22,7 @@ body.Dashboard {
     border-color: transparent;
 }
 
-.AdminThemeUikit .Dashboard #pw-footer {
+.AdminThemeUikit.Dashboard #pw-footer {
     margin-bottom: 0;
 }
 
