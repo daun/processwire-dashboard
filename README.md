@@ -245,6 +245,15 @@ Display a ProcessPageList widget.
 - `parent`: the root page ID to render the page list for (int, homepage by default)
 - `showRootPage`: whether to include the root page in the output (bool, `true` by default)
 
+#### Example
+
+```php
+[
+  'parent' => $this->pages->get('template=info')->id,
+  'showRootPage' => true,
+]
+```
+
 ### Shortcuts
 
 Display a list of shortcuts as links with icons.
