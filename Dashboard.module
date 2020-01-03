@@ -50,16 +50,16 @@ class Dashboard extends Process implements Module {
      *
      * We overwrite the parent::init() method with an empty method to
      * disable auto-asset loading, which wo do manually in ready() once
-     * we're sure we're in the admin area
+     * we're sure we're on the dashboard page
      */
     public function init() {}
 
     /**
-     * Ready:  define texts and view folders
+     * Ready: define texts and view folders
      *
      */
     public function ready() {
-        if (!$this->isAdmin()) {
+        if (!$this->isDashboardProcess()) {
             return;
         }
 
@@ -92,14 +92,12 @@ class Dashboard extends Process implements Module {
     }
 
     /**
-     * Check if we're in the admin area
+     * Check if we're on the dashboard page
      *
      */
 
-    protected function isAdmin() {
-        $isAdminUrl = strpos($_SERVER['REQUEST_URI'], $this->config->urls->admin) === 0;
-        $isAdminTemplate = $this->page && $this->page->template == 'admin';
-        return $isAdminUrl || $isAdminTemplate;
+    protected function isDashboardProcess() {
+        return $this->page && $this->page->template == 'admin' && $this->page->process == 'Dashboard';
     }
 
     /**
