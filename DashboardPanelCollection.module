@@ -25,36 +25,55 @@ class DashboardPanelCollection extends DashboardPanel {
     public function getContent() {
         $datetime = new WireDateTime;
 
-        $headers = array_values($this->columns);
         if ($this->actions !== false) {
-            $headers[] = ''; // $this->_('Actions');
+            $this->columns['actions__'] = ''; // $this->_('Actions');
         }
 
-        $rows = array_map(function ($page) use ($datetime) {
-            $row = [];
-            foreach (array_keys($this->columns) as $markup) {
-                // Special case: system timestamps
-                if (in_array($markup, ['modified', 'created'])) {
-                    $row[] = $datetime->date($this->dateFormat, $page->$markup);
-                    continue;
+        $columnNames = array_keys($this->columns);
+        $columnHeadlines = array_values($this->columns);
+
+        $classNames = array_map(function ($column) {
+            return 'DashboardTableColumn__' . $this->sanitizer()->snakeCase($column);
+        }, $columnNames);
+
+        $headers = array_map(function ($column, $class) {
+            return [$column, $class];
+        }, $columnHeadlines, $classNames);
+
+        $rows = array_map(function ($page) use ($columnNames, $classNames, $datetime) {
+            $row = array_map(function ($markup, $class) use ($datetime, $page) {
+                $content = null;
+                // Special case: action links
+                if ($markup === 'actions__') {
+                    $content = $this->renderPageActions($page);
                 }
-                // Special case: timestamps fields
-                // else if ($page->hasField($markup)) {
-                //     $field = $this->fields->get($markup);
-                //     // Render dates
-                //     if ($field && "$field->type" === 'FieldtypeDatetime') {
-                //         $date = $page->$markup;
-                //         if ($date) {
-                //             $row[] = $datetime->date($this->dateFormat, $page->$markup);
-                //             continue;
-                //         }
-                //     }
-                // }
-                $row[] = $page->getText($markup, false, true); // $oneLine, $entities
-            }
-            if ($this->actions !== false) {
-                $row[] = $this->renderPageActions($page);
-            }
+                // Special case: page icon
+                else if ($markup === 'page_icon') {
+                    $content = $this->renderIcon($page->getIcon());
+                }
+                // Special case: system timestamps
+                else if (in_array($markup, ['modified', 'created'])) {
+                    $content = $datetime->date($this->dateFormat, $page->$markup);
+                }
+                // Special case: timestamp fields
+                // disabled for now (formatted datetime values work just as well)
+                else if (false && $page->hasField($markup)) {
+                    $field = $this->fields->get($markup);
+                    // Render dates
+                    if ($field && "$field->type" === 'FieldtypeDatetime') {
+                        $date = $page->$markup;
+                        if ($date) {
+                            $content = $datetime->date($this->dateFormat, $page->$markup);
+                        }
+                    }
+                }
+                // All others
+                if ($content === null) {
+                    $content = $page->getText($markup, false, true); // $oneLine, $entities
+                }
+
+                return [$content, $class];
+            }, $columnNames, $classNames);
             return $row;
         }, $this->collection->getArray());
 
@@ -149,13 +168,14 @@ class DashboardPanelCollection extends DashboardPanel {
     protected function renderPageActions(Page $page) {
         $actions = $this->getPageActions($page);
         $links = array_map(function ($action) {
+            $icon = $this->renderIcon($action['icon']);
             if (@$action['disabled']) {
-                return wireIconMarkup($action['icon'], 'fw');
+                return $icon;
             }
             return $this->renderTooltipLink(
                 $action['href'],
                 $action['class'] ?? '',
-                wireIconMarkup($action['icon'], 'fw'),
+                $icon,
                 $action['label'],
                 @$action['newtab'] ? '_blank' : ''
             );

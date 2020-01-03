@@ -2,7 +2,8 @@
   color: #97aab4;
 }
 
-.DashboardPanelCollection td:first-child {
+.DashboardPanelCollection td:first-child,
+.DashboardTableColumn__title {
   font-weight: bold;
 }
 
@@ -12,17 +13,26 @@
 
 /* Action icons */
 
-.DashboardPanelCollection table .fa {
+.DashboardPanelCollection table td:last-child .fa {
   opacity: .4;
   cursor: not-allowed;
 }
 
-.DashboardPanelCollection table a {
+.DashboardPanelCollection table td:last-child a {
   color: inherit;
 }
 
-.DashboardPanelCollection table a .fa {
+.DashboardPanelCollection table td:last-child a .fa {
   opacity: 1;
   cursor: inherit;
   color: #97aab4;
+}
+
+.DashboardTableColumn__page_icon {
+  width: 40px;
+}
+
+.DashboardTableColumn__actions__ {
+  width: 80px;
+  white-space: nowrap;
 }
