@@ -194,11 +194,22 @@ Display a notice with icon and actions. If set, the panel's `title` will be disp
 
 <img src="./assets/notice.png" width="400">
 
-Options:
+#### Options
 
 - `message`: notice to display (string, required)
 - `status`: status of the notice (string: one of either `success`, `warning` or `error`; `notice` by default)
 - `actions`: additional links to display (array of format `['Label' => 'url']`)
+
+#### Example
+
+```php
+[
+  'message' => 'You have <b>15</b> new messages.',
+  'actions' => [
+    'See all' => '/inbox/',
+  ],
+]
+```
 
 ### Number
 
@@ -206,7 +217,7 @@ Display a large number with trend indicator.
 
 <img src="./assets/number.png" width="300">
 
-Options:
+#### Options
 
 - `number`: the number to display (string or int/float, required)
 - `detail`: additional information to display below (string)
@@ -219,7 +230,7 @@ Display a ProcessPageList widget.
 
 <img src="./assets/page-list.png" width="400">
 
-Options:
+#### Options
 
 - `parent`: the root page ID to render the page list for (int, homepage by default)
 - `showRootPage`: whether to include the root page in the output (bool, `true` by default)
@@ -230,7 +241,7 @@ Display a list of shortcuts as links with icons.
 
 <img src="./assets/shortcuts.png" width="300">
 
-Options:
+#### Options
 
 - `shortcuts`: array of Pages or page IDs to display (array, required)
 - `fallbackIcon`: icon to use if page doesn't have one (string, `bookmark-o` by default)
@@ -242,7 +253,7 @@ Display the output of any file in your template folder. The file will receive al
 
 <img src="./assets/template.png" width="400">
 
-Options:
+#### Options
 
 - `template`: template file name, relative to `/site/templates/` and including extension (string, required)
 - `variables`: variables to pass into the template (array, empty by default)
