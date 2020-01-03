@@ -262,6 +262,16 @@ $markup = $this->view('content', [
 ]);
 ```
 
+## Customizing the Headline
+
+Use the `getHeadline` hook to set the main headline or hide it by returning an empty string.
+
+```php
+wire()->addHookAfter('Dashboard::getHeadline', function ($event) {
+  $event->return = 'Instrumententafel';
+});
+```
+
 ## License
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
