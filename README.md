@@ -123,9 +123,11 @@ Display a chart using [Chart.js](https://www.chartjs.org/).
 
 <img src="./assets/chart.png" width="400">
 
-Options:
+#### Options
 
 - `chart`: array of configuration options to pass to Chart.js (converted to JSON)
+
+#### Example
 
 ```php
 [
@@ -162,15 +164,29 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 
 <img src="./assets/collection.png" width="400">
 
-Options:
+#### Options
 
 - `collection`: PageArray or selector string (required)
-- `columns`: columns to display (`title` and `url` by default)
+- `columns`: columns to display (array, `title` and `url` by default)
 - `actions`: array of actions to allow, or `false` to disable Actions column (`edit` and `view` by default)
 - `pagination`: display pagination info if PageArray has a `limit` set? (bool, `true` by default)
 - `sortable`: make table columns sortable (bool, `false` by default)
 - `showHeaders`: show table headers? (bool, `true` by default)
 - `dateFormat`: date format to use for DateTime columns (`relative` by default)
+
+#### Example
+
+```php
+[
+  'collection' => 'template=news-item, limit=10',
+  'sortable' => true,
+  'columns' => [
+      'title' => 'Title',
+      'url' => 'URL',
+      'modified' => 'Modified',
+  ],
+]
+```
 
 ### Notice
 
