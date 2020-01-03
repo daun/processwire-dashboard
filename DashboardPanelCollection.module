@@ -63,22 +63,14 @@ class DashboardPanelCollection extends DashboardPanel {
                 }
                 // Special case: image fields
                 else if ($fieldtype == 'FieldtypeImage') {
-                    $content = '';
-                    $image = $page->get($markup)->first;
-                    if ($image) {
-                        $inputfieldmodule = $this->modules->get('InputfieldImage');
-                        $thumb = $inputfieldmodule->getAdminThumb($image);
-                        $content = $thumb['markup'] ?? '';
-                    }
                     $class .= ' is-image-column';
+                    $images = $page->get($markup)->slice(0, $this->maxImageNum);
+                    $content = $this->renderImageThumbnails($images);
                 }
                 // Special case: timestamp fields
                 // disabled for now (formatted datetime values work just as well)
                 else if (false && $fieldtype == 'FieldtypeDatetime') {
-                    $date = $page->$markup;
-                    if ($date) {
-                        $content = $datetime->date($this->dateFormat, $page->$markup);
-                    }
+                    $content = $datetime->date($this->dateFormat, $page->getUnformatted($markup));
                 }
                 // All others
                 if ($content === null) {
@@ -125,6 +117,7 @@ class DashboardPanelCollection extends DashboardPanel {
         $this->sortable = $this->data['sortable'] ?? false;
         $this->showHeaders = $this->data['headers'] ?? true;
         $this->dateFormat = $this->data['dateFormat'] ?? 'relative';
+        $this->maxImageNum = $this->data['maxImageNum'] ?? 1;
 
         if (is_string($this->collection)) {
             $this->collection = $this->pages->find($this->collection);
@@ -202,5 +195,18 @@ class DashboardPanelCollection extends DashboardPanel {
      */
     protected function renderTooltipLink($href, $class, $label, $description, $target = '') {
         return "<a href='$href' class='tooltip $class' title='$description' target='$target'>$label</a>";
+    }
+
+    /**
+     * Render image thumbnails
+     *
+     */
+    protected function renderImageThumbnails($images) {
+        $imgModule = $this->modules->get('InputfieldImage');
+        $thumbnails = array_map(function ($image) use ($imgModule) {
+            $thumb = $imgModule->getAdminThumb($image);
+            return $thumb['markup'] ?? '';
+        }, $images->getArray());
+        return join(' ', $thumbnails);
     }
 }
