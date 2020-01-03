@@ -266,6 +266,21 @@ Display a list of shortcuts as links with icons.
 - `fallbackIcon`: icon to use if page doesn't have one (string, `bookmark-o` by default)
 - `icon`: force one icon for all pages (string, off by default)
 
+#### Example
+
+```php
+[
+  'shortcuts' => [
+       304,  // Profile
+      1065,  // Settings
+      1026,  // Cache admin
+      1020,  // Upgrades
+      1016,  // Sessions
+  ],
+  'fallbackIcon' => 'star-o',
+]
+```
+
 ### Template
 
 Display the output of any file in your template folder. The file will receive all API variables and any additional view variables you specify.
