@@ -188,6 +188,18 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 ]
 ```
 
+#### Complex markup
+
+Columns support dot syntax and curly brackets to access sub-fields:
+
+```php
+'columns' => [
+  'category.title' => 'Category',
+  'createdUser.name' => 'Created by',
+  'On {location.street} in {location.city}' => 'Location',
+]
+```
+
 #### Image columns
 
 Pass the name of any image field as the column key to display thumbnails. Only the first image is shown by default, but you can change the number of images shown by setting the `maxImageNum` option.
