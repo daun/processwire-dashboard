@@ -292,6 +292,22 @@ Display the output of any file in your template folder. The file will receive al
 - `template`: template file name, relative to `/site/templates/` and including extension (string, required)
 - `variables`: variables to pass into the template (array, empty by default)
 
+#### Example
+
+```php
+/* Panel config */
+[
+  'template' => 'dash.php',
+  'variables' => [
+    'text' => 'Lorem ipsum dolor ...',
+  ],
+]
+
+/* Template file: site/templates/dash.php */
+
+echo $text;
+```
+
 ## Creating Custom Panels
 
 To create custom panels, simply extend the DashboardPanel base class. See [DashboardPanelHelloWorld](./DashboardPanelHelloWorld.module) for an example implementation.
