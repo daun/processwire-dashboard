@@ -1,7 +1,5 @@
 <?php namespace ProcessWire;
 
-// require_once 'DashboardPanel.class.php';
-
 class DashboardPanelNotice extends DashboardPanel {
 
     public static function getModuleInfo() {

@@ -38,12 +38,28 @@ wire()->addHookAfter('Dashboard::getPanels', function ($event) {
     'panel' => 'collection',
     'title' => 'News items',
     'data' => [
-        'collection' => 'template=news-item, limit=10',
-        'sortable' => true,
+      'collection' => 'template=news-item, limit=10',
+      'sortable' => true,
     ],
   ]);
 });
 ```
+
+### Removing panels
+
+Since the panel collection is a WireArray, you can filter and remove existing panels in later hooks.
+
+```php
+/* Remove all chart panels */
+$charts = $panels->find('panel=chart');
+foreach ($charts as $panel) {
+  $panels->remove($panel);
+}
+```
+
+### Nesting panels
+
+See the section [Panel Groups](#panel-groups) for information about grouping and nesting panels.
 
 ## Configuration
 
@@ -68,17 +84,20 @@ Each panel configuration is a simple associative array holding the following glo
 /* Example using all options */
 
 $panels->add([
+
   /* Global options */
   'panel'  => 'collection',
   'size'   => 'full',
   'layout' => ['centerTitle' => true],
   'title'  => 'News items',
   'icon'   => 'newspaper-o',
+
   /* Options specific to each panel type */
   'data'   => [
     'collection' => 'template=news-item, limit=10',
     'sortable'   => true,
   ],
+
 ]);
 ```
 
@@ -245,6 +264,42 @@ Render a template file in a `views` sub-directory relative to the module file. P
 $markup = $this->view('content', [
   'title' => 'Lorem ipsum'
 ]);
+```
+
+## Panel Groups
+
+Panels can be displayed in a nested grid by creating groups. Each group can have a `title` and add extra `margin` below. To control vertical alignment inside the group, set the `align` property to one of `top`, `bottom`, `center`, `distribute` or `fill` (`fill` by default).
+
+*Screenshots & examples coming soon.*
+
+```php
+/* Create a group */
+$group = $panels->createGroup([
+    'size' => 'normal',
+    'title' => 'Notifications',
+    'align' => 'top',
+    'margin' => true,
+]);
+$panels->add($group);
+
+/* Nest panels below */
+foreach (getNotifications() as $message) {
+  $group->add([
+    'panel' => 'notice',
+    'size'  => 'full',
+    'data'  => ['message' => $message],
+  ]);
+}
+```
+
+## Customizing the Headline
+
+Use the `getHeadline` hook to set the main headline or hide it by returning an empty string.
+
+```php
+wire()->addHookAfter('Dashboard::getHeadline', function ($event) {
+  $event->return = 'Instrumententafel';
+});
 ```
 
 ## License

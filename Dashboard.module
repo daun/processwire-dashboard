@@ -1,6 +1,7 @@
 <?php namespace ProcessWire;
 
 require_once 'DashboardPanel.class.php';
+require_once 'DashboardPanelInstance.class.php';
 
 define('DASHBOARD_VERSION', trim(@file_get_contents(__DIR__ . '/Dashboard.version') ?: '0.0.1'));
 
@@ -66,6 +67,8 @@ class Dashboard extends Process implements Module {
         $this->links = (object) [
             'repo' => 'https://github.com/philippdaun/processwire-dashboard',
         ];
+
+        $this->panels = new DashboardPanelArray();
     }
 
     /**
@@ -118,21 +121,66 @@ class Dashboard extends Process implements Module {
      */
     private function renderPanels() {
         // Load panel config from hook
-        $panelConfig = $this->getPanels();
+        $panels = $this->getPanels();
 
         // For each panel, find the module and return its output
-        $panelOutput = array_map(function ($panel) {
-            $className = $this->getPanelClassName($panel['panel'] ?? '');
-            $module = $this->modules->get($className);
-            if ($this->isValidPanel($module)) {
-                return $module->render($panel);
-            } elseif ($this->config->debug) {
-                $error = sprintf($this->texts->panel_not_found, $className);
-                $this->error($error);
+        $output = array_map(function ($instance) {
+            if ($instance instanceof DashboardPanelGroup) {
+                return $this->renderGroup($instance);
+            } else {
+                return $this->renderPanel($instance);
             }
-        }, $panelConfig->getArray());
+        }, $panels->getArray());
 
-        return array_filter($panelOutput);
+        return array_filter($output);
+    }
+
+    /**
+     * Render a single panel
+     *
+     */
+    private function renderPanel($instance) {
+        $className = $this->getPanelClassName($instance['panel'] ?? '');
+        $module = $this->modules->get($className);
+        if ($this->isValidPanel($module)) {
+            return $module->render($instance);
+        } elseif ($this->config->debug) {
+            $error = sprintf($this->texts->panel_not_found, $className);
+            $this->error($error);
+        }
+    }
+
+    /**
+     * Render a group of panels
+     *
+     */
+    private function renderGroup($instance) {
+        $panels = $instance->children;
+
+        $size = $this->sanitizePanelSize($instance['size'] ?? false);
+        $icon = $this->renderIcon($instance['icon'] ?? false);
+        $title = $instance->title;
+        $margin = $instance->margin ?? false;
+        $align = $instance->align ?? '';
+
+        // For each child, find the module and return its output
+        $children = array_map(function ($instance) {
+            if ($instance instanceof DashboardPanelGroup) {
+                return $this->renderGroup($instance);
+            } else {
+                return $this->renderPanel($instance);
+            }
+        }, $panels->getArray());
+
+        // Render view
+        return $this->view('group', [
+            'size' => $size,
+            'icon' => $icon,
+            'title' => $title,
+            'margin' => $margin,
+            'align' => $align,
+            'children' => $children,
+        ]);
     }
 
     /**
@@ -169,7 +217,7 @@ class Dashboard extends Process implements Module {
      * @return WireArray
      */
     protected function ___getPanels() {
-        return new WireArray();
+        return $this->panels;
     }
 
     /**
@@ -183,6 +231,15 @@ class Dashboard extends Process implements Module {
         $userName = $this->user->getMarkup($userLabel);
         // Render Welcome, %s headline
         return sprintf($this->texts->headline, $userName);
+    }
+
+    /**
+     * Render icon as markup
+     *
+     * @return string
+     */
+    public function renderIcon($icon) {
+        return $icon ? wireIconMarkup($icon, 'fw') : '';
     }
 
     /**

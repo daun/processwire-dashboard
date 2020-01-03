@@ -133,11 +133,11 @@ abstract class DashboardPanel extends Wire implements Module {
      */
     final public function render($options = []) {
         // Create shortcut properties
+        $this->options = $options;
         $this->name = $options['panel'] ?? [];
         $this->class = $this->modules->getModuleInfoProperty($this, 'name');
-        $this->options = $options;
         $this->size = $this->dashboard->sanitizePanelSize($options['size'] ?? false);
-        $this->data = $options['data'] ?? [];
+        $this->data = $options['dataArray'] ?? [];
         $this->layout = $options['layout'] ?? [];
 
         // Include scripts and stylesheets
@@ -174,8 +174,8 @@ abstract class DashboardPanel extends Wire implements Module {
      *
      * @return string
      */
-    final protected function renderIcon($icon) {
-        return $icon ? wireIconMarkup($icon, 'fw') : '';
+    final protected function renderIcon(...$args) {
+        return $this->dashboard->renderIcon(...$args);
     }
 
     /**
