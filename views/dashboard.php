@@ -1,4 +1,7 @@
-<div class="Dashboard" data-count="<?= count($panels) ?>">
+<div
+    class="Dashboard"
+    data-icons="<?= $settings->displayIcons ? 'true' : 'false' ?>"
+>
     <?php if (count($panels)): ?>
         <div class='Dashboard__grid'>
             <?php foreach ($panels as $markup): ?>

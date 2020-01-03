@@ -128,11 +128,12 @@ class Dashboard extends Process implements Module {
 
         // Render main view
         return $this->view('dashboard', [
-            'panels'  => $this->renderPanels(),
-            'texts'   => $this->texts,
-            'links'   => $this->links,
-            'module'  => "$this",
-            'version' => $this->modules->getModuleInfoProperty($this, 'version'),
+            'settings' => $this->getSettings(),
+            'panels'   => $this->renderPanels(),
+            'texts'    => $this->texts,
+            'links'    => $this->links,
+            'module'   => "$this",
+            'version'  => $this->modules->getModuleInfoProperty($this, 'version'),
         ]);
     }
 
@@ -195,11 +196,12 @@ class Dashboard extends Process implements Module {
 
         // Render view
         return $this->view('group', [
-            'size' => $size,
-            'icon' => $icon,
-            'title' => $title,
-            'margin' => $margin,
-            'align' => $align,
+            'settings' => $this->getSettings(),
+            'size'     => $size,
+            'icon'     => $icon,
+            'title'    => $title,
+            'margin'   => $margin,
+            'align'    => $align,
             'children' => $children,
         ]);
     }
@@ -239,6 +241,17 @@ class Dashboard extends Process implements Module {
      */
     protected function ___getPanels() {
         return $this->panels;
+    }
+
+    /**
+     * Hook to set and add dashboard settings
+     *
+     * @return WireArray
+     */
+    protected function ___getSettings() {
+        $settings = new WireData;
+        $settings->displayIcons = false;
+        return $settings;
     }
 
     /**
