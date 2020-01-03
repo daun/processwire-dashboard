@@ -224,6 +224,16 @@ Display a large number with trend indicator.
 - `trend`: trend to indicate with green/red arrows (string, either `up` or `down`)
 - `locale`: locale to use for formatting numbers (string)
 
+#### Example
+
+```php
+[
+  'number' => 484,
+  'detail' => 'up 5% from last week',
+  'trend' => 'up',
+]
+```
+
 ### PageList
 
 Display a ProcessPageList widget.
