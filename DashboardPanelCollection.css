@@ -7,22 +7,22 @@
   font-weight: bold;
 }
 
-.DashboardPanelCollection table.has-actions tr > :last-child {
+/* Action icons */
+
+.DashboardTableColumn__actions__ {
   text-align: right;
 }
 
-/* Action icons */
-
-.DashboardPanelCollection table td:last-child .fa {
+.DashboardTableColumn__actions__ .fa {
   opacity: .4;
   cursor: not-allowed;
 }
 
-.DashboardPanelCollection table td:last-child a {
+.DashboardTableColumn__actions__ a {
   color: inherit;
 }
 
-.DashboardPanelCollection table td:last-child a .fa {
+.DashboardTableColumn__actions__ a .fa {
   opacity: 1;
   cursor: inherit;
   color: #97aab4;
@@ -32,7 +32,14 @@
   width: 40px;
 }
 
-.DashboardTableColumn__actions__ {
-  width: 80px;
-  white-space: nowrap;
+.DashboardPanelCollection table img {
+  border-radius: 4px;
+  max-height: 30px;
+  width: auto;
+}
+
+.AdminThemeUikit .DashboardPanelCollection td.is-image-column {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  vertical-align: middle;
 }

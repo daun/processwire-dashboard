@@ -42,7 +42,10 @@ class DashboardPanelCollection extends DashboardPanel {
 
         $rows = array_map(function ($page) use ($columnNames, $classNames, $datetime) {
             $row = array_map(function ($markup, $class) use ($datetime, $page) {
+                $field = $this->fields->get($markup);
+                $fieldtype = $field ? "$field->type" : null;
                 $content = null;
+
                 // Special case: action links
                 if ($markup === 'actions__') {
                     $content = $this->renderPageActions($page);
@@ -55,16 +58,23 @@ class DashboardPanelCollection extends DashboardPanel {
                 else if (in_array($markup, ['modified', 'created'])) {
                     $content = $datetime->date($this->dateFormat, $page->$markup);
                 }
+                // Special case: image fields
+                else if ($fieldtype == 'FieldtypeImage') {
+                    $content = '';
+                    $image = $page->get($markup)->first;
+                    if ($image) {
+                        $inputfieldmodule = $this->modules->get('InputfieldImage');
+                        $thumb = $inputfieldmodule->getAdminThumb($image);
+                        $content = $thumb['markup'] ?? '';
+                    }
+                    $class .= ' is-image-column';
+                }
                 // Special case: timestamp fields
                 // disabled for now (formatted datetime values work just as well)
-                else if (false && $page->hasField($markup)) {
-                    $field = $this->fields->get($markup);
-                    // Render dates
-                    if ($field && "$field->type" === 'FieldtypeDatetime') {
-                        $date = $page->$markup;
-                        if ($date) {
-                            $content = $datetime->date($this->dateFormat, $page->$markup);
-                        }
+                else if (false && $fieldtype == 'FieldtypeDatetime') {
+                    $date = $page->$markup;
+                    if ($date) {
+                        $content = $datetime->date($this->dateFormat, $page->$markup);
                     }
                 }
                 // All others
