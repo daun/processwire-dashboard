@@ -188,16 +188,6 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 ]
 ```
 
-#### Page icon columns
-
-Add the column `page_icon` to display page icons in their own column.
-
-```php
-'columns' => [
-  'page_icon' => ''
-]
-```
-
 #### Image columns
 
 Pass the name of any image field as the column key to display thumbnails. Only the first image is shown by default, but you can change the number of images shown by setting the `maxImageNum` option.
@@ -208,6 +198,16 @@ Pass the name of any image field as the column key to display thumbnails. Only t
       'images' => 'Thumbnails',
   ],
   'maxImageNum' => 4,
+]
+```
+
+#### Page icon columns
+
+Add the column `page_icon` to display page icons in their own column.
+
+```php
+'columns' => [
+  'page_icon' => ''
 ]
 ```
 
