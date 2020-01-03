@@ -3,6 +3,61 @@ body.Dashboard {
     min-height: 100vh;
 }
 
+.AdminThemeReno.Dashboard #main,
+.AdminThemeReno.Dashboard #breadcrumbs,
+.AdminThemeReno.Dashboard #headline,
+.AdminThemeReno.Dashboard #footer {
+    background-color: #f0f3f7;
+}
+
+.AdminThemeUikit .Dashboard #pw-footer {
+    margin-bottom: 0;
+}
+
+/* Remove paragraph margins */
+
+.Dashboard__panel p:first-child {
+    margin-top: 0;
+}
+
+.Dashboard__panel p:last-child {
+    margin-bottom: 0;
+}
+
+/* Add UiKit base styles for other admin themes */
+
+.uk-card {
+    background: rgb(255, 255, 255);
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+    transition: box-shadow .1s ease-in-out;
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.uk-card-header {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.uk-card-title {
+    margin: 0 !important;
+    line-height: 1;
+}
+
+.uk-card-small .uk-card-body,
+.uk-card-small.uk-card-body {
+    padding: 20px 20px;
+
+}
+
+.uk-card-small .uk-card-header {
+    padding: 13px 20px;
+}
+
+.uk-card-small .uk-card-footer {
+    padding: 13px 20px;
+}
+
 /* Dashboard without headline */
 
 body.DashboardNoHeadline #pw-content-head h1 {
@@ -103,7 +158,7 @@ body.DashboardNoHeadline #pw-content-body {
 }
 
 .Dashboard__group__title {
-    margin: 0 0 26px 0;
+    margin: 0 0 26px 0 !important;
     font-size: 1.25rem;
     font-weight: bold;
     color: inherit;
@@ -192,27 +247,31 @@ body.DashboardNoHeadline #pw-content-body {
     flex-grow: 1;
 }
 
-.Dashboard__panel .pw-table-responsive {
+/* Remove margin around tables */
+
+.AdminThemeReno .Dashboard__panel .AdminDataTable {
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.AdminThemeUikit .Dashboard__panel .pw-table-responsive {
     margin: -20px;
     margin-bottom: -15px;
 }
 
-.Dashboard__panel .AdminDataTable {
-}
-
-.Dashboard__panel .AdminDataTable th {
+.AdminThemeUikit .Dashboard__panel .AdminDataTable th {
     background-color: #fafbfc;
 }
 
-.Dashboard__panel .AdminDataTable tbody tr:last-child {
+.AdminThemeUikit  .Dashboard__panel .AdminDataTable tbody tr:last-child {
     border-bottom-width: 0;
 }
 
-.Dashboard__panel .AdminDataTable tr > :last-child {
+.AdminThemeUikit  .Dashboard__panel .AdminDataTable tr > :last-child {
     padding-right: 20px;
 }
 
-.Dashboard__panel .AdminDataTable th:first-child,
-.Dashboard__panel .AdminDataTable td:first-child {
+.AdminThemeUikit  .Dashboard__panel .AdminDataTable th:first-child,
+.AdminThemeUikit  .Dashboard__panel .AdminDataTable td:first-child {
     padding-left: 20px;
 }
