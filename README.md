@@ -188,6 +188,39 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 ]
 ```
 
+#### Page icon columns
+
+Add the column `page_icon` to display page icons in their own column.
+
+```php
+'columns' => [
+  'page_icon' => ''
+]
+```
+
+#### Image columns
+
+Pass the name of any image field as the column key to display thumbnails. Only the first image is shown by default, but you can change the number of images shown by setting the `maxImageNum` option.
+
+```php
+[
+  'columns' => [
+      'images' => 'Thumbnails',
+  ],
+  'maxImageNum' => 4,
+]
+```
+
+#### Icon as table header
+
+To display an icon as table header, pass the FontAwesome icon code as column title (including the `fa-` prefix).
+
+```php
+'columns' => [
+  'thumbnail' => 'fa-eye'
+]
+```
+
 ### Notice
 
 Display a notice with icon and actions. If set, the panel's `title` will be displayed inline and in bold instead of inside a panel header.
