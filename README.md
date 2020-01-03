@@ -325,6 +325,15 @@ Every panel module **must** implement the `getContent()` method that returns the
 
 Module assets will be included automatically as long as they're named accordingly (`DashboardPanelHelloWorld.css` and `DashboardPanelHelloWorld.js` respectively).
 
+### Accessing Config & Data
+
+Every module derived from the DashboardPanel base class has a few properties populated automatically:
+
+- `$this->options`: Global panel options like title, icon, etc (array)
+- `$this->data`: Panel-specific configuration (array)
+- `$this->size`: Panel size (string, sanitized to one of allowed values)
+- `$this->layout`: Layout options of this panel instance (array)
+
 ### Helpers
 
 The panel base class has a few helpers for common tasks.
