@@ -37,6 +37,9 @@ class DashboardPanelCollection extends DashboardPanel {
         }, $columnNames);
 
         $headers = array_map(function ($column, $class) {
+            if (strpos($column, 'fa-') === 0) {
+                return $this->renderIcon($column);
+            }
             return [$column, $class];
         }, $columnHeadlines, $classNames);
 
