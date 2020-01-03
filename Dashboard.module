@@ -46,10 +46,25 @@ class Dashboard extends Process implements Module {
     ];
 
     /**
-     * Constructor: define texts and view folders
+     * Module initialization
+     *
+     * We overwrite the parent::init() method with an empty method to
+     * disable auto-asset loading, which wo do manually in ready() once
+     * we're sure we're in the admin area
+     */
+    public function init() {}
+
+    /**
+     * Ready:  define texts and view folders
      *
      */
-    public function __construct() {
+    public function ready() {
+        if (!$this->isAdmin()) {
+            return;
+        }
+
+        $this->modules->loadModuleFileAssets($this);
+
         $this->installOnHomepage = false;
 
         $this->moduleFolder = dirname($this->modules->getModuleFile($this));
@@ -69,20 +84,22 @@ class Dashboard extends Process implements Module {
         ];
 
         $this->panels = new DashboardPanelArray();
-    }
-
-    /**
-     * Module initialization
-     *
-     */
-    public function init() {
-        parent::init();
 
         // Add classname to allow styling
         $this->addHookAfter('AdminTheme::getExtraMarkup', function($event) {
-            $theme = $event->object;
-            $theme->addBodyClass("$this");
+            $event->object->addBodyClass("$this");
         });
+    }
+
+    /**
+     * Check if we're in the admin area
+     *
+     */
+
+    protected function isAdmin() {
+        $isAdminUrl = strpos($_SERVER['REQUEST_URI'], $this->config->urls->admin) === 0;
+        $isAdminTemplate = $this->page && $this->page->template == 'admin';
+        return $isAdminUrl || $isAdminTemplate;
     }
 
     /**
