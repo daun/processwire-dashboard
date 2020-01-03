@@ -2,27 +2,44 @@
   color: #97aab4;
 }
 
-.DashboardPanelCollection td:first-child {
+.DashboardPanelCollection td:first-child,
+.DashboardTableColumn__title {
   font-weight: bold;
-}
-
-.DashboardPanelCollection table.has-actions tr > :last-child {
-  text-align: right;
 }
 
 /* Action icons */
 
-.DashboardPanelCollection table .fa {
+.DashboardTableColumn__actions__ {
+  text-align: right;
+}
+
+.DashboardTableColumn__actions__ .fa {
   opacity: .4;
   cursor: not-allowed;
 }
 
-.DashboardPanelCollection table a {
+.DashboardTableColumn__actions__ a {
   color: inherit;
 }
 
-.DashboardPanelCollection table a .fa {
+.DashboardTableColumn__actions__ a .fa {
   opacity: 1;
   cursor: inherit;
   color: #97aab4;
+}
+
+.DashboardTableColumn__page_icon {
+  width: 40px;
+}
+
+.DashboardPanelCollection table img {
+  border-radius: 4px;
+  max-height: 30px;
+  width: auto;
+}
+
+.AdminThemeUikit .DashboardPanelCollection td.is-image-column {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  vertical-align: middle;
 }
