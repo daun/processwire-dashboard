@@ -93,7 +93,7 @@ $panels->add([
   'icon'   => 'newspaper-o',
 
   /* Options specific to each panel type */
-  'data'   => [
+  'data' => [
     'collection' => 'template=news-item, limit=10',
     'sortable'   => true,
   ],
@@ -123,9 +123,40 @@ Display a chart using [Chart.js](https://www.chartjs.org/).
 
 <img src="./assets/chart.png" width="400">
 
-Options:
+#### Options
 
 - `chart`: array of configuration options to pass to Chart.js (converted to JSON)
+
+#### Example
+
+```php
+[
+  'chart' => [
+    'type' => 'line',
+    'data' => [
+      'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      'datasets' => [
+        [
+          'label' => 'Lorem ipsum',
+          'data' => [7, 10, 8, 12, 4, 6, 3],
+        ],
+        [
+          'label' => 'Dolor sit amet',
+          'data' => [5, 6, 7, 8, 6, 8, 14],
+        ],
+      ],
+    ],
+    'options' => [
+      'aspectRatio' => 2.5,
+      'scales' => [
+        'xAxes' => [
+          ['gridLines' => ['display' => false]],
+        ],
+      ],
+    ],
+  ],
+]
+```
 
 ### Collection
 
@@ -133,15 +164,29 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 
 <img src="./assets/collection.png" width="400">
 
-Options:
+#### Options
 
 - `collection`: PageArray or selector string (required)
-- `columns`: columns to display (`title` and `url` by default)
+- `columns`: columns to display (array, `title` and `url` by default)
 - `actions`: array of actions to allow, or `false` to disable Actions column (`edit` and `view` by default)
 - `pagination`: display pagination info if PageArray has a `limit` set? (bool, `true` by default)
 - `sortable`: make table columns sortable (bool, `false` by default)
 - `showHeaders`: show table headers? (bool, `true` by default)
 - `dateFormat`: date format to use for DateTime columns (`relative` by default)
+
+#### Example
+
+```php
+[
+  'collection' => 'template=news-item, limit=10',
+  'sortable' => true,
+  'columns' => [
+      'title' => 'Title',
+      'url' => 'URL',
+      'modified' => 'Modified',
+  ],
+]
+```
 
 ### Notice
 
@@ -149,11 +194,29 @@ Display a notice with icon and actions. If set, the panel's `title` will be disp
 
 <img src="./assets/notice.png" width="400">
 
-Options:
+#### Options
 
 - `message`: notice to display (string, required)
 - `status`: status of the notice (string: one of either `success`, `warning` or `error`; `notice` by default)
 - `actions`: additional links to display (array of format `['Label' => 'url']`)
+
+#### Example
+
+```php
+/* Plain with actions */
+[
+  'message' => 'You have <b>15</b> new messages.',
+  'actions' => [
+    'See all' => '/inbox/',
+  ],
+]
+
+/* With status */
+[
+  'message' => 'Something went wrong.',
+  'status' => 'error',
+]
+```
 
 ### Number
 
@@ -161,12 +224,22 @@ Display a large number with trend indicator.
 
 <img src="./assets/number.png" width="300">
 
-Options:
+#### Options
 
 - `number`: the number to display (string or int/float, required)
 - `detail`: additional information to display below (string)
 - `trend`: trend to indicate with green/red arrows (string, either `up` or `down`)
 - `locale`: locale to use for formatting numbers (string)
+
+#### Example
+
+```php
+[
+  'number' => 484,
+  'detail' => 'up 5% from last week',
+  'trend' => 'up',
+]
+```
 
 ### PageList
 
@@ -174,10 +247,19 @@ Display a ProcessPageList widget.
 
 <img src="./assets/page-list.png" width="400">
 
-Options:
+#### Options
 
 - `parent`: the root page ID to render the page list for (int, homepage by default)
 - `showRootPage`: whether to include the root page in the output (bool, `true` by default)
+
+#### Example
+
+```php
+[
+  'parent' => $this->pages->get('template=info')->id,
+  'showRootPage' => true,
+]
+```
 
 ### Shortcuts
 
@@ -185,11 +267,26 @@ Display a list of shortcuts as links with icons.
 
 <img src="./assets/shortcuts.png" width="300">
 
-Options:
+#### Options
 
 - `shortcuts`: array of Pages or page IDs to display (array, required)
 - `fallbackIcon`: icon to use if page doesn't have one (string, `bookmark-o` by default)
 - `icon`: force one icon for all pages (string, off by default)
+
+#### Example
+
+```php
+[
+  'shortcuts' => [
+       304,  // Profile
+      1065,  // Settings
+      1026,  // Cache admin
+      1020,  // Upgrades
+      1016,  // Sessions
+  ],
+  'fallbackIcon' => 'star-o',
+]
+```
 
 ### Template
 
@@ -197,10 +294,26 @@ Display the output of any file in your template folder. The file will receive al
 
 <img src="./assets/template.png" width="400">
 
-Options:
+#### Options
 
 - `template`: template file name, relative to `/site/templates/` and including extension (string, required)
 - `variables`: variables to pass into the template (array, empty by default)
+
+#### Example
+
+```php
+/* Panel config */
+[
+  'template' => 'dash.php',
+  'variables' => [
+    'text' => 'Lorem ipsum dolor ...',
+  ],
+]
+
+/* Template file: site/templates/dash.php */
+
+echo $text;
+```
 
 ## Creating Custom Panels
 
@@ -218,6 +331,15 @@ Every panel module **must** implement the `getContent()` method that returns the
 - `getScripts()`: return scripts to load (array of filenames or URLs)
 
 Module assets will be included automatically as long as they're named accordingly (`DashboardPanelHelloWorld.css` and `DashboardPanelHelloWorld.js` respectively).
+
+### Accessing Config & Data
+
+Every module derived from the DashboardPanel base class has a few properties populated automatically:
+
+- `$this->options`: Global panel options like title, icon, etc (array)
+- `$this->data`: Panel-specific configuration (array)
+- `$this->size`: Panel size (string, sanitized to one of allowed values)
+- `$this->layout`: Layout options of this panel instance (array)
 
 ### Helpers
 
