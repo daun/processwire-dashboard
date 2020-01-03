@@ -3,6 +3,8 @@ body.Dashboard {
     min-height: 100vh;
 }
 
+/* Dashboard without headline */
+
 body.DashboardNoHeadline #pw-content-head h1 {
     display: none;
 }
@@ -10,6 +12,8 @@ body.DashboardNoHeadline #pw-content-head h1 {
 body.DashboardNoHeadline #pw-content-body {
     padding-top: 20px;
 }
+
+/* Module info footer */
 
 .Dashboard__info {
     padding-top: 3em;
@@ -80,6 +84,61 @@ body.DashboardNoHeadline #pw-content-body {
         grid-column: span 12;
     }
 }
+
+/* Groups */
+
+.Dashboard__group {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.Dashboard__group[data-margin='true'] {
+    margin-bottom: 40px;
+}
+@media (min-width: 768px) {
+    .Dashboard__group[data-margin='true'] {
+        margin-bottom: 75px;
+    }
+}
+
+.Dashboard__group__title {
+    margin: 0 0 26px 0;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: inherit;
+}
+
+.Dashboard__group__title .fa {
+    display: none;
+}
+
+.Dashboard__group__content {
+    flex: 1 0 auto;
+    align-content: stretch;
+}
+
+.Dashboard__group[data-align='top'] .Dashboard__group__content {
+    align-content: start;
+}
+
+.Dashboard__group[data-align='bottom'] .Dashboard__group__content {
+    align-content: end;
+}
+
+.Dashboard__group[data-align='center'] .Dashboard__group__content {
+    align-content: center;
+}
+
+.Dashboard__group[data-align='distribute'] .Dashboard__group__content {
+    align-content: space-between;
+}
+
+.Dashboard__group[data-align='fill'] .Dashboard__group__content {
+    align-content: stretch;
+}
+
+/* Cards */
 
 .Dashboard__panel .uk-card-title {
     font-size: 1rem;

@@ -57,6 +57,10 @@ foreach ($charts as $panel) {
 }
 ```
 
+### Nesting panels
+
+See the section [Panel Groups](#panel-groups) for information about grouping and nesting panels.
+
 ## Configuration
 
 Each panel configuration is a simple associative array holding the following global configuration keys. The only required option is `panel`. Each panel might additionally require one or more keys in the `data` array to display correctly.
@@ -260,6 +264,32 @@ Render a template file in a `views` sub-directory relative to the module file. P
 $markup = $this->view('content', [
   'title' => 'Lorem ipsum'
 ]);
+```
+
+## Panel Groups
+
+Panels can be displayed in a nested grid by creating groups. Each group can have a `title` and add extra `margin` below. To control vertical alignment inside the group, set the `align` property to one of `top`, `bottom`, `center`, `distribute` or `fill` (`fill` by default).
+
+*Screenshots & examples coming soon.*
+
+```php
+/* Create a group */
+$group = $panels->createGroup([
+    'size' => 'normal',
+    'title' => 'Notifications',
+    'align' => 'top',
+    'margin' => true,
+]);
+$panels->add($group);
+
+/* Nest panels below */
+foreach (getNotifications() as $message) {
+  $group->add([
+    'panel' => 'notice',
+    'size'  => 'full',
+    'data'  => ['message' => $message],
+  ]);
+}
 ```
 
 ## Customizing the Headline

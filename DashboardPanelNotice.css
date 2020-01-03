@@ -19,6 +19,7 @@
   color: inherit;
   text-decoration: underline;
   padding-right: .5em;
+  white-space: nowrap;
 }
 
 .DashboardPanelNotice .uk-card-body div:last-child a:last-child {

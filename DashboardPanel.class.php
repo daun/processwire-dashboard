@@ -174,8 +174,8 @@ abstract class DashboardPanel extends Wire implements Module {
      *
      * @return string
      */
-    final protected function renderIcon($icon) {
-        return $icon ? wireIconMarkup($icon, 'fw') : '';
+    final protected function renderIcon(...$args) {
+        return $this->dashboard->renderIcon(...$args);
     }
 
     /**
