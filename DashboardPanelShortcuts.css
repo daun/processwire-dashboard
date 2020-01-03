@@ -6,6 +6,10 @@
   list-style: none;
 }
 
+.DashboardPanelShortcuts li {
+  margin: 0;
+}
+
 .DashboardPanelShortcuts a {
   display: flex;
   /* flex-direction: column; */
@@ -16,7 +20,7 @@
 }
 
 .DashboardPanelShortcuts .fa {
-  font-size: 1.25em;
+  font-size: 1.25em !important;
   margin-right: .5em;
   color: #97aab4;
 }

@@ -77,6 +77,12 @@ class Dashboard extends Process implements Module {
      */
     public function init() {
         parent::init();
+
+        // Add classname to allow styling
+        $this->addHookAfter('AdminTheme::getExtraMarkup', function($event) {
+            $theme = $event->object;
+            $theme->addBodyClass("$this");
+        });
     }
 
     /**
