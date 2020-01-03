@@ -203,11 +203,18 @@ Display a notice with icon and actions. If set, the panel's `title` will be disp
 #### Example
 
 ```php
+/* Plain with actions */
 [
   'message' => 'You have <b>15</b> new messages.',
   'actions' => [
     'See all' => '/inbox/',
   ],
+]
+
+/* With status */
+[
+  'message' => 'Something went wrong.',
+  'status' => 'error',
 ]
 ```
 
