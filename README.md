@@ -173,6 +173,7 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 - `sortable`: make table columns sortable (bool, `false` by default)
 - `showHeaders`: show table headers? (bool, `true` by default)
 - `dateFormat`: date format to use for DateTime columns (`relative` by default)
+- `maxImageNum`: number of thumbnails to show for image columns (`1` by default)
 
 #### Example
 
