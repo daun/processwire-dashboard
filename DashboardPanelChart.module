@@ -25,10 +25,18 @@ class DashboardPanelChart extends DashboardPanel {
 
     public function setup() {
         parent::setup();
-        $this->chart = $this->data['chart'] ?? [];
+        $this->chart = $this->parseChartData($this->data['chart'] ?? []);
     }
 
     public function getScripts() {
         return ['https://cdn.jsdelivr.net/npm/chart.js@2.9.3'];
+    }
+
+    /**
+     * Manipulate the chart data if necessary
+     *
+     */
+    public function ___parseChartData($data) {
+        return $data;
     }
 }
