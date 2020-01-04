@@ -15,7 +15,7 @@ class DashboardPanelPageList extends DashboardPanel {
 
     public function getContent() {
         $module = $this->modules->get('ProcessPageList');
-        $module->set('id', $this->parent);
+        $module->set('id', $this->parentID);
         $module->set('showRootPage', $this->showRootPage);
         return $module->execute();
     }
@@ -24,5 +24,16 @@ class DashboardPanelPageList extends DashboardPanel {
         parent::setup();
         $this->parent = $this->data['parent'] ?? null;
         $this->showRootPage = $this->data['showRootPage'] ?? true;
+
+        // Get parent page ID from Page or selector string
+        $this->parentID = null;
+        if (is_int($this->parent)) {
+            $this->parentID = $this->parent;
+        } else if (is_object($this->parent) && $this->parent instanceof Page) {
+            $this->parentID = $this->parent->id;
+        } else if (is_string($this->parent)) {
+            $page = $this->pages->get($this->parent);
+            $this->parentID = $page ? $page->id : null;
+        }
     }
 }
