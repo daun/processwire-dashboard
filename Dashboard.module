@@ -40,6 +40,7 @@ class Dashboard extends Process implements Module {
      */
     const panelSizes = [
         'normal' => 'Normal (half)',
+        'mini'   => 'Mini (one quarter)',
         'small'  => 'Small (one third)',
         'large'  => 'Large (two thirds)',
         'full'   => 'Full',
