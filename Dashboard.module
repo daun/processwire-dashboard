@@ -43,12 +43,18 @@ class Dashboard extends Process implements Module {
      *
      */
     const panelSizes = [
-        'normal' => 'Normal (half)',
-        'mini'   => 'Mini (one quarter)',
-        'small'  => 'Small (one third)',
-        'large'  => 'Large (two thirds)',
-        'full'   => 'Full',
+        'mini',   // 1/4
+        'small',  // 1/3
+        'normal', // 1/2
+        'large',  // 2/3
+        'full',   // 1/1
     ];
+
+    /**
+     * Default panel size
+     *
+     */
+    const defaultPanelSize = 'normal';
 
     /**
      * Module initialization
@@ -234,10 +240,17 @@ class Dashboard extends Process implements Module {
      * Sanitize panel size to one of allowed values
      *
      */
-    public function sanitizePanelSize($size) {
-        $allowed = array_keys(self::panelSizes);
-        $size = $this->sanitizer->option($size, $allowed);
-        return $size ?: $allowed[0];
+    public function sanitizePanelSize($input) {
+        $size = $this->sanitizer->option($input, self::panelSizes);
+        return $size ?: $this->getDefaultPanelSize();
+    }
+
+    /**
+     * Hook to allow overwriting the default panel size
+     *
+     */
+    public function ___getDefaultPanelSize() {
+        return self::defaultPanelSize;
     }
 
     /**
