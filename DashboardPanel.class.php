@@ -250,4 +250,22 @@ abstract class DashboardPanel extends Wire implements Module {
     final protected function view($view, $data ) {
         return $this->files->render($this->viewFolder.$view, $data);
     }
+
+    /**
+     * Load a page from either an ID, a selector or return the page itself
+     *
+     */
+    protected function getPageFromObjectOrSelectorOrID($input) {
+        if (!$input) return;
+
+        if (is_object($input) && $input instanceof Page) {
+            $page = $input;
+        } else if (is_int($input)) {
+            $page = $this->pages->get($input);
+        } else if (is_string($input) && Selectors::stringHasSelector($input)) {
+            $page = $this->pages->get($input);
+        }
+
+        return $page;
+    }
 }
