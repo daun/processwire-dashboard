@@ -81,7 +81,6 @@ Each panel configuration is a simple associative array holding the following glo
 
 \* Panel icons are hidden by default. See the section on [enabling display of panel icons](#enabling-panel-icons).
 
-
 ```php
 /* Example using all options */
 
@@ -297,14 +296,14 @@ Display a ProcessPageList widget.
 
 #### Options
 
-- `parent`: the root page ID to render the page list for (int, homepage by default)
+- `parent`: the root page to render the page list for (Page object, ID or selector, homepage by default)
 - `showRootPage`: whether to include the root page in the output (bool, `true` by default)
 
 #### Example
 
 ```php
 [
-  'parent' => $this->pages->get('template=info')->id,
+  'parent' => 'template=info',
   'showRootPage' => true,
 ]
 ```
