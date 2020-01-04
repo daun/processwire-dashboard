@@ -60,3 +60,14 @@
   padding-bottom: 7px;
   vertical-align: middle;
 }
+
+.DashboardPanelCollection td.is-color-column {
+  vertical-align: middle;
+}
+
+.DashboardPanelCollection td.is-color-column span {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+}

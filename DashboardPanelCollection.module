@@ -67,6 +67,11 @@ class DashboardPanelCollection extends DashboardPanel {
                     $images = $page->get($markup)->slice(0, $this->maxImageNum);
                     $content = $this->renderImageThumbnails($images);
                 }
+                // Special case: color fields
+                else if ($fieldtype == 'FieldtypeColorPicker') {
+                    $class .= ' is-color-column';
+                    $content = "<span style='background-color:{$page->$markup}'></span>";
+                }
                 // Special case: timestamp fields
                 // disabled for now (formatted datetime values work just as well)
                 else if (false && $fieldtype == 'FieldtypeDatetime') {
