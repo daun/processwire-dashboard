@@ -23,6 +23,10 @@ class Dashboard extends Process implements Module {
                 'name' => 'dashboard',
                 'title' => __('Dashboard', __FILE__),
             ],
+            'requires' => [
+                'PHP>=7.0',
+                'ProcessWire>=3.0.123',
+            ],
             'autoload'    => 2, // high priority to always load base class
             'singular'    => true,
         ];
