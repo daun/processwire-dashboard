@@ -89,10 +89,7 @@ class Dashboard extends Process implements Module {
             'empty_panel_notice' => $this->_('Your dashboard is empty'),
             'setup_hint' => $this->_('Learn how to add and configure panels reading the <a href="%s">documentation</a>.'),
             'get_started' => $this->_('Get started'),
-        ];
-
-        $this->links = (object) [
-            'repo' => 'https://github.com/philippdaun/processwire-dashboard',
+            'repo_url' => 'https://github.com/philippdaun/processwire-dashboard',
         ];
 
         $this->panels = new DashboardPanelArray();
@@ -143,7 +140,6 @@ class Dashboard extends Process implements Module {
             'settings' => $this->getSettings(),
             'panels'   => $this->renderPanels(),
             'texts'    => $this->texts,
-            'links'    => $this->links,
             'module'   => "$this",
             'version'  => $this->modules->getModuleInfoProperty($this, 'version'),
         ]);
