@@ -18,7 +18,7 @@ To use the dashboard as entry point, you need to edit the `Admin` page (ID `2`) 
 
 ## Requirements
 
-Currently tested and supported only for the current `dev` branch of ProcessWire (version 3.0.143 and up). It may well work with older versions, I can't however give any guarantuees. Also, tested in recent versions of Chrome only.
+Tested and supported for the latest stable version of ProcessWire (3.0.148). It may well work with older versions, I can't however give any guarantuees. Should display fine in all browsers that properly support CSS grids. Recommended for use with AdminThemeUikit.
 
 ## Adding Panels
 
