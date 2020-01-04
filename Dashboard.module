@@ -74,13 +74,9 @@ class Dashboard extends Process implements Module {
             return;
         }
 
-        $this->modules->loadModuleFileAssets($this);
-
         $this->installOnHomepage = false;
-
-        $this->moduleFolder = dirname($this->modules->getModuleFile($this));
-        $this->viewFolder = "{$this->moduleFolder}/views/";
-
+        $this->viewFolder = __DIR__.'/views/';
+        $this->panels = new DashboardPanelArray();
         $this->texts = (object) [
             'title' => $this->_('Dashboard'),
             'headline' => $this->_('Welcome, %s'),
@@ -92,12 +88,12 @@ class Dashboard extends Process implements Module {
             'repo_url' => 'https://github.com/philippdaun/processwire-dashboard',
         ];
 
-        $this->panels = new DashboardPanelArray();
-
         // Add classname to allow styling
         $this->addHookAfter('AdminTheme::getExtraMarkup', function($event) {
             $event->object->addBodyClass("$this");
         });
+
+        $this->modules->loadModuleFileAssets($this);
     }
 
     /**
@@ -106,7 +102,7 @@ class Dashboard extends Process implements Module {
      */
 
     protected function isDashboardProcess() {
-        return $this->page && $this->page->template == 'admin' && $this->page->process == 'Dashboard';
+        return $this->page && $this->page->template == 'admin' && $this->page->process == $this;
     }
 
     /**
@@ -122,26 +118,25 @@ class Dashboard extends Process implements Module {
             }
         }
 
-        // Set title and headline
-        $title = $this->texts->title;
-        $headline = $this->getHeadline();
-        if (!$headline) {
+        // Set headline and browser title
+        if ($headline = $this->getHeadline()) {
+            $this->headline($headline);
+        } else {
+            $this->headline($this->texts->title);
             // Add custom body class to hide empty headline
-            $headline = $this->texts->title;
             $this->addHookAfter('AdminTheme::getExtraMarkup', function($event) {
                 $event->object->addBodyClass('DashboardNoHeadline');
             });
         }
-        $this->browserTitle($title);
-        $this->headline($headline);
+        $this->browserTitle($this->texts->title);
 
         // Render main view
         return $this->view('dashboard', [
+            'module'   => "$this",
             'settings' => $this->getSettings(),
             'panels'   => $this->renderPanels(),
             'texts'    => $this->texts,
-            'module'   => "$this",
-            'version'  => $this->modules->getModuleInfoProperty($this, 'version'),
+            'version'  => DASHBOARD_VERSION,
         ]);
     }
 
@@ -171,7 +166,7 @@ class Dashboard extends Process implements Module {
      */
     private function renderPanel($instance) {
         $className = $this->getPanelClassName($instance['panel'] ?? '');
-        $module = $this->modules->get($className);
+        $module = $this->modules->$className;
         if ($this->isValidPanel($module)) {
             return $module->render($instance);
         } elseif ($this->config->debug) {

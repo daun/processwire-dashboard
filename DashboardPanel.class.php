@@ -47,12 +47,8 @@ abstract class DashboardPanel extends Wire implements Module {
      * Constructor
      */
     public function __construct() {
-        // Store reference to main dashboard instance
-        $this->dashboard = $this->modules->get('Dashboard');
-
-        // Determine module folders
-        $this->moduleFolder = dirname($this->modules->getModuleFile($this));
-        $this->viewFolder = "{$this->moduleFolder}/views/";
+        $this->dashboard = $this->modules->Dashboard;
+        $this->viewFolder = __DIR__.'/views/';
     }
 
     /**
