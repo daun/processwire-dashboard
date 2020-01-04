@@ -317,7 +317,7 @@ Display a list of shortcuts as links with icons.
 
 #### Options
 
-- `shortcuts`: array of Pages or page IDs to display (array, required)
+- `shortcuts`: array of shortcuts (Page, page ID, selector or URL; use key to override title) (required)
 - `fallbackIcon`: icon to use if page doesn't have one (string, `bookmark-o` by default)
 - `icon`: force one icon for all pages (string, off by default)
 
@@ -326,11 +326,11 @@ Display a list of shortcuts as links with icons.
 ```php
 [
   'shortcuts' => [
-       304,  // Profile
-      1065,  // Settings
-      1026,  // Cache admin
-      1020,  // Upgrades
-      1016,  // Sessions
+    1020,                    // Page ID
+    $this->pages->get(1132), // Page
+    'template=news-item',    // Selector
+    'New things' => 1020,    // Override title
+    'Backups' => "/backup/", // URL
   ],
   'fallbackIcon' => 'star-o',
 ]
@@ -465,7 +465,6 @@ foreach (getNotifications() as $message) {
 ## Enabling Panel Icons
 
 Panel icons are hidden by default to achieve a clean look across the whole dashboard. If you want to display icons in panel headers, hook into the `getSettings` method and set the `displayIcons` switch.
-
 
 ```php
 wire()->addHookAfter('Dashboard::getSettings', function ($event) {
