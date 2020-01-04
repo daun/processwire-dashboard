@@ -23,6 +23,10 @@ class Dashboard extends Process implements Module {
                 'name' => 'dashboard',
                 'title' => __('Dashboard', __FILE__),
             ],
+            'requires' => [
+                'PHP>=7.0',
+                'ProcessWire>=3.0.123',
+            ],
             'autoload'    => 2, // high priority to always load base class
             'singular'    => true,
         ];
@@ -40,6 +44,7 @@ class Dashboard extends Process implements Module {
      */
     const panelSizes = [
         'normal' => 'Normal (half)',
+        'mini'   => 'Mini (one quarter)',
         'small'  => 'Small (one third)',
         'large'  => 'Large (two thirds)',
         'full'   => 'Full',
@@ -261,12 +266,35 @@ class Dashboard extends Process implements Module {
      * @return string
      */
     protected function ___getHeadline() {
+        $userLabel = $this->renderUserLabel();
+        $text = $userLabel ? $this->texts->headline : $this->texts->headline_without_user;
+        return sprintf($text, $userLabel);
+    }
+
+    /**
+     * Render user label
+     *
+     * @return string
+     */
+    protected function renderUserLabel() {
         // Get user label from AdminThemeUiKit config
-        $userLabel = $this->modules->getConfig('AdminThemeUikit', 'userLabel') ?: 'title|name';
-        $userName = $this->user->getMarkup($userLabel);
-        // Render Welcome, %s headline
-        $text = $userName ? $this->texts->headline : $this->texts->headline_without_user;
-        return sprintf($text, $userName);
+        $userLabel = $this->modules->getConfig('AdminThemeUikit', 'userLabel') ?: '{title|name}';
+        $user = $this->user;
+
+        if (strpos($userLabel, '{') !== false) {
+            if (strpos($userLabel, '{Name}') !== false) {
+                $userLabel = str_replace('{Name}', ucfirst($user->name), $userLabel);
+            } else if(strpos($userLabel, '{name}') !== false) {
+                $userLabel = str_replace('{name}', $user->name, $userLabel);
+            }
+            if (strpos($userLabel, '{') !== false) {
+                $userLabel = $user->getText($userLabel, true, true);
+            }
+        } else {
+            $userLabel = $this->wire('sanitizer')->entities($userLabel);
+        }
+
+        return $userLabel;
     }
 
     /**

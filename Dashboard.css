@@ -141,6 +141,9 @@ body.DashboardNoHeadline #pw-content-body {
     .Dashboard__panel {
         grid-column: span 6;
     }
+    .Dashboard__panel[data-size='mini'] {
+        grid-column: span 3;
+    }
     .Dashboard__panel[data-size='small'] {
         grid-column: span 4;
     }

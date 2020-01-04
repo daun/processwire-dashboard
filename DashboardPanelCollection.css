@@ -1,5 +1,22 @@
 .DashboardPanelCollection .uk-card-footer {
+  font-size: .85em;
   color: #97aab4;
+}
+
+.DashboardPanelCollection .uk-card-footer > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.AdminThemeUikit .DashboardPanelCollection .uk-card-footer .ui-button {
+  background: #f0f3f7;
+  color: #354b60;
+}
+
+.AdminThemeUikit .DashboardPanelCollection .uk-card-footer .ui-button:hover {
+  background: #6c8dae;
+  color: #fff;
 }
 
 .DashboardPanelCollection td:first-child,
@@ -42,4 +59,15 @@
   padding-top: 7px;
   padding-bottom: 7px;
   vertical-align: middle;
+}
+
+.DashboardPanelCollection td.is-color-column {
+  vertical-align: middle;
+}
+
+.DashboardPanelCollection td.is-color-column span {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
 }

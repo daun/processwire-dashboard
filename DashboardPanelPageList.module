@@ -22,18 +22,8 @@ class DashboardPanelPageList extends DashboardPanel {
 
     public function setup() {
         parent::setup();
-        $this->parent = $this->data['parent'] ?? null;
+        $this->parent = $this->getPageFromObjectOrSelectorOrID($this->data['parent'] ?? null);
+        $this->parentID = $this->parent ? $this->parent->id : null;
         $this->showRootPage = $this->data['showRootPage'] ?? true;
-
-        // Get parent page ID from Page or selector string
-        $this->parentID = null;
-        if (is_int($this->parent)) {
-            $this->parentID = $this->parent;
-        } else if (is_object($this->parent) && $this->parent instanceof Page) {
-            $this->parentID = $this->parent->id;
-        } else if (is_string($this->parent)) {
-            $page = $this->pages->get($this->parent);
-            $this->parentID = $page ? $page->id : null;
-        }
     }
 }

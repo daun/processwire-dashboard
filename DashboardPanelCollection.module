@@ -67,6 +67,11 @@ class DashboardPanelCollection extends DashboardPanel {
                     $images = $page->get($markup)->slice(0, $this->maxImageNum);
                     $content = $this->renderImageThumbnails($images);
                 }
+                // Special case: color fields
+                else if ($fieldtype == 'FieldtypeColorPicker') {
+                    $class .= ' is-color-column';
+                    $content = "<span style='background-color:{$page->$markup}'></span>";
+                }
                 // Special case: timestamp fields
                 // disabled for now (formatted datetime values work just as well)
                 else if (false && $fieldtype == 'FieldtypeDatetime') {
@@ -94,30 +99,49 @@ class DashboardPanelCollection extends DashboardPanel {
     }
 
     public function getFooter() {
-        if ($this->pagination === false) {
-            return;
+        $footer = '';
+
+        // Buttons (add new)
+        $buttons = $this->renderButtons();
+        if ($buttons) {
+            $footer .= "<div>{$buttons}</div>";
         }
 
-        if ($this->collection->hasPagination()) {
-            $count = $this->collection->count;
-            $total = $this->collection->getTotal();
-            return sprintf($this->_('Showing %d of %d'), $count, $total);
+        // Pagination
+        if ($this->pagination && $this->collection->hasPagination()) {
+            $pagination = sprintf(
+                $this->_('Showing %d of %d'),
+                $this->collection->count,
+                $this->collection->getTotal()
+            );
+            $footer .= "<div>{$pagination}</div>";
         }
+
+        return $footer ? "<div>{$footer}</div>" : '';
     }
 
     public function setup() {
         parent::setup();
+
+        $this->editURL = $this->config->urls->admin . 'page/edit/';
+        $this->addURL = $this->config->urls->admin . 'page/add/';
+        $this->listURL = $this->config->urls->admin . 'page/list/';
+
         $this->collection = $this->data['collection'] ?? null;
         $this->columns = $this->data['columns'] ?? [
             'title' => $this->_('Title'),
             'url' => $this->_('URL'),
         ];
         $this->actions = $this->data['actions'] ?? null;
-        $this->pagination = $this->data['pagination'] ?? null;
+        $this->pagination = $this->data['pagination'] ?? true;
         $this->sortable = $this->data['sortable'] ?? false;
         $this->showHeaders = $this->data['headers'] ?? true;
         $this->dateFormat = $this->data['dateFormat'] ?? 'relative';
         $this->maxImageNum = $this->data['maxImageNum'] ?? 1;
+        $this->parent = $this->getPageFromObjectOrSelectorOrID($this->data['parent'] ?? null);
+        $this->template = $this->templates->get($this->data['template'] ?? null);
+        $this->listPage = $this->getPageFromObjectOrSelectorOrID($this->data['list'] ?? null);
+        $this->editMode = $this->data['editMode'] ?? 'blank';
 
         if (is_string($this->collection)) {
             $this->collection = $this->pages->find($this->collection);
@@ -132,6 +156,71 @@ class DashboardPanelCollection extends DashboardPanel {
         }
 
         return true;
+    }
+
+    /**
+     * Render footer buttons
+     * Taken from PageLister, so it should work for most cases
+     *
+     */
+    protected function renderButtons() {
+        $action = '';
+        $out = '';
+
+        if ($this->parent && $this->parent->id && $this->parent->addable()) {
+            $action = "{$this->addURL}?parent_id={$this->parent->id}";
+        } else if ($this->template && ($parent = $this->template->getParentPage(true))) {
+            if ($parent->id) $action = "{$this->addURL}?parent_id={$parent->id}"; // defined parent
+            else $action = "{$this->addURL}?template_id={$this->template->id}"; // multiple possible parents
+        }
+
+        if ($action) {
+            $btn = $this->wire('modules')->get('InputfieldButton');
+            $btnClass = 'PageAddNew';
+            if ($this->editMode === 'modal') {
+                $action .= "&modal=1";
+                $btnClass .= " modal";
+            }
+            $btn->attr('value', $this->_('Add New'));
+            $btn->href = $action;
+            $btn->icon = 'plus-circle';
+            $btn->secondary = true;
+            $btn->small = true;
+            $btn->aclass = $btnClass;
+            $out .= $btn->render();
+            if ($this->editMode === 'blank') $out = str_replace("<a ", "<a target='_blank' ", $out);
+        }
+
+        $action = '';
+
+        if ($this->listPage && $this->listPage->id) {
+            if ($this->listPage->template == 'admin') {
+                $action = "{$this->listPage->url}"; // admin process page
+            } else {
+                $action = "{$this->listURL}?open={$this->listPage->id}"; // open page list at this page
+            }
+        } else if ($this->parent && $this->parent->id) {
+            $action = "{$this->listURL}?open={$this->parent->id}"; // open page list at parent page
+        }
+
+        if ($action) {
+            $btn = $this->wire('modules')->get('InputfieldButton');
+            $btnClass = '';
+            if ($this->editMode === 'modal') {
+                $action .= "&modal=1";
+                $btnClass .= " modal";
+            }
+            $btn->attr('value', $this->_('View All'));
+            $btn->href = $action;
+            $btn->icon = 'search-plus';
+            $btn->secondary = true;
+            $btn->small = true;
+            $btn->aclass = $btnClass;
+            $out .= $btn->render();
+            if ($this->editMode === 'blank') $out = str_replace("<a ", "<a target='_blank' ", $out);
+        }
+
+        return $out;
     }
 
     /**
