@@ -73,6 +73,7 @@ class Dashboard extends Process implements Module {
         $this->texts = (object) [
             'title' => $this->_('Dashboard'),
             'headline' => $this->_('Welcome, %s'),
+            'headline_without_user' => $this->_('Welcome'),
             'panel_not_found' => $this->_('Dashboard panel not found: %s'),
             'empty_panel_notice' => $this->_('Your dashboard is empty'),
             'setup_hint' => $this->_('Learn how to add and configure panels reading the <a href="%s">documentation</a>.'),
@@ -264,7 +265,8 @@ class Dashboard extends Process implements Module {
         $userLabel = $this->modules->getConfig('AdminThemeUikit', 'userLabel') ?: 'title|name';
         $userName = $this->user->getMarkup($userLabel);
         // Render Welcome, %s headline
-        return sprintf($this->texts->headline, $userName);
+        $text = $userName ? $this->texts->headline : $this->texts->headline_without_user;
+        return sprintf($text, $userName);
     }
 
     /**

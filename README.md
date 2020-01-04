@@ -18,7 +18,7 @@ To use the dashboard as entry point, you need to edit the `Admin` page (ID `2`) 
 
 ## Requirements
 
-Currently tested and supported only for the current `dev` branch of ProcessWire (version 3.0.143 and up). It may well work with older versions, I can't however give any guarantuees. Also, tested in recent versions of Chrome only.
+Tested and supported for the latest stable version of ProcessWire (3.0.148). It may well work with older versions, I can't however give any guarantuees. Should display fine in all browsers that properly support CSS grids. Recommended for use with AdminThemeUikit.
 
 ## Adding Panels
 
@@ -80,7 +80,6 @@ Each panel configuration is a simple associative array holding the following glo
 - `data`: The data required by the panel type. See the readme section on each panel for information about required keys.
 
 \* Panel icons are hidden by default. See the section on [enabling display of panel icons](#enabling-panel-icons).
-
 
 ```php
 /* Example using all options */
@@ -297,14 +296,14 @@ Display a ProcessPageList widget.
 
 #### Options
 
-- `parent`: the root page ID to render the page list for (int, homepage by default)
+- `parent`: the root page to render the page list for (Page object, ID or selector, homepage by default)
 - `showRootPage`: whether to include the root page in the output (bool, `true` by default)
 
 #### Example
 
 ```php
 [
-  'parent' => $this->pages->get('template=info')->id,
+  'parent' => 'template=info',
   'showRootPage' => true,
 ]
 ```
@@ -317,7 +316,7 @@ Display a list of shortcuts as links with icons.
 
 #### Options
 
-- `shortcuts`: array of Pages or page IDs to display (array, required)
+- `shortcuts`: array of shortcuts (Page, page ID, selector or URL; use key to override title) (required)
 - `fallbackIcon`: icon to use if page doesn't have one (string, `bookmark-o` by default)
 - `icon`: force one icon for all pages (string, off by default)
 
@@ -326,11 +325,11 @@ Display a list of shortcuts as links with icons.
 ```php
 [
   'shortcuts' => [
-       304,  // Profile
-      1065,  // Settings
-      1026,  // Cache admin
-      1020,  // Upgrades
-      1016,  // Sessions
+    1020,                    // Page ID
+    $this->pages->get(1132), // Page
+    'template=news-item',    // Selector
+    'New things' => 1020,    // Override title
+    'Backups' => "/backup/", // URL
   ],
   'fallbackIcon' => 'star-o',
 ]
@@ -465,7 +464,6 @@ foreach (getNotifications() as $message) {
 ## Enabling Panel Icons
 
 Panel icons are hidden by default to achieve a clean look across the whole dashboard. If you want to display icons in panel headers, hook into the `getSettings` method and set the `displayIcons` switch.
-
 
 ```php
 wire()->addHookAfter('Dashboard::getSettings', function ($event) {

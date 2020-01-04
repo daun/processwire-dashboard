@@ -267,7 +267,7 @@ body.DashboardNoHeadline #pw-content-body {
 
 .AdminThemeReno .Dashboard__panel .AdminDataTable {
     margin-top: -10px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .AdminThemeUikit .Dashboard__panel .pw-table-responsive {
