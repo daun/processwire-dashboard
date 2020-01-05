@@ -27,8 +27,8 @@ class Dashboard extends Process implements Module {
                 'PHP>=7.0',
                 'ProcessWire>=3.0.123',
             ],
-            'autoload'    => 2, // high priority to always load base class
-            'singular'    => true,
+            'autoload' => 2, // high priority to always load base class
+            'singular' => true,
         ];
     }
 
@@ -43,17 +43,23 @@ class Dashboard extends Process implements Module {
      *
      */
     const panelSizes = [
-        'normal' => 'Normal (half)',
-        'mini'   => 'Mini (one quarter)',
-        'small'  => 'Small (one third)',
-        'large'  => 'Large (two thirds)',
-        'full'   => 'Full',
+        'mini',   // 1/4
+        'small',  // 1/3
+        'normal', // 1/2
+        'large',  // 2/3
+        'full',   // 1/1
     ];
+
+    /**
+     * Default panel size
+     *
+     */
+    const defaultPanelSize = 'normal';
 
     /**
      * Module initialization
      *
-     * We overwrite the parent::init() method with an empty method to
+     * Overwrite the parent::init() method with an empty method to
      * disable auto-asset loading, which wo do manually in ready() once
      * we're sure we're on the dashboard page
      */
@@ -68,13 +74,9 @@ class Dashboard extends Process implements Module {
             return;
         }
 
-        $this->modules->loadModuleFileAssets($this);
-
         $this->installOnHomepage = false;
-
-        $this->moduleFolder = dirname($this->modules->getModuleFile($this));
-        $this->viewFolder = "{$this->moduleFolder}/views/";
-
+        $this->viewFolder = __DIR__.'/views/';
+        $this->panels = new DashboardPanelArray();
         $this->texts = (object) [
             'title' => $this->_('Dashboard'),
             'headline' => $this->_('Welcome, %s'),
@@ -83,18 +85,15 @@ class Dashboard extends Process implements Module {
             'empty_panel_notice' => $this->_('Your dashboard is empty'),
             'setup_hint' => $this->_('Learn how to add and configure panels reading the <a href="%s">documentation</a>.'),
             'get_started' => $this->_('Get started'),
+            'repo_url' => 'https://github.com/philippdaun/processwire-dashboard',
         ];
-
-        $this->links = (object) [
-            'repo' => 'https://github.com/philippdaun/processwire-dashboard',
-        ];
-
-        $this->panels = new DashboardPanelArray();
 
         // Add classname to allow styling
         $this->addHookAfter('AdminTheme::getExtraMarkup', function($event) {
             $event->object->addBodyClass("$this");
         });
+
+        $this->modules->loadModuleFileAssets($this);
     }
 
     /**
@@ -103,7 +102,7 @@ class Dashboard extends Process implements Module {
      */
 
     protected function isDashboardProcess() {
-        return $this->page && $this->page->template == 'admin' && $this->page->process == 'Dashboard';
+        return $this->page && $this->page->template == 'admin' && $this->page->process == $this;
     }
 
     /**
@@ -119,27 +118,25 @@ class Dashboard extends Process implements Module {
             }
         }
 
-        // Set title and headline
-        $title = $this->texts->title;
-        $headline = $this->getHeadline();
-        if (!$headline) {
+        // Set headline and browser title
+        if ($headline = $this->getHeadline()) {
+            $this->headline($headline);
+        } else {
+            $this->headline($this->texts->title);
             // Add custom body class to hide empty headline
-            $headline = $this->texts->title;
             $this->addHookAfter('AdminTheme::getExtraMarkup', function($event) {
                 $event->object->addBodyClass('DashboardNoHeadline');
             });
         }
-        $this->browserTitle($title);
-        $this->headline($headline);
+        $this->browserTitle($this->texts->title);
 
         // Render main view
         return $this->view('dashboard', [
+            'module'   => "$this",
             'settings' => $this->getSettings(),
             'panels'   => $this->renderPanels(),
             'texts'    => $this->texts,
-            'links'    => $this->links,
-            'module'   => "$this",
-            'version'  => $this->modules->getModuleInfoProperty($this, 'version'),
+            'version'  => DASHBOARD_VERSION,
         ]);
     }
 
@@ -169,7 +166,7 @@ class Dashboard extends Process implements Module {
      */
     private function renderPanel($instance) {
         $className = $this->getPanelClassName($instance['panel'] ?? '');
-        $module = $this->modules->get($className);
+        $module = $this->modules->$className;
         if ($this->isValidPanel($module)) {
             return $module->render($instance);
         } elseif ($this->config->debug) {
@@ -234,10 +231,17 @@ class Dashboard extends Process implements Module {
      * Sanitize panel size to one of allowed values
      *
      */
-    public function sanitizePanelSize($size) {
-        $allowed = array_keys(self::panelSizes);
-        $size = $this->sanitizer->option($size, $allowed);
-        return $size ?: $allowed[0];
+    public function sanitizePanelSize($input) {
+        $size = $this->sanitizer->option($input, self::panelSizes);
+        return $size ?: $this->getDefaultPanelSize();
+    }
+
+    /**
+     * Hook to allow overwriting the default panel size
+     *
+     */
+    public function ___getDefaultPanelSize() {
+        return self::defaultPanelSize;
     }
 
     /**

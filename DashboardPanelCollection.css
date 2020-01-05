@@ -27,7 +27,11 @@
 /* Action icons */
 
 .DashboardTableColumn__actions__ {
-  text-align: right;
+  text-align: right !important;
+}
+
+.DashboardTableColumn__actions__ .tablesorter-header-inner {
+  display: none;
 }
 
 .DashboardTableColumn__actions__ .fa {

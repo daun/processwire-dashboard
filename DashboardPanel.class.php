@@ -34,12 +34,12 @@ abstract class DashboardPanel extends Wire implements Module {
      */
     public static function getModuleInfo() {
         return [
-            'title'       => __('Dashboard Panel: Base Class', __FILE__),
-            'icon'        => 'safari',
-            'requires'    => 'Dashboard',
-            'installs'    => 'Dashboard',
-            'autoload'    => false,
-            'singular'    => false,
+            'title'    => __('Dashboard Panel: Base Class', __FILE__),
+            'icon'     => 'safari',
+            'requires' => 'Dashboard',
+            'installs' => 'Dashboard',
+            'autoload' => false,
+            'singular' => false,
         ];
     }
 
@@ -47,12 +47,8 @@ abstract class DashboardPanel extends Wire implements Module {
      * Constructor
      */
     public function __construct() {
-        // Store reference to main dashboard instance
-        $this->dashboard = $this->modules->get('Dashboard');
-
-        // Determine module folders
-        $this->moduleFolder = dirname($this->modules->getModuleFile($this));
-        $this->viewFolder = "{$this->moduleFolder}/views/";
+        $this->dashboard = $this->modules->Dashboard;
+        $this->viewFolder = __DIR__.'/views/';
     }
 
     /**

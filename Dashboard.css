@@ -275,7 +275,7 @@ body.DashboardNoHeadline #pw-content-body {
 
 .AdminThemeUikit .Dashboard__panel .pw-table-responsive {
     margin: -20px;
-    margin-bottom: -15px;
+    margin-bottom: -21px;
 }
 
 .AdminThemeUikit .Dashboard__panel .AdminDataTable th {
@@ -283,7 +283,7 @@ body.DashboardNoHeadline #pw-content-body {
 }
 
 .AdminThemeUikit  .Dashboard__panel .AdminDataTable tbody tr:last-child {
-    border-bottom-width: 0;
+    /* border-bottom-width: 0; */
 }
 
 .AdminThemeUikit  .Dashboard__panel .AdminDataTable tr > :last-child {
