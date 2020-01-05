@@ -321,16 +321,19 @@ Display a list of shortcuts as links with icons.
 - `fallbackIcon`: icon to use if page doesn't have one (string, `bookmark-o` by default)
 - `icon`: force one icon for all pages (string, off by default)
 
+To use a custom icon for a shortcut, pass an array as shortcut where the first item is the shortcut and the second item is the icon code.
+
 #### Example
 
 ```php
 [
   'shortcuts' => [
-    1020,                    // Page ID
-    $this->pages->get(1132), // Page
-    'template=news-item',    // Selector
-    'New things' => 1020,    // Override title
-    'Backups' => "/backup/", // URL
+    1020,                       // Page ID
+    $this->pages->get(1132),    // Page
+    'template=news-item',       // Selector
+    'Backups' => '/backup/',    // URL
+    'Updates' => 1020,          // Override title
+    [304, 'user'],              // Override icon
   ],
   'fallbackIcon' => 'star-o',
 ]
