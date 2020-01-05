@@ -67,6 +67,7 @@ Each panel configuration is a simple associative array holding the following glo
 
 - `panel`: The panel type (string, required)
 - `size`: The width of the panel (string, default: `normal`)
+  - `mini`: one quarter
   - `small`: one third
   - `normal`: half
   - `large`: two thirds
