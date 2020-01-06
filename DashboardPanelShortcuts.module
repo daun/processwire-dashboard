@@ -13,6 +13,13 @@ class DashboardPanelShortcuts extends DashboardPanel {
         );
     }
 
+    const displayOptions = [
+        'grid',
+        'list',
+    ];
+
+    const defaultDisplayOption = 'grid';
+
     public function getIcon() {
         return 'flash';
     }
@@ -61,7 +68,7 @@ class DashboardPanelShortcuts extends DashboardPanel {
         }, $this->shortcuts, array_keys($this->shortcuts));
 
         $output = join('', $rows);
-        return "<ul>{$output}</ul>";
+        return "<ul data-display='{$this->display}'>{$output}</ul>";
     }
 
     protected function renderPageIcon($page = null) {
@@ -79,6 +86,7 @@ class DashboardPanelShortcuts extends DashboardPanel {
     public function setup() {
         parent::setup();
         $this->shortcuts = $this->data['shortcuts'] ?? [];
+        $this->display = $this->sanitizer->option($this->data['display'] ?? '', self::displayOptions) ?: self::defaultDisplayOption;
         $this->fallbackIcon = $this->data['fallbackIcon'] ?? 'bookmark-o';
         $this->icon = $this->data['icon'] ?? null;
     }
