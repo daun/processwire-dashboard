@@ -282,6 +282,18 @@ body.DashboardNoHeadline #pw-content-body {
     flex-grow: 1;
 }
 
+/* Buttons */
+
+.AdminThemeUikit .DashboardButton--light .ui-button {
+    background: #f0f3f7;
+    color: #354b60;
+}
+
+.AdminThemeUikit .DashboardButton--light .ui-button.ui-state-hover {
+    background: #6c8dae;
+    color: #fff;
+}
+
 /* Remove margin around tables */
 
 .AdminThemeReno .Dashboard__panel .AdminDataTable {

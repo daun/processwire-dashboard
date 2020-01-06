@@ -9,16 +9,6 @@
   align-items: center;
 }
 
-.AdminThemeUikit .DashboardPanelCollection .uk-card-footer .ui-button {
-  background: #f0f3f7;
-  color: #354b60;
-}
-
-.AdminThemeUikit .DashboardPanelCollection .uk-card-footer .ui-button:hover {
-  background: #6c8dae;
-  color: #fff;
-}
-
 .DashboardPanelCollection td:first-child,
 .DashboardTableColumn__title {
   font-weight: bold;

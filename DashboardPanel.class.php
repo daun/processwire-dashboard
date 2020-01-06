@@ -210,6 +210,57 @@ abstract class DashboardPanel extends Wire implements Module {
     }
 
     /**
+     * Render a button
+     *
+     */
+    protected function renderButton($href, $label, $options = []) {
+        $icon = $options['icon'] ?? '';
+        $small = $options['small'] ?? null;
+        $secondary = $options['secondary'] ?? null;
+        $light = $options['light'] ?? null;
+        $class = $options['class'] ?? '';
+        $modal = $options['modal'] ?? null;
+        $blank = $options['blank'] ?? null;
+
+        $aClass = "DashboardButton {$class}";
+        if ($light) {
+            $aClass .= ' DashboardButton--light';
+        }
+        if ($modal) {
+            $aClass .= ' modal';
+        }
+
+        $button = $this->modules->get('InputfieldButton');
+        $button->attr('value', $label);
+        $button->href = $href;
+        $button->icon = $icon;
+        $button->secondary = $secondary;
+        $button->small = $small;
+        $button->aclass = $aClass;
+
+        $output = $button->render();
+        if ($blank) {
+            $output = str_replace("<a ", "<a target='_blank' ", $output);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Render footer button
+     *
+     * Identical to renderButton(), but with smaller & lighter buttons by default
+     *
+     */
+    protected function renderFooterButton($href, $label, $options = []) {
+        $options['light'] = $options['secondary'] ?? false;
+        $options['small'] = true;
+        $options['secondary'] = true;
+
+        return $this->renderButton($href, $label, $options);
+    }
+
+    /**
      * Include module scripts and stylesheets
      *
      */

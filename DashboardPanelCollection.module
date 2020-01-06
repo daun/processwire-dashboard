@@ -102,7 +102,7 @@ class DashboardPanelCollection extends DashboardPanel {
         $footer = '';
 
         // Buttons (add new)
-        $buttons = $this->renderButtons();
+        $buttons = $this->renderFooterButtons();
         if ($buttons) {
             $footer .= "<div>{$buttons}</div>";
         }
@@ -163,7 +163,7 @@ class DashboardPanelCollection extends DashboardPanel {
      * Taken from PageLister, so it should work for most cases
      *
      */
-    protected function renderButtons() {
+    protected function renderFooterButtons() {
         $action = '';
         $out = '';
 
@@ -175,20 +175,15 @@ class DashboardPanelCollection extends DashboardPanel {
         }
 
         if ($action) {
-            $btn = $this->wire('modules')->get('InputfieldButton');
-            $btnClass = 'PageAddNew';
             if ($this->editMode === 'modal') {
                 $action .= "&modal=1";
-                $btnClass .= " modal";
             }
-            $btn->attr('value', $this->_('Add New'));
-            $btn->href = $action;
-            $btn->icon = 'plus-circle';
-            $btn->secondary = true;
-            $btn->small = true;
-            $btn->aclass = $btnClass;
-            $out .= $btn->render();
-            if ($this->editMode === 'blank') $out = str_replace("<a ", "<a target='_blank' ", $out);
+            $out .= $this->renderFooterButton($action, $this->_('Add New'), [
+                'icon' => 'plus-circle',
+                'secondary' => true,
+                'modal' => $this->editMode === 'modal',
+                'blank' => $this->editMode === 'blank',
+            ]);
         }
 
         $action = '';
@@ -204,20 +199,15 @@ class DashboardPanelCollection extends DashboardPanel {
         }
 
         if ($action) {
-            $btn = $this->wire('modules')->get('InputfieldButton');
-            $btnClass = '';
             if ($this->editMode === 'modal') {
                 $action .= "&modal=1";
-                $btnClass .= " modal";
             }
-            $btn->attr('value', $this->_('View All'));
-            $btn->href = $action;
-            $btn->icon = 'search-plus';
-            $btn->secondary = true;
-            $btn->small = true;
-            $btn->aclass = $btnClass;
-            $out .= $btn->render();
-            if ($this->editMode === 'blank') $out = str_replace("<a ", "<a target='_blank' ", $out);
+            $out .= $this->renderFooterButton($action, $this->_('View All'), [
+                'icon' => 'search-plus',
+                'secondary' => true,
+                'modal' => $this->editMode === 'modal',
+                'blank' => $this->editMode === 'blank',
+            ]);
         }
 
         return $out;
