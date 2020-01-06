@@ -72,7 +72,7 @@ Each panel configuration is a simple associative array holding the following glo
   - `normal`: half
   - `large`: two thirds
   - `full`: full width
-- `layout`: an associative array of layout options
+- `style`: an associative array of display options
   - `centerTitle`: Center the panel's title (bool, `false` by default)
   - `minimal`: Display the panel without background, border and shadow (bool, `false` by default)
   - `padding`: Display the panel contents with padding (bool, `true` by default)
@@ -88,11 +88,11 @@ Each panel configuration is a simple associative array holding the following glo
 $panels->add([
 
   /* Global options */
-  'panel'  => 'collection',
-  'size'   => 'full',
-  'layout' => ['centerTitle' => true],
-  'title'  => 'News items',
-  'icon'   => 'newspaper-o',
+  'panel' => 'collection',
+  'size'  => 'full',
+  'style' => ['centerTitle' => true],
+  'title' => 'News items',
+  'icon'  => 'newspaper-o',
 
   /* Options specific to each panel type */
   'data' => [
@@ -392,7 +392,7 @@ Every module derived from the DashboardPanel base class has a few properties pop
 - `$this->options`: Global panel options like title, icon, etc (array)
 - `$this->data`: Panel-specific configuration (array)
 - `$this->size`: Panel size (string, sanitized to one of allowed values)
-- `$this->layout`: Layout options of this panel instance (array)
+- `$this->style`: Style options of this panel instance (array)
 
 ### Helpers
 
@@ -450,9 +450,9 @@ Panels can be displayed in a nested grid by creating groups. Each group can have
 ```php
 /* Create a group */
 $group = $panels->createGroup([
-    'size' => 'normal',
-    'title' => 'Notifications',
-    'align' => 'top',
+    'size'   => 'normal',
+    'title'  => 'Notifications',
+    'align'  => 'top',
     'margin' => true,
 ]);
 $panels->add($group);

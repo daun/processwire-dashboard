@@ -130,11 +130,12 @@ abstract class DashboardPanel extends Wire implements Module {
     final public function render($options = []) {
         // Create shortcut properties
         $this->options = $options;
-        $this->name = $options['panel'] ?? [];
-        $this->class = $this->modules->getModuleInfoProperty($this, 'name');
-        $this->size = $this->dashboard->sanitizePanelSize($options['size'] ?? false);
+        $this->name = $options['panel'] ?? '';
+        $this->class = "$this";
         $this->data = $options['dataArray'] ?? [];
-        $this->layout = $options['layout'] ?? [];
+        $this->size = $this->dashboard->sanitizePanelSize($options['size'] ?? false);
+        $this->style = $options['style'] ?? [];
+        $this->align = $options['align'] ?? '';
 
         // Include scripts and stylesheets
         $this->includeFiles();
@@ -156,7 +157,8 @@ abstract class DashboardPanel extends Wire implements Module {
             'options' => $this->options,
             'size' => $this->size,
             'data' => $this->data,
-            'layout' => $this->layout,
+            'style' => $this->style,
+            'align' => $this->align,
             'classNames' => $classNames,
             'icon' => $icon,
             'title' => $title,
@@ -205,6 +207,57 @@ abstract class DashboardPanel extends Wire implements Module {
         }
 
         return $table->render();
+    }
+
+    /**
+     * Render a button
+     *
+     */
+    protected function renderButton($href, $label, $options = []) {
+        $icon = $options['icon'] ?? '';
+        $small = $options['small'] ?? null;
+        $secondary = $options['secondary'] ?? null;
+        $light = $options['light'] ?? null;
+        $class = $options['class'] ?? '';
+        $modal = $options['modal'] ?? null;
+        $blank = $options['blank'] ?? null;
+
+        $aClass = "DashboardButton {$class}";
+        if ($light) {
+            $aClass .= ' DashboardButton--light';
+        }
+        if ($modal) {
+            $aClass .= ' modal';
+        }
+
+        $button = $this->modules->get('InputfieldButton');
+        $button->attr('value', $label);
+        $button->href = $href;
+        $button->icon = $icon;
+        $button->secondary = $secondary;
+        $button->small = $small;
+        $button->aclass = $aClass;
+
+        $output = $button->render();
+        if ($blank) {
+            $output = str_replace("<a ", "<a target='_blank' ", $output);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Render footer button
+     *
+     * Identical to renderButton(), but with smaller & lighter buttons by default
+     *
+     */
+    protected function renderFooterButton($href, $label, $options = []) {
+        $options['light'] = $options['secondary'] ?? false;
+        $options['small'] = true;
+        $options['secondary'] = true;
+
+        return $this->renderButton($href, $label, $options);
     }
 
     /**

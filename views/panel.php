@@ -3,14 +3,15 @@
 $attrs = array_map(function ($value, $option) use ($sanitizer) {
     $name = $sanitizer->kebabCase($option);
     $value = $value ? 'true' : 'false';
-    return "data-layout-{$name}='{$value}'";
-}, $layout, array_keys($layout));
+    return "data-style-{$name}='{$value}'";
+}, $style, array_keys($style));
 
 ?>
 
 <div
     class="Dashboard__panel <?= $module ?> <?= $classNames ?> uk-card uk-card-default uk-card-small ui-corner-all"
     data-size="<?= $size ?>"
+    data-align="<?= $align ?>"
     data-panel="<?= $panel ?>"
     <?= join(' ', $attrs) ?>
 >
