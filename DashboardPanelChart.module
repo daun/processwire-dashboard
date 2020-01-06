@@ -20,12 +20,14 @@ class DashboardPanelChart extends DashboardPanel {
     public function getContent() {
         return $this->view('panels/chart', [
             'chart' => $this->chart,
+            'theme' => $this->theme,
         ]);
     }
 
     public function setup() {
         parent::setup();
         $this->chart = $this->parseChartData($this->data['chart'] ?? []);
+        $this->theme = $this->data['theme'] ?? false;
     }
 
     public function getScripts() {
