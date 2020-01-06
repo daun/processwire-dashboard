@@ -266,7 +266,7 @@ class DashboardPanelCollection extends DashboardPanel {
                 @$action['newtab'] ? '_blank' : ''
             );
         }, $actions);
-        return implode('  ', $links);
+        return implode(' ', $links);
     }
 
     /**
