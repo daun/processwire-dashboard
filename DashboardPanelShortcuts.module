@@ -28,6 +28,10 @@ class DashboardPanelShortcuts extends DashboardPanel {
         return $this->_('Shortcuts');
     }
 
+    public function getClassNames() {
+        return ["{$this}--{$this->display}"];
+    }
+
     public function getContent() {
         if (!($this->shortcuts && count($this->shortcuts))) {
             return;
@@ -84,7 +88,13 @@ class DashboardPanelShortcuts extends DashboardPanel {
             return
                 "<li>
                     <a href='{$url}' class='{$linkClass}' title='{$summary}'>
-                        <span>{$icon} {$title}</span>
+                        <span>
+                            {$icon}
+                            <span class='title'>{$title}</span>
+                        </span>
+                        <span>
+                            <span class='summary' title='{$summary}'>{$summary}</span>
+                        </span>
                     </a>
                 </li>";
         }, $this->shortcuts, array_keys($this->shortcuts));

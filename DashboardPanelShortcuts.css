@@ -1,7 +1,5 @@
 .DashboardPanelShortcuts ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
-  grid-gap: 1.1em .7em;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
@@ -27,4 +25,55 @@
 
 .DashboardPanelShortcuts a:hover .fa {
   color: inherit;
+}
+
+.DashboardPanelShortcuts a > span {
+  display: flex;
+  align-items: center;
+}
+
+.DashboardPanelShortcuts span + span {
+  min-width: 0px;
+}
+
+.DashboardPanelShortcuts .summary {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #97aab4;
+  padding-left: 1em;
+  display: none;
+}
+
+/* Grid view */
+
+.DashboardPanelShortcuts--grid ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  grid-gap: 1.1em .7em;
+  margin-bottom: -1px; /* hide last row's border */
+}
+
+/* List view */
+
+.DashboardPanelShortcuts--list .uk-card-body {
+  padding: 0;
+}
+
+.DashboardPanelShortcuts--list a {
+  padding: 10px 20px;
+  border-bottom: 1px solid #e5e5e5;
+  white-space: nowrap;
+}
+
+.DashboardPanelShortcuts--list a:hover {
+  background: #fafbfc;
+}
+
+.DashboardPanelShortcuts--list .title {
+  font-weight: bold;
+}
+
+.DashboardPanelShortcuts--list .summary {
+  display: block;
 }
