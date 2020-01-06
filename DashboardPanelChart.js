@@ -82,6 +82,12 @@ function setGlobalChartJSConfig () {
   Chart.defaults.global.elements.line.clip = 20;
   Chart.defaults.global.elements.line.borderWidth = 2;
 
+  // Doughnuts & Arcs
+  Chart.defaults.doughnut.cutoutPercentage = 75;
+  Chart.defaults.global.elements.arc.borderWidth = 4;
+  Chart.defaults.global.elements.arc.borderColor = 'white';
+  Chart.defaults.global.elements.arc.hoverBorderColor = 'white';
+
   // Points
   Chart.defaults.global.elements.point.backgroundColor = 'white';
   Chart.defaults.global.elements.point.radius = 3;
@@ -141,12 +147,29 @@ Chart.pluginService.register({
         }
       }
       break;
-    }
-    case 'line': {
+
+    case 'doughnut':
+      var colorIndex = 0;
+      var color;
+
+      for (var dataset of chart.data.datasets) {
+        if (!dataset.backgroundColor) {
+          var colorArray = [];
+          for (const _d of dataset.data) {
+            colorArray.push(pickChartColor(colorIndex++));
+          }
+          dataset.backgroundColor = colorArray;
+        }
+        if (!dataset.borderColor) {
+          dataset.borderColor = 'white';
+        }
+      }
+
+    case 'line':
       var datasetIndex = 0;
       for (var dataset of chart.data.datasets) {
         if (!dataset.borderColor) {
-          dataset.borderColor = pickDefaultChartColor(datasetIndex++);
+          dataset.borderColor = pickChartColor(datasetIndex++);
           if (!dataset.backgroundColor) {
             dataset.pointHoverBackgroundColor = dataset.borderColor;
           }
@@ -156,10 +179,9 @@ Chart.pluginService.register({
         }
       }
       break;
-    }
-    default: {
+
+    default:
       //
-    }
     }
   },
 });
