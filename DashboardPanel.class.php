@@ -131,10 +131,11 @@ abstract class DashboardPanel extends Wire implements Module {
         // Create shortcut properties
         $this->options = $options;
         $this->name = $options['panel'] ?? [];
-        $this->class = $this->modules->getModuleInfoProperty($this, 'name');
-        $this->size = $this->dashboard->sanitizePanelSize($options['size'] ?? false);
+        $this->class = "$this";
         $this->data = $options['dataArray'] ?? [];
+        $this->size = $this->dashboard->sanitizePanelSize($options['size'] ?? false);
         $this->style = $options['style'] ?? [];
+        $this->align = $options['align'] ?? [];
 
         // Include scripts and stylesheets
         $this->includeFiles();
@@ -157,6 +158,7 @@ abstract class DashboardPanel extends Wire implements Module {
             'size' => $this->size,
             'data' => $this->data,
             'style' => $this->style,
+            'align' => $this->align,
             'classNames' => $classNames,
             'icon' => $icon,
             'title' => $title,

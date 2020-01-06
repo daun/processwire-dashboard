@@ -11,6 +11,7 @@ $attrs = array_map(function ($value, $option) use ($sanitizer) {
 <div
     class="Dashboard__panel <?= $module ?> <?= $classNames ?> uk-card uk-card-default uk-card-small ui-corner-all"
     data-size="<?= $size ?>"
+    data-align="<?= $align ?>"
     data-panel="<?= $panel ?>"
     <?= join(' ', $attrs) ?>
 >
