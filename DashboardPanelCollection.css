@@ -18,6 +18,7 @@
 
 .DashboardTableColumn__actions__ {
   text-align: right !important;
+  white-space: nowrap;
 }
 
 .DashboardTableColumn__actions__ .tablesorter-header-inner {

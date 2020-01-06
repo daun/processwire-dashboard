@@ -66,7 +66,7 @@ class DashboardPanelShortcuts extends DashboardPanel {
             }
 
             if ($page) {
-                if (!$page->viewable()) {
+                if (!$this->isPageViewable($page)) {
                     return;
                 }
                 $info = $this->getPageInfo($page);
@@ -147,11 +147,21 @@ class DashboardPanelShortcuts extends DashboardPanel {
         );
     }
 
+    protected function isPageViewable($page) {
+        if (!$page || !$page->url) return false;
+        if (!$this->checkAccess) return true;
+        if ($page->template == 'admin' && !$page->viewable()) {
+            return false;
+        }
+        return true;
+    }
+
     public function setup() {
         parent::setup();
         $this->shortcuts = $this->data['shortcuts'] ?? [];
         $this->display = $this->sanitizer->option($this->data['display'] ?? '', self::displayOptions) ?: self::defaultDisplayOption;
         $this->fallbackIcon = $this->data['fallbackIcon'] ?? 'bookmark-o';
         $this->icon = $this->data['icon'] ?? null;
+        $this->checkAccess = $this->data['checkAccess'] ?? true;
     }
 }
