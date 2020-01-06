@@ -35,13 +35,20 @@ class DashboardPanelShortcuts extends DashboardPanel {
 
         $rows = array_map(function ($shortcut, $key) {
             $page = null;
+            $pageIcon = '';
+            $title = '';
+            $summary = '';
             $url = '';
             $icon = '';
 
+            // Passed array? Extract to shortcut, icon and summary
+            // e.g. [1020, 'user', 'Edit your profile']
             if (is_array($shortcut)) {
-                list($shortcut, $icon) = $shortcut;
+                list($shortcut, $icon, $summary) = $shortcut;
             }
 
+            // Get URL from shortcut if page/id/selector given,
+            // otherwise treat shortcut as URL string
             if (is_object($shortcut) && $shortcut instanceof Page) {
                 $page = $shortcut;
             } else if (is_int($shortcut)) {
@@ -55,32 +62,79 @@ class DashboardPanelShortcuts extends DashboardPanel {
             }
 
             if ($page) {
-                $title = is_string($key) ? $key : $page->title;
+                if (!$page->viewable()) {
+                    return;
+                }
+                $info = $this->getPageInfo($page);
+                $title = is_string($key) ? $key : $info->title;
+                $summary = $summary ?: $info->summary;
+                $pageIcon = $info->icon;
                 $url = $page->url;
             } else if ($url) {
                 $title = $key;
             } else {
                 return;
             }
-            $icon = $icon ? $this->renderIcon($icon) : $this->renderPageIcon($page);
 
-            return "<li><a href='{$url}'>{$icon} {$title}</a></li>";
+            $icon = $this->renderPageIcon($icon ?: $pageIcon);
+            $title = $this->sanitizer->entities1($title);
+            $summary = $this->sanitizer->entities1($summary);
+            $linkClass = $summary && $this->display === 'grid' ? 'tooltip' : '';
+
+            return
+                "<li>
+                    <a href='{$url}' class='{$linkClass}' title='{$summary}'>
+                        <span>{$icon} {$title}</span>
+                    </a>
+                </li>";
         }, $this->shortcuts, array_keys($this->shortcuts));
 
         $output = join('', $rows);
         return "<ul data-display='{$this->display}'>{$output}</ul>";
     }
 
-    protected function renderPageIcon($page = null) {
+    protected function renderPageIcon($icon) {
         if ($this->icon !== null) {
             $icon = $this->icon;
-        } elseif ($page) {
-            $icon = $page->getIcon() ?: $this->fallbackIcon;
-        } else {
-            $icon = $this->fallbackIcon;
+        }
+        $icon = $icon ?: $this->fallbackIcon;
+        return $icon ? wireIconMarkup($icon, 'fw') : '';
+    }
+
+    protected function getPageInfo($page) {
+        $adminTheme = $this->wire('adminTheme');
+        $hasInfoMethods = ($adminTheme && $adminTheme instanceof AdminThemeFramework);
+
+        $title = '';
+        $icon = '';
+        $summary = '';
+
+        if ($page->template == 'admin') {
+            if ($page->process) {
+                $info = $this->modules->getModuleInfoVerbose($page->process);
+                $summary = $page->summary ?: ($info['summary'] ?? '');
+                $icon = $info['icon'] ?? '';
+            }
+            $icon = $page->getIcon() ?: $icon;
+            $title = $hasInfoMethods ? $adminTheme->getPageTitle($page) : '';
+            if (!$icon) switch($page->id) {
+                case 22: $icon = 'gears'; break; // Setup
+                case 21: $icon = 'plug'; break; // Modules
+                case 28: $icon = 'key'; break; // Access
+            }
+        }
+        if (!$title) {
+            $title = $page->get('title|name');
+        }
+        if (!$icon) {
+            $icon = $page->getIcon();
         }
 
-        return $icon ? wireIconMarkup($icon, 'fw') : '';
+        return (object) compact(
+            'title',
+            'summary',
+            'icon'
+        );
     }
 
     public function setup() {
