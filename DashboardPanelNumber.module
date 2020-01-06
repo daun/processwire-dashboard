@@ -32,16 +32,58 @@ class DashboardPanelNumber extends DashboardPanel {
         $this->locale = $this->data['locale'] ?? setlocale(LC_ALL, 0);
         $this->detail = $this->data['detail'] ?? '';
         $this->number = $this->data['number'] ?? null;
-        if (is_int($this->number)) {
-            $this->number = $this->formatNumber($this->number);
-        } elseif (is_float($this->number)) {
+        if (is_int($this->number) || is_float($this->number)) {
             $this->number = $this->formatNumber($this->number);
         }
     }
 
     private function formatNumber($number) {
-        $style = NumberFormatter::DECIMAL;
-        $formatter = new NumberFormatter($this->locale, $style);
-        return $formatter->format($number);
+        $formatted = $number;
+
+        try {
+            $style = NumberFormatter::DECIMAL;
+            $formatter = new NumberFormatter($this->locale, $style);
+            $formatted = $formatter->format($number);
+        } catch (\Throwable $th) {
+            $this->setTemporaryLocale();
+            $locale = localeconv();
+            $decimals = $this->getNumberOfDecimals($number);
+            $formatted = number_format($number, $decimals, $locale['decimal_point'], $locale['thousands_sep']);
+            $this->restoreLocales();
+        }
+
+        return $formatted;
+    }
+
+    private function getNumberOfDecimals($value) {
+        if ((int) $value == $value) {
+            return 0;
+        } elseif (!is_numeric($value)) {
+            return 0;
+        }
+        $str = rtrim(number_format($value, 14 - log10($value)), '0');
+        return strlen($str) - strrpos($str, '.') - 1;
+    }
+
+    private function setTemporaryLocale() {
+        if ($this->locale) {
+            $this->originalLocales = explode(';', setlocale(LC_ALL, 0));
+            setlocale(LC_ALL, $this->locale);
+        }
+    }
+
+    private function restoreLocales() {
+        if ($this->locale && $this->originalLocales) {
+            foreach ($this->originalLocales as $localeSetting) {
+                if (strpos($localeSetting, '=') !== false) {
+                  list($category, $locale) = explode('=', $localeSetting);
+                }
+                else {
+                  $category = LC_ALL;
+                  $locale = $localeSetting;
+                }
+                setlocale($category, $locale);
+              }
+        }
     }
 }
