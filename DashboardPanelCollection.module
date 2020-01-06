@@ -70,7 +70,8 @@ class DashboardPanelCollection extends DashboardPanel {
                 // Special case: color fields
                 else if ($fieldtype == 'FieldtypeColorPicker') {
                     $class .= ' is-color-column';
-                    $content = "<span style='background-color:{$page->$markup}'></span>";
+                    $color = $page->getFormatted($markup);
+                    $content = "<span style='background-color:{$color}'></span>";
                 }
                 // Special case: timestamp fields
                 // disabled for now (formatted datetime values work just as well)
