@@ -19,15 +19,18 @@ class DashboardPanelChart extends DashboardPanel {
 
     public function getContent() {
         return $this->view('panels/chart', [
-            'chart' => $this->chart,
-            'theme' => $this->theme,
+            'theme'   => $this->theme,
+            'chart'   => $this->chart,
+            'padding' => $this->padding,
         ]);
     }
 
     public function setup() {
         parent::setup();
-        $this->chart = $this->parseChartData($this->data['chart'] ?? []);
         $this->theme = $this->data['theme'] ?? false;
+        $this->chart = $this->parseChartData($this->data['chart'] ?? []);
+        $this->aspectRatio = $this->chart['options']['aspectRatio'] ?? 0;
+        $this->padding = $this->aspectRatioPadding($this->aspectRatio);
     }
 
     public function getScripts() {
@@ -40,5 +43,16 @@ class DashboardPanelChart extends DashboardPanel {
      */
     public function ___parseChartData($data) {
         return $data;
+    }
+
+    /**
+     * Calculate bottom padding for aspect ratio placeholder
+     *
+     */
+    protected function aspectRatioPadding($ratio) {
+        if ($ratio <= 0) return '';
+        $padding = 100 / $ratio;
+        $padding = number_format($padding, 2, '.', '');
+        return "padding-bottom: {$padding}%;";
     }
 }

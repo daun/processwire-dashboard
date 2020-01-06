@@ -1,7 +1,14 @@
 .DashboardPanelChart__placeholder {
-  display: none;
   position: relative;
-  padding-bottom: 50%;
+  padding-bottom: 40%; /* default ratio 2.5 */
   height: 0;
   overflow: hidden;
+}
+
+.DashboardPanelChart__canvas {
+  display: none;
+}
+
+.DashboardPanelChart__canvas[style] + .DashboardPanelChart__placeholder {
+  display: none;
 }
