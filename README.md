@@ -2,7 +2,7 @@
 
 Display a configurable dashboard in ProcessWire's admin interface. Comes with a set of pre-defined panel types but can be extended easily to display any content you want.
 
-![Dashboard](./assets/dashboard.png)
+![Dashboard](./images/dashboard.png)
 
 ## Installation
 
@@ -111,19 +111,19 @@ All panel-specific options are supplied under the `data` key of the panel's conf
 
 |Image|Panel|Class name|Content|
 |---|---|---|---|
-|[<img src="./assets/chart.png" width="120">](#chart)|`chart`|DashboardPanelChart|Chart.js chart|
-|[<img src="./assets/collection.png" width="120">](#collection)|`collection`|DashboardPanelCollection|List of pages in a table|
-|[<img src="./assets/notice.png" width="120">](#notice)|`notice`|DashboardPanelNotice|Notification-style message|
-|[<img src="./assets/number.png" width="120">](#number)|`number`|DashboardPanelNumber|Large number with trend indicator|
-|[<img src="./assets/page-list.png" width="120">](#pagelist)|`page-list`|DashboardPanelPageList|ProcessPageList widget|
-|[<img src="./assets/shortcuts.png" width="120">](#shortcuts)|`shortcuts`|DashboardPanelShortcuts|List of links with icons|
-|[<img src="./assets/template.png" width="120">](#template)|`template`|DashboardPanelTemplate|Render file in template folder|
+|[<img src="./images/chart.png" width="120">](#chart)|`chart`|DashboardPanelChart|Chart.js chart|
+|[<img src="./images/collection.png" width="120">](#collection)|`collection`|DashboardPanelCollection|List of pages in a table|
+|[<img src="./images/notice.png" width="120">](#notice)|`notice`|DashboardPanelNotice|Notification-style message|
+|[<img src="./images/number.png" width="120">](#number)|`number`|DashboardPanelNumber|Large number with trend indicator|
+|[<img src="./images/page-list.png" width="120">](#pagelist)|`page-list`|DashboardPanelPageList|ProcessPageList widget|
+|[<img src="./images/shortcuts-grid.png" width="120">](#shortcuts)|`shortcuts`|DashboardPanelShortcuts|List of links with icons|
+|[<img src="./images/template.png" width="120">](#template)|`template`|DashboardPanelTemplate|Render file in template folder|
 
 ### Chart
 
 Display a chart using [Chart.js](https://www.chartjs.org/).
 
-<img src="./assets/chart.png" width="400">
+<img src="./images/chart.png" width="400">
 
 #### Options
 
@@ -164,7 +164,7 @@ Display a chart using [Chart.js](https://www.chartjs.org/).
 
 Display a collection of pages in a table. Supply either a PageArray or a selector string.
 
-<img src="./assets/collection.png" width="400">
+<img src="./images/collection.png" width="400">
 
 #### Options
 
@@ -240,7 +240,7 @@ To display an icon as table header, pass the FontAwesome icon code as column tit
 
 Display a notice with icon and actions. If set, the panel's `title` will be displayed inline and in bold instead of inside a panel header.
 
-<img src="./assets/notice.png" width="400">
+<img src="./images/notice.png" width="400">
 
 #### Options
 
@@ -270,7 +270,7 @@ Display a notice with icon and actions. If set, the panel's `title` will be disp
 
 Display a large number with trend indicator.
 
-<img src="./assets/number.png" width="300">
+<img src="./images/number.png" width="300">
 
 #### Options
 
@@ -293,7 +293,7 @@ Display a large number with trend indicator.
 
 Display a ProcessPageList widget.
 
-<img src="./assets/page-list.png" width="400">
+<img src="./images/page-list.png" width="400">
 
 #### Options
 
@@ -313,7 +313,7 @@ Display a ProcessPageList widget.
 
 Display a list of shortcuts as links with icons. In list view, the page summary is displayed next to the title.
 
-<img src="./assets/shortcuts-comparison.png" width="600">
+<img src="./images/shortcuts-comparison.png" width="600">
 
 #### Options
 
@@ -347,7 +347,7 @@ To use a custom icon for a shortcut, pass an array as shortcut where the first i
 
 Display the output of any file in your template folder. The file will receive all API variables and any additional view variables you specify.
 
-<img src="./assets/template.png" width="400">
+<img src="./images/template.png" width="400">
 
 #### Options
 
