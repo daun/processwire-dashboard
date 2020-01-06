@@ -3,8 +3,8 @@
 $attrs = array_map(function ($value, $option) use ($sanitizer) {
     $name = $sanitizer->kebabCase($option);
     $value = $value ? 'true' : 'false';
-    return "data-layout-{$name}='{$value}'";
-}, $layout, array_keys($layout));
+    return "data-style-{$name}='{$value}'";
+}, $style, array_keys($style));
 
 ?>
 

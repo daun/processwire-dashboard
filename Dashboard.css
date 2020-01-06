@@ -216,26 +216,26 @@ body.DashboardNoHeadline #pw-content-body {
     color: inherit;
 }
 
-.Dashboard__panel[data-layout-center-title='true'] .uk-card-header {
+.Dashboard__panel[data-style-center-title='true'] .uk-card-header {
     text-align: center;
 }
 
-.Dashboard__panel[data-layout-borders='false'] .uk-card-header,
-.Dashboard__panel[data-layout-borders='false'] .uk-card-footer {
+.Dashboard__panel[data-style-borders='false'] .uk-card-header,
+.Dashboard__panel[data-style-borders='false'] .uk-card-footer {
     border: none;
 }
 
-.Dashboard__panel[data-layout-padding='false'] .uk-card-body {
+.Dashboard__panel[data-style-padding='false'] .uk-card-body {
     padding: 0;
 }
 
-.Dashboard__panel[data-layout-minimal='true'] {
+.Dashboard__panel[data-style-minimal='true'] {
     background: transparent;
     box-shadow: none;
 }
 
-.Dashboard__panel[data-layout-minimal='true'] .uk-card-header,
-.Dashboard__panel[data-layout-minimal='true'] .uk-card-footer {
+.Dashboard__panel[data-style-minimal='true'] .uk-card-header,
+.Dashboard__panel[data-style-minimal='true'] .uk-card-footer {
     border: none;
 }
 

@@ -134,7 +134,7 @@ abstract class DashboardPanel extends Wire implements Module {
         $this->class = $this->modules->getModuleInfoProperty($this, 'name');
         $this->size = $this->dashboard->sanitizePanelSize($options['size'] ?? false);
         $this->data = $options['dataArray'] ?? [];
-        $this->layout = $options['layout'] ?? [];
+        $this->style = $options['style'] ?? [];
 
         // Include scripts and stylesheets
         $this->includeFiles();
@@ -156,7 +156,7 @@ abstract class DashboardPanel extends Wire implements Module {
             'options' => $this->options,
             'size' => $this->size,
             'data' => $this->data,
-            'layout' => $this->layout,
+            'style' => $this->style,
             'classNames' => $classNames,
             'icon' => $icon,
             'title' => $title,
