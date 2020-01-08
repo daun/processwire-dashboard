@@ -1,6 +1,6 @@
 /* global Chart */
 
-var colorThemes = {
+const colorThemes = {
   dashboard: [
     'rgb(23, 185, 120)', // green
     'rgb(103, 114, 229)', // purple
@@ -44,8 +44,8 @@ var colorThemes = {
   ],
 };
 
-var defaultTheme = colorThemes.processwire;
-var userTheme = defaultTheme;
+const defaultTheme = colorThemes.processwire;
+let userTheme = defaultTheme;
 
 function setGlobalChartJSConfig () {
   // Layout
@@ -53,7 +53,6 @@ function setGlobalChartJSConfig () {
   Chart.defaults.global.layout.padding = 5;
 
   // Scales
-  // Chart.defaults.scale.gridLines.display = false;
   Chart.defaults.scale.gridLines.drawBorder = false;
   Chart.defaults.scale.color = 'rgba(0, 0, 0, 0.07)';
   Chart.defaults.scale.zeroLineColor = 'rgba(0, 0, 0, 0.07)';
@@ -99,12 +98,12 @@ function setGlobalChartJSConfig () {
 function initDashboardChart () {
   $charts = $('.DashboardPanelChart__canvas');
   $charts.each(function () {
-    var $canvas = $(this);
-    var config = $canvas.data('chart');
-    var theme = $canvas.data('theme');
+    const $canvas = $(this);
+    const config = $canvas.data('chart');
+    const theme = $canvas.data('theme');
     userTheme = colorThemes[theme] || defaultTheme;
 
-    var chart = new Chart($canvas, config);
+    const chart = new Chart($canvas, config);
   });
 }
 
@@ -114,62 +113,36 @@ function pickChartColor(idx) {
 
 Chart.pluginService.register({
   beforeUpdate(chart) {
+    let colorIndex = 0;
+
     switch (chart.config.type) {
+
     case 'bar':
-      var datasetNum = chart.data.datasets.length;
-      var datasetIndex = 0;
-      var barIndex = 0;
-      for (var dataset of chart.data.datasets) {
-        if (datasetNum > 1) {
-          if (!dataset.borderColor) {
-            dataset.borderColor = pickChartColor(datasetIndex++);
-            if (!dataset.backgroundColor) {
-              dataset.backgroundColor = dataset.borderColor;
-            }
+      chart.data.datasets.forEach((dataset, index) => {
+        if (!dataset.borderColor) {
+          dataset.borderColor = pickChartColor(index);
+          if (!dataset.backgroundColor) {
+            dataset.backgroundColor = dataset.borderColor;
           }
         }
-        else {
-          if (!dataset.borderColor) {
-            // Option 1: all bars of same color
-            dataset.borderColor = pickChartColor(datasetIndex++);
-
-            // Option 2: all bars of differing colors
-            // const borderColor = [];
-            // for (const _d of dataset.data) {
-            //   borderColor.push(pickChartColor(barIndex++));
-            // }
-            // dataset.borderColor = borderColor;
-
-            if (!dataset.backgroundColor) {
-              dataset.backgroundColor = dataset.borderColor;
-            }
-          }
-        }
-      }
+      });
       break;
 
     case 'doughnut':
-      var colorIndex = 0;
-      var color;
-
-      for (var dataset of chart.data.datasets) {
+      chart.data.datasets.forEach((dataset) => {
         if (!dataset.backgroundColor) {
-          var colorArray = [];
-          for (const _d of dataset.data) {
-            colorArray.push(pickChartColor(colorIndex++));
-          }
+          const colorArray = dataset.data.map(() => pickChartColor(colorIndex++));
           dataset.backgroundColor = colorArray;
         }
         if (!dataset.borderColor) {
           dataset.borderColor = 'white';
         }
-      }
+      });
 
     case 'line':
-      var datasetIndex = 0;
-      for (var dataset of chart.data.datasets) {
+      chart.data.datasets.forEach((dataset, index) => {
         if (!dataset.borderColor) {
-          dataset.borderColor = pickChartColor(datasetIndex++);
+          dataset.borderColor = pickChartColor(index);
           if (!dataset.backgroundColor) {
             dataset.pointHoverBackgroundColor = dataset.borderColor;
           }
@@ -177,13 +150,14 @@ Chart.pluginService.register({
             dataset.pointHoverBackgroundColor = dataset.borderColor;
           }
         }
-      }
+      });
       break;
 
     default:
       //
+
     }
-  },
+  }
 });
 
 $(function() {
