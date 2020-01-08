@@ -4,8 +4,8 @@
   "description": "Configurable dashboard for ProcessWire's admin interface",
   "main": "\"\"",
   "scripts": {
-    "dev": "parcel src/**/*.js src/**/*.css --no-source-maps --no-hmr",
-    "build": "parcel build src/**/*.js src/**/*.css --no-source-maps",
+    "dev": "parcel src/**/*.js src/**/*.css --out-dir . --no-source-maps --no-hmr",
+    "build": "parcel build src/**/*.js src/**/*.css --out-dir . --no-source-maps",
     "bump": "bump package.json package-lock.json VERSION --commit \"Release v%s\" --tag \"v\""
   },
   "author": "Philipp Daun",
