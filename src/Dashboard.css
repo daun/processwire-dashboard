@@ -1,0 +1,311 @@
+body.Dashboard {
+  background-color: #f0f3f7;
+  min-height: 100vh;
+}
+
+.AdminThemeUikit.Dashboard {
+  #pw-footer {
+    margin-bottom: 0;
+  }
+}
+
+.AdminThemeReno.Dashboard,
+.AdminThemeDefault.Dashboard {
+  #main, #breadcrumbs, #headline, #content, #footer {
+    background-color: #f0f3f7;
+  }
+}
+
+.AdminThemeDefault.Dashboard {
+  #breadcrumbs {
+    border-color: transparent;
+  }
+}
+
+/* Remove paragraph margins */
+
+.Dashboard__panel p {
+  &:first-child {
+    margin-top: 0;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Add UiKit base styles for other admin themes */
+
+.uk-card {
+  background: rgb(255, 255, 255);
+  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  transition: box-shadow .1s ease-in-out;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.uk-card-header {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.uk-card-title {
+  margin: 0 !important;
+  line-height: 1;
+}
+
+.uk-card-small .uk-card-body,
+.uk-card-small.uk-card-body {
+  padding: 20px 20px;
+
+}
+
+.uk-card-small .uk-card-header {
+  padding: 13px 20px;
+}
+
+.uk-card-small .uk-card-footer {
+  padding: 13px 20px;
+}
+
+/* Dashboard without headline */
+
+.DashboardNoHeadline {
+  #pw-content-head h1 {
+    display: none;
+  }
+  #pw-content-body {
+    padding-top: 20px;
+  }
+}
+
+/* Module info footer */
+
+.Dashboard__info {
+  padding-top: 3em;
+  a {
+    color: inherit;
+  }
+}
+
+/* Get started notice */
+
+.Dashboard__getStarted {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 80vh;
+
+  p {
+    margin-bottom: 0;
+    &:nth-child(2) {
+      font-size: 1.25em;
+      font-weight: bold;
+    }
+    &:nth-child(3) {
+      a {
+        color: inherit;
+        text-decoration: underline;
+      }
+    }
+    &:nth-child(4) {
+      margin-top: 2em;
+    }
+  }
+
+  .fa {
+    font-size: 4em;
+    color: #97aab4;
+  }
+}
+
+/* 12-column grid */
+
+.Dashboard__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 25px;
+  align-items: stretch;
+}
+
+.Dashboard__panel {
+  grid-column: span 12;
+  display: flex;
+  flex-direction: column;
+
+  /* Reponsive sizes */
+
+  @media (min-width: 768px) {
+    grid-column: span 6;
+    &[data-size='mini'] {
+      grid-column: span 3;
+    }
+    &[data-size='small'] {
+      grid-column: span 4;
+    }
+    &[data-size='large'] {
+      grid-column: span 8;
+    }
+    &[data-size='full'] {
+      grid-column: span 12;
+    }
+  }
+
+  /* Vertical alignment */
+
+  &[data-align='top'] {
+    align-self: start;
+  }
+  &[data-align='bottom'] {
+    align-self: end;
+  }
+  &[data-align='center'] {
+    align-self: center;
+  }
+}
+
+/* Groups */
+
+.Dashboard__group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  /* Added margin on bottom */
+  &[data-margin='true'] {
+    margin-bottom: 40px;
+    @media (min-width: 768px) {
+      margin-bottom: 75px;
+    }
+  }
+}
+
+.Dashboard__group__title {
+  margin: 0 0 26px 0 !important;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: inherit;
+  .fa {
+    display: none;
+  }
+}
+
+.Dashboard__group__content {
+  flex: 1 0 auto;
+  align-content: stretch;
+
+  /* Vertical alignment */
+  .Dashboard__group[data-align='top'] & {
+    align-content: start;
+  }
+  .Dashboard__group[data-align='bottom'] & {
+    align-content: end;
+  }
+  .Dashboard__group[data-align='center'] & {
+    align-content: center;
+  }
+  .Dashboard__group[data-align='distribute'] & {
+    align-content: space-between;
+  }
+  .Dashboard__group[data-align='fill'] & {
+    align-content: stretch;
+  }
+}
+
+/* Cards */
+
+.Dashboard__panel {
+  .uk-card-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: inherit;
+
+    /* Icon */
+    .fa {
+      margin-right: .4em;
+      font-size: 1.15em;
+      position: relative;
+      top: .05em;
+      opacity: .65;
+      display: none;
+
+      .Dashboard[data-icons='true'] & {
+        display: inline-block;
+      }
+    }
+  }
+
+  .uk-card-body {
+    flex-grow: 1;
+  }
+
+  &[data-style-center-title='true'] {
+    .uk-card-header {
+      text-align: center;
+    }
+  }
+
+  &[data-style-borders='false'] {
+    .uk-card-header,
+    .uk-card-footer {
+      border: none;
+    }
+  }
+
+  &[data-style-padding='false'] {
+    .uk-card-body {
+      padding: 0;
+    }
+  }
+
+  &[data-style-minimal='true'] {
+    background: transparent;
+    box-shadow: none;
+    .uk-card-header,
+    .uk-card-footer {
+      border: none;
+    }
+  }
+}
+
+/* Buttons */
+
+.AdminThemeUikit {
+  .DashboardButton--light .ui-button {
+    background: #f0f3f7;
+    color: #354b60;
+    &.ui-state-hover {
+      background: #6c8dae;
+      color: #fff;
+    }
+  }
+}
+
+/* Remove margin around tables */
+
+.Dashboard__panel {
+  .uk-card-body > .pw-table-responsive {
+    margin: -20px;
+    margin-bottom: -21px;
+  }
+  .uk-card-body > .AdminDataTable {
+    margin-top: -10px;
+    margin-bottom: 0px;
+  }
+  .AdminDataTable {
+    .AdminThemeUikit & {
+      th {
+        background-color: #fafbfc;
+      }
+      th, td {
+        &:first-child {
+          padding-left: 20px;
+        }
+        &:last-child {
+          padding-right: 20px;
+        }
+      }
+    }
+  }
+}
