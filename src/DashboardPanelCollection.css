@@ -1,0 +1,72 @@
+.DashboardPanelCollection {
+  .uk-card-footer {
+    font-size: .85em;
+    color: #97aab4;
+    > div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  /* Bold first or title column */
+  td:first-child,
+  .DashboardTableColumn__title {
+    font-weight: bold;
+  }
+}
+
+/* Action column */
+
+.DashboardTableColumn__actions__ {
+  text-align: right !important;
+  white-space: nowrap;
+  .tablesorter-header-inner {
+    display: none;
+  }
+  .fa {
+    opacity: .4;
+    cursor: not-allowed;
+  }
+  a {
+    color: inherit;
+  }
+  a .fa {
+    opacity: 1;
+    cursor: inherit;
+    color: #97aab4;
+  }
+}
+
+/* Icon column */
+
+.DashboardTableColumn__page_icon {
+  width: 40px;
+}
+
+/* Image column */
+
+.DashboardPanelCollection td.is-image-column {
+  .AdminThemeUikit & {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    vertical-align: middle;
+  }
+  img {
+    border-radius: 4px;
+    max-height: 30px;
+    width: auto;
+  }
+}
+
+/* Color column */
+
+.DashboardPanelCollection td.is-color-column {
+  vertical-align: middle;
+  span {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+  }
+}

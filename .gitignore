@@ -1,0 +1,17 @@
+# Vendor files
+node_modules
+vendor
+
+# System files
+.DS_STORE
+Thumbs.db
+config.rb
+
+# IDE
+/.vscode/tasks.json
+
+# Pre- and post-processing
+.cache
+.sass-cache
+*.scssc
+*.sassc
