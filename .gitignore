@@ -8,7 +8,7 @@ Thumbs.db
 config.rb
 
 # IDE
-.vscode
+/.vscode/tasks.json
 
 # Pre- and post-processing
 .cache
