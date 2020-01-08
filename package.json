@@ -1,0 +1,12 @@
+{
+  "name": "processwire-dashboard",
+  "version": "0.4.13",
+  "description": "Configurable dashboard for ProcessWire's admin interface",
+  "main": "\"\"",
+  "scripts": {},
+  "author": "Philipp Daun",
+  "license": "GPL-3.0",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {}
+}
