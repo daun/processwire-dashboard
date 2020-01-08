@@ -11,6 +11,7 @@ config.rb
 .vscode
 
 # Pre- and post-processing
+.cache
 .sass-cache
 *.scssc
 *.sassc
