@@ -3,7 +3,9 @@
   "version": "0.4.13",
   "description": "Configurable dashboard for ProcessWire's admin interface",
   "main": "\"\"",
-  "scripts": {},
+  "scripts": {
+    "bump": "bump package.json package-lock.json VERSION --commit \"Release v%s\" --tag \"v\""
+  },
   "author": "Philipp Daun",
   "license": "GPL-3.0",
   "private": true,
