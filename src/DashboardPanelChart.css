@@ -1,14 +1,18 @@
-.DashboardPanelChart__placeholder {
-  position: relative;
-  padding-bottom: 40%; /* default ratio 2.5 */
-  height: 0;
-  overflow: hidden;
-}
+/* Hide canvas on load. Chart.js will add display: block via JS */
 
 .DashboardPanelChart__canvas {
   display: none;
 }
 
-.DashboardPanelChart__canvas[style] + .DashboardPanelChart__placeholder {
-  display: none;
+/* Display aspect ratio placeholder */
+
+.DashboardPanelChart__placeholder {
+  position: relative;
+  padding-bottom: 40%; /* default ratio 2.5 */
+  height: 0;
+  overflow: hidden;
+  /* Hide when canvas is visible */
+  .DashboardPanelChart__canvas[style] + & {
+    display: none;
+  }
 }
