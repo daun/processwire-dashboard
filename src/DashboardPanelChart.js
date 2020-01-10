@@ -1,7 +1,7 @@
 /* global Chart, $ */
 
 import setChartJSDefaults from './charts/chartjs-defaults';
-import { registerColorThemePlugin } from './charts/color-themes';
+import { registerColorThemePlugin, setDefaultColorTheme } from './charts/color-themes';
 
 function initDashboardCharts() {
   const $charts = $('.DashboardPanelChart__canvas:not([data-setup])');
@@ -9,6 +9,8 @@ function initDashboardCharts() {
     const $canvas = $(canvas);
     const config = $canvas.data('chart');
     const theme = $canvas.data('theme');
+    const defaultTheme = $canvas.data('default-theme');
+    setDefaultColorTheme(defaultTheme);
     config.theme = theme;
 
     // eslint-disable-next-line no-unused-vars

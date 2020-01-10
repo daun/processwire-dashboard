@@ -37,7 +37,11 @@ const themes = {
   ],
 };
 
-const defaultTheme = themes.processwire;
+let defaultTheme = themes.processwire;
+
+const setDefaultColorTheme = (name) => {
+  defaultTheme = themes[name] || defaultTheme;
+};
 
 const color = (theme, index) => theme[index % theme.length];
 
@@ -101,6 +105,6 @@ export default themes;
 
 export {
   themes,
-  defaultTheme,
   registerColorThemePlugin,
+  setDefaultColorTheme,
 };
