@@ -122,12 +122,22 @@ abstract class DashboardPanel extends Wire implements Module {
     }
 
     /**
+     * Get the interval at which this panel will auto-refresh via AJAX
+     *
+     * @return int  Refresh interval (milliseconds)
+     */
+    public function getInterval() {
+        return 0;
+    }
+
+    /**
      * Render the panel markup
      *
      * @param array $options Options passed to this panel instance
+     * @param int $key Key of this instance among all panels
      * @return string
      */
-    final public function render($options = []) {
+    final public function render($options, $key = -1) {
         // Create shortcut properties
         $this->options = $options;
         $this->name = $options['panel'] ?? '';
@@ -149,9 +159,11 @@ abstract class DashboardPanel extends Wire implements Module {
         $content = $this->getContent();
         $footer = $this->getFooter();
         $classNames = join(' ', $this->getClassNames());
+        $interval = (int) ($options['interval'] ?? $this->getInterval());
 
         // Render panel
         return $this->dashboard->view('panel', [
+            'key' => $key,
             'panel' => $this->name,
             'module' => $this->class,
             'options' => $this->options,
@@ -159,6 +171,7 @@ abstract class DashboardPanel extends Wire implements Module {
             'data' => $this->data,
             'style' => $this->style,
             'align' => $this->align,
+            'interval' => $interval,
             'classNames' => $classNames,
             'icon' => $icon,
             'title' => $title,
