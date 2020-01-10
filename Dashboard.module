@@ -76,17 +76,24 @@ class Dashboard extends Process implements Module {
 
         $this->installOnHomepage = false;
         $this->viewFolder = __DIR__.'/views/';
-        $this->panels = new DashboardPanelArray();
         $this->texts = (object) [
             'title' => $this->_('Dashboard'),
             'headline' => $this->_('Welcome, %s'),
             'headline_without_user' => $this->_('Welcome'),
             'panel_not_found' => $this->_('Dashboard panel not found: %s'),
             'empty_panel_notice' => $this->_('Your dashboard is empty'),
-            'setup_hint' => $this->_('Learn how to add and configure panels reading the <a href="%s">documentation</a>.'),
+            'setup_hint' => $this->_('Learn how to add and configure panels reading the <a href="%s" target="_blank">documentation</a>.'),
             'get_started' => $this->_('Get started'),
             'repo_url' => 'https://github.com/philippdaun/processwire-dashboard',
         ];
+
+        $this->panels = new DashboardPanelArray();
+        $this->panelsFlattened = new DashboardPanelArray();
+
+        // After getting panels, also generate the flattened panel array
+        $this->addHookAfter("getPanels", function($event) {
+            $this->panelsFlattened = $event->return->flatten();
+        }, ['priority' => 999]);
 
         // Add classname to allow styling
         $this->addHookAfter('AdminTheme::getExtraMarkup', function($event) {
@@ -118,6 +125,16 @@ class Dashboard extends Process implements Module {
             }
         }
 
+        // Load panel instances from hook
+        $this->panels = $this->getPanels();
+
+        // Ajax request? Render requested panel directly
+        if ($this->config->ajax) {
+            $key = $this->input->post->key;
+            $panel = $this->input->post->panel;
+            return $this->renderInstanceByKey($key, $panel);
+        }
+
         // Set headline and browser title
         if ($headline = $this->getHeadline()) {
             $this->headline($headline);
@@ -141,23 +158,61 @@ class Dashboard extends Process implements Module {
     }
 
     /**
+     * Get the unique key of a panel among all (nested) panels
+     * by checking the array of flattened panels
+     *
+     */
+    public function getPanelKey($panel) {
+        return $this->panelsFlattened->getItemKey($panel);
+    }
+
+    /**
      * Render all installed dashboard panel modules
      *
      */
     private function renderPanels() {
-        // Load panel config from hook
-        $panels = $this->getPanels();
-
-        // For each panel, find the module and return its output
         $output = array_map(function ($instance) {
-            if ($instance instanceof DashboardPanelGroup) {
-                return $this->renderGroup($instance);
-            } else {
-                return $this->renderPanel($instance);
-            }
-        }, $panels->getArray());
+            return $this->renderInstance($instance);
+        }, $this->panels->getArray());
 
         return array_filter($output);
+    }
+
+    /**
+     * Render a single instance
+     *
+     */
+    private function renderInstance($instance) {
+        if ($instance instanceof DashboardPanelGroup) {
+            return $this->renderGroup($instance);
+        } elseif ($instance instanceof DashboardPanelInstance) {
+            return $this->renderPanel($instance);
+        }
+        return false;
+    }
+
+    /**
+     * Render a single instance, referenced by key
+     *
+     */
+    private function renderInstanceByKey($key, $panel = false) {
+        if (!$key && $key !== 0 && $key !== '0') {
+            throw new \Exception('Missing parameter: key');
+        }
+        if ($panel !== false && !$panel) {
+            throw new \Exception('Missing parameter: panel');
+        }
+
+        $instance = $this->panelsFlattened[(int) $key] ?? false;
+
+        if (!$instance) {
+            throw new \Exception('No panel found with requested key');
+        }
+        if ($panel !== false && $panel !== $instance->panel) {
+            throw new \Exception('Mismatching panel types');
+        }
+
+        return $this->renderInstance($instance);
     }
 
     /**
@@ -168,7 +223,8 @@ class Dashboard extends Process implements Module {
         $className = $this->getPanelClassName($instance['panel'] ?? '');
         $module = $this->modules->$className;
         if ($this->isValidPanel($module)) {
-            return $module->render($instance);
+            $key = $this->getPanelKey($instance);
+            return $module->render($instance, $key);
         } elseif ($this->config->debug) {
             $error = sprintf($this->texts->panel_not_found, $className);
             $this->error($error);
@@ -180,8 +236,6 @@ class Dashboard extends Process implements Module {
      *
      */
     private function renderGroup($instance) {
-        $panels = $instance->children;
-
         $size = $this->sanitizePanelSize($instance['size'] ?? false);
         $icon = $this->renderIcon($instance['icon'] ?? false);
         $title = $instance->title;
@@ -189,13 +243,9 @@ class Dashboard extends Process implements Module {
         $align = $instance->align ?? '';
 
         // For each child, find the module and return its output
-        $children = array_map(function ($instance) {
-            if ($instance instanceof DashboardPanelGroup) {
-                return $this->renderGroup($instance);
-            } else {
-                return $this->renderPanel($instance);
-            }
-        }, $panels->getArray());
+        $panels = array_map(function ($instance) {
+            return $this->renderInstance($instance);
+        }, $instance->panels->getArray());
 
         // Render view
         return $this->view('group', [
@@ -205,7 +255,7 @@ class Dashboard extends Process implements Module {
             'title'    => $title,
             'margin'   => $margin,
             'align'    => $align,
-            'children' => $children,
+            'panels'   => $panels,
         ]);
     }
 

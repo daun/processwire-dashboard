@@ -20,6 +20,7 @@ class DashboardPanelChart extends DashboardPanel {
     public function getContent() {
         return $this->view('panels/chart', [
             'theme'   => $this->theme,
+            'default' => $this->defaultTheme,
             'chart'   => $this->chart,
             'padding' => $this->padding,
         ]);
@@ -28,6 +29,7 @@ class DashboardPanelChart extends DashboardPanel {
     public function setup() {
         parent::setup();
         $this->theme = $this->data['theme'] ?? false;
+        $this->defaultTheme = $this->getDefaultTheme();
         $this->chart = $this->parseChartData($this->data['chart'] ?? []);
         $this->aspectRatio = $this->chart['options']['aspectRatio'] ?? 0;
         $this->padding = $this->aspectRatioPadding($this->aspectRatio);
@@ -43,6 +45,14 @@ class DashboardPanelChart extends DashboardPanel {
      */
     public function ___parseChartData($data) {
         return $data;
+    }
+
+    /**
+     * Get the name of the default color theme
+     *
+     */
+    public function ___getDefaultTheme() {
+        return 'processwire';
     }
 
     /**

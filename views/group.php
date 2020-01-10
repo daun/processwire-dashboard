@@ -11,9 +11,9 @@
         </h2>
     <?php endif; ?>
 
-    <?php if (count($children)): ?>
+    <?php if (count($panels)): ?>
         <div class="Dashboard__grid Dashboard__group__content">
-            <?php foreach ($children as $markup): ?>
+            <?php foreach ($panels as $markup): ?>
                 <?= $markup ?>
             <?php endforeach; ?>
         </div>
