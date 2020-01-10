@@ -21,9 +21,7 @@
         </div>
     <?php else: ?>
         <div class='Dashboard__getStarted'>
-            <!-- <p><i class="fa fa-compass"></i></p> -->
-            <!-- <p><i class="fa fa-trello"></i></p> -->
-            <p><i class="fa fa-hand-peace-o"></i></p>
+            <p><i class="fa fa-magic"></i></p>
             <p><?= $texts->empty_panel_notice ?></p>
             <p><?= sprintf($texts->setup_hint, $texts->repo_url) ?></p>
             <p>
