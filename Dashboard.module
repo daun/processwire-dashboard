@@ -14,7 +14,7 @@ class Dashboard extends Process implements Module {
             'href'        => 'https://github.com/philippdaun/processwire-dashboard',
             'author'      => 'Philipp Daun',
             'version'     => DASHBOARD_VERSION,
-            'icon'        => 'safari',
+            'icon'        => 'compass',
             'permission'  => 'dashboard-view',
             'permissions' => [
                 'dashboard-view' => 'View dashboard',
