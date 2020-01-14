@@ -35,9 +35,9 @@ abstract class DashboardPanel extends Wire implements Module {
     public static function getModuleInfo() {
         return [
             'title'    => __('Dashboard Panel: Base Class', __FILE__),
-            'icon'     => 'safari',
             'requires' => 'Dashboard',
             'installs' => 'Dashboard',
+            'icon'     => 'compass',
             'autoload' => false,
             'singular' => false,
         ];

@@ -4,6 +4,6 @@
         data-theme="<?= $theme ?>"
         data-default-theme="<?= $default ?>"
         data-chart="<?= htmlspecialchars(json_encode($chart), ENT_QUOTES, 'UTF-8'); ?>"
-    ></canvasclass="DashboardPanelChart__canvas">
+    ></canvas>
     <div class="DashboardPanelChart__placeholder" style="<?= $padding ?>"></div>
 </div>
