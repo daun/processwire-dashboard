@@ -30,11 +30,16 @@ class Dashboard {
   }
 
   triggerPanelReadyEvent($panel) {
+    const key = parseInt($panel.data('key'), 10);
     const panelType = $panel.data('panel');
-    $(document).trigger('dashboard:panelReady', {
-      $element: $panel,
+    const refresh = (animate = false) => this.refreshPanel(key, animate);
+    const data = {
+      key,
       panel: panelType,
-    });
+      $element: $panel,
+      refresh,
+    };
+    $(document).trigger('dashboard:panel', [data]);
   }
 
   setupAutoRefresh() {
