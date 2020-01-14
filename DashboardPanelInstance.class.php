@@ -18,8 +18,8 @@ class DashboardPanelGroup extends DashboardPanelInstance {
     public function add($item) {
         return $this->panels->add($item);
     }
-    public function import($item) {
-        return $this->panels->import($item);
+    public function import($items) {
+        return $this->panels->import($items);
     }
 	public function insertBefore($item, $existingItem) {
 		return $this->panels->insertBefore($item, $existingItem);
@@ -41,6 +41,8 @@ class DashboardPanelGroup extends DashboardPanelInstance {
  * WireArray that holds a collection of panel instances
  */
 class DashboardPanelArray extends WireArray {
+    protected $duplicateChecking = false;
+
     public function makeBlankItem() {
         return null;
     }
@@ -57,7 +59,6 @@ class DashboardPanelArray extends WireArray {
      */
     public function flatten() {
         $flattened = new DashboardPanelArray();
-        $flattened->setDuplicateChecking(false);
 
         /* Recursively flatten nested groups */
         foreach ($this->getAll() as $item) {
@@ -72,19 +73,21 @@ class DashboardPanelArray extends WireArray {
     }
 
     public function add($config) {
-        // Create panel object from config array
-        if (is_array($config)) {
-            $config['type'] = 'panel';
-            if ($config['data'] ?? false) {
-                $config['dataArray'] = $config['data'];
-                unset($config['data']);
-            }
-            $instance = new DashboardPanelInstance;
-            $instance->setArray($config);
-            return parent::add($instance);
+        $instance = $this->createInstance($config);
+        return parent::add($instance);
+    }
+
+    public function set($key, $value) {
+        $instance = $this->createInstance($value);
+        return parent::set($key, $instance);
+    }
+
+    public function import($items) {
+        $instances = [];
+        foreach ($items as $key => $item) {
+            $instances[$key] = $this->createInstance($item);
         }
-        // Add all other types directly (group or panel object)
-        return parent::add($config);
+        return parent::import($instances);
     }
 
     /**
@@ -100,5 +103,29 @@ class DashboardPanelArray extends WireArray {
         $group = new DashboardPanelGroup;
         $group->setArray($config);
         return $group;
+    }
+
+    /**
+     * Create an instance of the DashboardPanelInstance class
+     *
+     * @param array $config
+     * @return DashboardPanelInstance
+     */
+    public function createInstance($config) {
+        if (is_array($config)) {
+            if (!($config['panel'] ?? false)) {
+                throw new \Exception('Missing required `panel` parameter');
+            }
+            $config['type'] = 'panel';
+            if ($config['data'] ?? false) {
+                $config['dataArray'] = $config['data'];
+                unset($config['data']);
+            }
+            $instance = new DashboardPanelInstance;
+            $instance->setArray($config);
+            return $instance;
+        } else {
+            return $config;
+        }
     }
 }
