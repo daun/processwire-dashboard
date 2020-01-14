@@ -1,5 +1,7 @@
 /* global $ */
 
+import setupTooltips from './lib/tooltips';
+
 class Dashboard {
   constructor() {
     this.selectors = {
@@ -66,6 +68,7 @@ class Dashboard {
         const update = () => {
           $panel.html($new.html());
           $panel.prop('className', $new.prop('className'));
+          setupTooltips($panel);
           this.triggerPanelReadyEvent($panel);
         };
         if (animate) {
