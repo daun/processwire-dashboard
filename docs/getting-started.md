@@ -48,6 +48,48 @@ foreach ($charts as $panel) {
 }
 ```
 
-## Nesting panels
+## Nesting Panels
 
-See the section [Panel Groups](#panel-groups) for information about grouping and nesting panels.
+See the section [Panel Groups](/panels/groups.md) for information about grouping and nesting panels.
+
+## Configuring Panels
+
+Each panel configuration is a simple associative array holding the following global configuration keys. The only required option is `panel`. Each panel might additionally require one or more keys in the `data` array to display correctly.
+
+- `panel`: The panel type (string, required)
+- `size`: The width of the panel (string, default: `normal`)
+  - `mini`: one quarter
+  - `small`: one third
+  - `normal`: half
+  - `large`: two thirds
+  - `full`: full width
+- `style`: an associative array of display options
+  - `centerTitle`: Center the panel's title (bool, `false` by default)
+  - `minimal`: Display the panel without background, border and shadow (bool, `false` by default)
+  - `padding`: Display the panel contents with padding (bool, `true` by default)
+- `title`: Title displayed in the panel header (set to empty string to hide header completely)
+- `icon`: Icon displayed in the panel header \* (FontAwesome code without leading `fa-`)
+- `data`: The data required by the panel type. See the readme section on each panel for information about required keys.
+
+\* Panel icons are hidden by default. See the section on [enabling display of panel icons](configuration.md#enable-panel-icons).
+
+```php
+/* Example using all options */
+
+$panels->add([
+
+  /* Global options */
+  'panel' => 'collection',
+  'size'  => 'full',
+  'style' => ['centerTitle' => true],
+  'title' => 'News items',
+  'icon'  => 'newspaper-o',
+
+  /* Options specific to each panel type */
+  'data' => [
+    'collection' => 'template=news-item, limit=10',
+    'sortable'   => true,
+  ],
+
+]);
+```
