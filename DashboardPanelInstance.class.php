@@ -1,5 +1,14 @@
 <?php namespace ProcessWire;
 
+if (!function_exists('array_key_first')) {
+    function array_key_first(array $arr) {
+        foreach($arr as $key => $unused) {
+            return $key;
+        }
+        return NULL;
+    }
+}
+
 /**
  * Dashboard panel instance
  *
@@ -73,6 +82,11 @@ class DashboardPanelArray extends WireArray {
     }
 
     public function add($config) {
+        // Account for array of configs: all panel configs have associative
+        // keys, so numerical keys indicate an array of configs
+        if (is_array($config) && is_int(array_key_first($config))) {
+            return $this->import($config);
+        }
         $instance = $this->createInstance($config);
         return parent::add($instance);
     }
