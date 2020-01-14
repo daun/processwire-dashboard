@@ -235,28 +235,42 @@ abstract class DashboardPanel extends Wire implements Module {
         $modal = $options['modal'] ?? null;
         $blank = $options['blank'] ?? null;
 
-        $aClass = "DashboardButton {$class}";
-        if ($light) {
-            $aClass .= ' DashboardButton--light';
-        }
-        if ($modal) {
-            $aClass .= ' modal';
-        }
-
         $button = $this->modules->get('InputfieldButton');
         $button->attr('value', $label);
         $button->href = $href;
         $button->icon = $icon;
         $button->secondary = $secondary;
         $button->small = $small;
-        $button->aclass = $aClass;
+        $button->aclass = "DashboardButton {$class}";
+        // $button->class = '';
 
-        $output = $button->render();
-        if ($blank) {
-            $output = str_replace("<a ", "<a target='_blank' ", $output);
+        if ($light) {
+            $button->aclass .= ' DashboardButton--light';
+        }
+        if ($modal) {
+            $this->includeModalScripts();
+            $button->class .= ' pw-modal pw-modal-large';
+            $buttons = $options['modalButtons'] ?? null;
+            $autoclose = $options['modalAutoclose'] ?? null;
+            $close = $options['modalClose'] ?? null;
+            $refresh = $options['refreshOnModalClose'] ?? false;
+            if ($buttons) {
+                $button->attr('data-buttons', $buttons);
+                if ($autoclose) {
+                    $button->attr('data-autoclose', $autoclose);
+                }
+                if ($close) {
+                    $button->attr('data-close', $close);
+                }
+                if ($refresh) {
+                    $button->attr('data-refresh', true);
+                }
+            }
+        } elseif ($blank) {
+            $button->attr('target', '_blank');
         }
 
-        return $output;
+        return $button->render();
     }
 
     /**
@@ -271,6 +285,37 @@ abstract class DashboardPanel extends Wire implements Module {
         $options['secondary'] = true;
 
         return $this->renderButton($href, $label, $options);
+    }
+
+    /**
+     * Add/update query parameters on a url
+     *
+     */
+    protected function setQueryParameter($url, $key, $value) {
+        $info = parse_url($url);
+        $query = $info['query'] ?? '';
+        parse_str($query, $params);
+
+        $params[$key] = $value;
+        $query = http_build_query($params);
+
+        $result = $info['path'] ?? '';
+        if ($info['host']) {
+            $origin = $info['scheme'] . '://' . $info['host'];
+            $result = $origin . $result;
+        }
+        if ($query) {
+            $result .= '?' . $query;
+        }
+        return $result;
+    }
+
+    /**
+     * Include modal functionality
+     *
+     */
+    protected function includeModalScripts() {
+        $this->modules->get('JqueryUI')->use('modal');
     }
 
     /**

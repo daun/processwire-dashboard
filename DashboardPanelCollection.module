@@ -13,6 +13,31 @@ class DashboardPanelCollection extends DashboardPanel {
         );
     }
 
+    /**
+     * Constants for the $window config option
+     *
+     */
+    const windowModeNone  = 'none';  // regular link
+    const windowModeModal = 'modal'; // opens modal
+    const windowModeBlank = 'blank'; // opens target=_blank
+
+    /**
+     * Buttons displayed as floating modal buttons
+     *
+     */
+    const modalButtons = '#submit_publish, #submit_save, #submit_save_unpublished, #Inputfield_submit_save';
+
+    /**
+     * Buttons that autmatically close a modal after save
+     *
+     * #submit_save = Add new > Save, Edit > Save
+     * #submit_publish = Edit > Save & Publish
+     * #submit_save_unpublished = Edit > Save & Keep Unpublished
+     *
+     */
+    const modalAutocloseEdit = '#submit_publish, #submit_save_unpublished, #submit_save';
+    const modalAutocloseAdd = '#submit_publish, #submit_save_unpublished';
+
     public function getIcon() {
         return 'files-o';
     }
@@ -142,7 +167,8 @@ class DashboardPanelCollection extends DashboardPanel {
         $this->parent = $this->getPageFromObjectOrSelectorOrID($this->data['parent'] ?? null);
         $this->template = $this->templates->get($this->data['template'] ?? null);
         $this->listPage = $this->getPageFromObjectOrSelectorOrID($this->data['list'] ?? null);
-        $this->editMode = $this->data['editMode'] ?? 'blank';
+        $this->editMode = $this->data['editMode'] ?? self::windowModeBlank;
+        $this->viewMode = $this->data['viewMode'] ?? self::windowModeBlank;
 
         if (is_string($this->collection)) {
             $this->collection = $this->pages->find($this->collection);
@@ -176,15 +202,21 @@ class DashboardPanelCollection extends DashboardPanel {
         }
 
         if ($action) {
-            if ($this->editMode === 'modal') {
-                $action .= "&modal=1";
-            }
-            $out .= $this->renderFooterButton($action, $this->_('Add New'), [
+            $mode = $this->editMode;
+            $addButtonOptions = [
                 'icon' => 'plus-circle',
                 'secondary' => true,
-                'modal' => $this->editMode === 'modal',
-                'blank' => $this->editMode === 'blank',
-            ]);
+                'modal' => self::windowModeModal === $mode,
+                'blank' => self::windowModeBlank === $mode,
+                'modalButtons' => self::modalButtons,
+                'modalAutoclose' => self::modalAutocloseAdd,
+                'refreshOnModalClose' => true,
+            ];
+            if (self::windowModeModal === $mode) {
+                $action = $this->setQueryParameter($action, 'modal', 1);
+            }
+
+            $out .= $this->renderFooterButton($action, $this->_('Add New'), $addButtonOptions);
         }
 
         $action = '';
@@ -200,15 +232,17 @@ class DashboardPanelCollection extends DashboardPanel {
         }
 
         if ($action) {
-            if ($this->editMode === 'modal') {
-                $action .= "&modal=1";
-            }
-            $out .= $this->renderFooterButton($action, $this->_('View All'), [
+            $mode = $this->viewMode;
+            $viewButtonOptions = [
                 'icon' => 'search-plus',
                 'secondary' => true,
-                'modal' => $this->editMode === 'modal',
-                'blank' => $this->editMode === 'blank',
-            ]);
+                'modal' => self::windowModeModal === $mode,
+                'blank' => self::windowModeBlank === $mode,
+            ];
+            if (self::windowModeModal === $mode) {
+                $action = $this->setQueryParameter($action, 'modal', 1);
+            }
+            $out .= $this->renderFooterButton($action, $this->_('View All'), $viewButtonOptions);
         }
 
         return $out;
@@ -229,7 +263,8 @@ class DashboardPanelCollection extends DashboardPanel {
                 'href' => $page->editUrl,
                 'label' =>  $this->_('Edit'),
                 'icon' => 'pencil',
-                'newtab' => true,
+                'mode' => $this->editMode,
+                'refresh' => true,
                 'disabled' => !$page->editable,
             ];
         }
@@ -239,7 +274,7 @@ class DashboardPanelCollection extends DashboardPanel {
                 'href' => $page->url,
                 'label' =>  $this->_('View'),
                 'icon' => 'eye',
-                'newtab' => true,
+                'mode' => $this->viewMode,
                 'disabled' => !$page->viewable,
             ];
         }
@@ -254,16 +289,31 @@ class DashboardPanelCollection extends DashboardPanel {
     protected function renderPageActions(Page $page) {
         $actions = $this->getPageActions($page);
         $links = array_map(function ($action) {
-            $icon = $this->renderIcon($action['icon']);
-            if (@$action['disabled']) {
+            $icon = $this->renderIcon($action['icon'] ?? '');
+            if ($action['disabled'] ?? false) {
                 return $icon;
+            }
+            $attr = (array) ($action['attributes'] ?? []);
+            $mode = $action['mode'] ?? false;
+            $class = $action['class'] ?? '';
+            if (self::windowModeModal === $mode) {
+                $class .= 'pw-modal pw-modal-large';
+                $action['href'] = $this->setQueryParameter($action['href'], 'modal', 1);
+                $attr['data-buttons'] = self::modalButtons;
+                $attr['data-autoclose'] = self::modalAutocloseEdit;
+                if ($action['refresh'] ?? false) {
+                    $attr['data-refresh'] = true;
+                }
+            }
+            if (self::windowModeBlank === $mode) {
+                $attr['target'] = '_blank';
             }
             return $this->renderTooltipLink(
                 $action['href'],
-                $action['class'] ?? '',
+                $class,
                 $icon,
-                $action['label'],
-                @$action['newtab'] ? '_blank' : ''
+                $action['label'] ?? '',
+                $attr
             );
         }, $actions);
         return implode(' ', $links);
@@ -273,8 +323,30 @@ class DashboardPanelCollection extends DashboardPanel {
      * Render a link with tooltip
      *
      */
-    protected function renderTooltipLink($href, $class, $label, $description, $target = '') {
-        return "<a href='$href' class='tooltip $class' title='$description' target='$target'>$label</a>";
+    protected function renderTooltipLink($href, $class, $label, $description, $attributes = []) {
+        $attributes = $this->renderAttributes($attributes);
+        return "<a href='$href' class='tooltip $class' title='$description' $attributes>$label</a>";
+    }
+
+    /**
+     * Render attribute array as HTML attribute string
+     *
+     */
+    protected function renderAttributes($attributes = []) {
+        if (empty($attributes)) return '';
+        if (!is_array($attributes)) return $attributes;
+
+        $attributePairs = [];
+        foreach ($attributes as $key => $val) {
+            if (is_int($key)) {
+                $attributePairs[] = $val;
+                continue;
+            }
+            $val = htmlspecialchars($val, ENT_QUOTES);
+            $attributePairs[] = "{$key}=\"{$val}\"";
+        }
+
+        return join(' ', $attributePairs);
     }
 
     /**

@@ -1,5 +1,7 @@
 /* global $ */
 
+import setupTooltips from './lib/tooltips';
+
 class Dashboard {
   constructor() {
     this.selectors = {
@@ -28,11 +30,16 @@ class Dashboard {
   }
 
   triggerPanelReadyEvent($panel) {
+    const key = parseInt($panel.data('key'), 10);
     const panelType = $panel.data('panel');
-    $(document).trigger('dashboard:panelReady', {
-      $element: $panel,
+    const refresh = (animate = false) => this.refreshPanel(key, animate);
+    const data = {
+      key,
       panel: panelType,
-    });
+      $element: $panel,
+      refresh,
+    };
+    $(document).trigger('dashboard:panel', [data]);
   }
 
   setupAutoRefresh() {
@@ -50,7 +57,7 @@ class Dashboard {
     });
   }
 
-  refreshPanel(key) {
+  refreshPanel(key, animate = false) {
     const $panel = this.getPanelByKey(key);
     if (!$panel) return;
 
@@ -63,9 +70,21 @@ class Dashboard {
     $.post(this.url, request)
       .done((data) => {
         const $new = $(data);
-        $panel.html($new.html());
-        $panel.prop('className', $new.prop('className'));
-        this.triggerPanelReadyEvent($panel);
+        const update = () => {
+          $panel.html($new.html());
+          $panel.prop('className', $new.prop('className'));
+          setupTooltips($panel);
+          this.triggerPanelReadyEvent($panel);
+        };
+        if (animate) {
+          $panel.children().fadeOut(400, () => {
+            update();
+            $panel.children().fadeIn(400);
+          });
+        }
+        else {
+          update();
+        }
       })
       .fail(() => {
         console.error('Error fetching panel contents');
