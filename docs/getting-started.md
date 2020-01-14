@@ -2,7 +2,7 @@
 
 ## Installation
 
-Please check the [requirements](requirements.md) to make sure you version of ProcessWire is supported.
+?> Please check the [requirements](requirements.md) to make sure you version of ProcessWire is supported.
 
 Install the module by either copying the folder into your `/site/modules/` directory or installing it via the admin interface.
 

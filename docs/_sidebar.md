@@ -1,4 +1,4 @@
-* [Overview](/)
+* [Introduction](/)
 * [Getting Started](getting-started.md)
 * [Panels](panels.md)
   * [Chart](panels/chart.md)
