@@ -7,17 +7,50 @@
   <meta name="description" content="A configurable dashboard for ProcessWire's admin interface">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+  <link rel="stylesheet" href="./assets/prism-themes/prismjs-github.css">
+  <style>
+    .sidebar>h1 {
+      text-align: left;
+      font-weight: inherit;
+      font-size: 1.25em;
+      margin-left: 15px;
+      /* display: none; */
+    }
+    .github-corner svg {
+      width: 60px;
+      height: 60px;
+      fill: #899aa4;
+    }
+    .markdown-section code {
+      background-color: rgba(27,31,35,.05);
+      color: inherit;
+    }
+    .markdown-section pre {
+      border-radius: 6px;
+    }
+    .content .docsify-copy-code-button {
+      font-size: .8em;
+      filter: grayscale(1);
+      border-bottom-left-radius: 6px;
+    }
+  </style>
 </head>
 <body>
   <div id="app"></div>
   <script>
     window.$docsify = {
-      name: 'processwire-dashboard',
-      repo: '',
+      name: 'ProcessWire Dashboard',
+      repo: 'https://github.com/philippdaun/processwire-dashboard',
       loadSidebar: true,
-      subMaxLevel: 4
+      autoHeader: true,
+      subMaxLevel: 2,
+      auto2top: true,
+      themeColor: '#0366d6' // GitHub blue
+      // themeColor: '#5c5be7', // Purple
     }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-php.min.js"></script>
+  <script src="//unpkg.com/docsify-copy-code"></script>
 </body>
 </html>
