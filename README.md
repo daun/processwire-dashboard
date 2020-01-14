@@ -48,6 +48,9 @@ wire()->addHookAfter('Dashboard::getPanels', function ($event) {
     ],
   ]);
 });
+
+/* Make sure to add the hook *before* the default admin process */
+require $config->paths->adminTemplates . 'controller.php';
 ```
 
 ### Removing panels
