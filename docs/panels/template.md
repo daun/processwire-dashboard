@@ -3,7 +3,7 @@
 
 Display the output of any file in your template folder. The file will receive all API variables and any additional view variables you specify.
 
-<img src="../images/template.png" width="400">
+![Template](../images/template.png ':size=400')
 
 ## Options
 

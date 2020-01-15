@@ -3,7 +3,7 @@
 
 Display a list of shortcuts as links with icons. In list view, the page summary is displayed next to the title.
 
-<img src="../images/shortcuts-comparison.png" width="600">
+![Shortcuts](../images/shortcuts-comparison.png ':size=600')
 
 ## Options
 

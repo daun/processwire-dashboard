@@ -2,7 +2,7 @@
 
 Display a large number with trend indicator.
 
-<img src="../images/number.png" width="300">
+![Number](../images/number.png ':size=300')
 
 ## Options
 

@@ -27,7 +27,7 @@ foreach (getNotifications() as $message) {
 
 See the example below for a common group setup and the necessary code.
 
-<img src="../images/groups.png">
+![Groups](../images/groups.png)
 
 ```php
 /* Create panel group: analytics */

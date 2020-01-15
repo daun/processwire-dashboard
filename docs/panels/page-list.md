@@ -2,7 +2,7 @@
 
 Display a ProcessPageList widget.
 
-<img src="../images/page-list.png" width="400">
+![PageList](../images/page-list.png ':size=400')
 
 ## Options
 

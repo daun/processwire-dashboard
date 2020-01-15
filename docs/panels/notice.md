@@ -2,7 +2,7 @@
 
 Display a notice with icon and actions. If set, the panel's `title` will be displayed inline and in bold instead of inside a panel header.
 
-<img src="../images/notice.png" width="400">
+![Notice](../images/notice.png ':size=400')
 
 ## Options
 
