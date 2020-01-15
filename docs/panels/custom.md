@@ -7,6 +7,13 @@ To create custom panels, simply extend the `DashboardPanel` base class.
 
 See [DashboardPanelHelloWorld](https://github.com/philippdaun/processwire-dashboard/blob/master/DashboardPanelHelloWorld.module) for an example implementation.
 
+## Naming
+
+Class names in `PascalCase` are translated to panel names in `kebab-case`.
+
+- Module name: `DashboardPanelHelloWorld`
+- Panel name: `hello-world`
+
 ## Class interface
 
 Every panel module **must** implement the `getContent()` method that returns the rendered markup for the panel body. Everything else is optional.
