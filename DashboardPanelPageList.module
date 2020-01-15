@@ -14,10 +14,34 @@ class DashboardPanelPageList extends DashboardPanel {
     }
 
     public function getContent() {
+        // Disable ajax flag so page list is always rendered as HTML
+        $ajax = $this->config->ajax;
+        $this->config->ajax = false;
+
+        // Generate page list
         $module = $this->modules->get('ProcessPageList');
         $module->set('id', $this->parentID);
         $module->set('showRootPage', $this->showRootPage);
-        return $module->execute();
+        $output = $module->execute();
+
+        // Modify markup
+        $unique_key = rand(1, 99999);
+        $container_id = "PageListContainer__{$unique_key}";
+        $output = str_replace("id='PageListContainer'", "id='{$container_id}'", $output);
+        $output = preg_replace('/<script>.*?<\/script>/', '', $output);
+        $output .= "<script>$('#{$container_id}').ProcessPageList(ProcessWire.config.ProcessPageList);</script>";
+
+        // Restore ajax flag
+        $this->config->ajax = $ajax;
+
+        return $output;
+    }
+
+    public function getClassNames() {
+        return [
+            "edit-mode--{$this->editMode}",
+            "view-mode--{$this->viewMode}",
+        ];
     }
 
     public function setup() {
@@ -25,5 +49,7 @@ class DashboardPanelPageList extends DashboardPanel {
         $this->parent = $this->getPageFromObjectOrSelectorOrID($this->data['parent'] ?? null);
         $this->parentID = $this->parent ? $this->parent->id : null;
         $this->showRootPage = $this->data['showRootPage'] ?? true;
+        $this->editMode = $this->data['editMode'] ?? self::windowModeBlank;
+        $this->viewMode = $this->data['viewMode'] ?? self::windowModeBlank;
     }
 }

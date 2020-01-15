@@ -30,6 +30,32 @@ abstract class DashboardPanel extends Wire implements Module {
     protected $data = [];
 
     /**
+     * Constants to define how edit and view links open
+     * Defined here because it is used in multiple panels
+     *
+     */
+    const windowModeNone  = 'none';  // regular link
+    const windowModeModal = 'modal'; // opens modal
+    const windowModeBlank = 'blank'; // opens target=_blank
+
+    /**
+     * Buttons displayed as floating modal buttons
+     *
+     */
+    const modalButtons = '#submit_publish, #submit_save, #submit_save_unpublished, #Inputfield_submit_save';
+
+    /**
+     * Buttons that autmatically close a modal after save
+     *
+     * #submit_save = Add new > Save, Edit > Save
+     * #submit_publish = Edit > Save & Publish
+     * #submit_save_unpublished = Edit > Save & Keep Unpublished
+     *
+     */
+    const modalAutocloseEdit = '#submit_publish, #submit_save_unpublished, #submit_save';
+    const modalAutocloseAdd = '#submit_publish, #submit_save_unpublished';
+
+    /**
      * Module info stub to extend by panel modules
      */
     public static function getModuleInfo() {
