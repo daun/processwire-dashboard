@@ -51,10 +51,16 @@ class Dashboard extends Process implements Module {
     ];
 
     /**
-     * Default panel size
+     * Default panel size (can be overridden)
      *
      */
     const defaultPanelSize = 'normal';
+
+    /**
+     * Fallback panel size (if default is configured wrong)
+     *
+     */
+    const fallbackPanelSize = 'normal';
 
     /**
      * Module initialization
@@ -125,6 +131,9 @@ class Dashboard extends Process implements Module {
             }
         }
 
+        // Load settings from hook
+        $this->settings = $this->getSettings();
+
         // Load panel instances from hook
         $this->panels = $this->getPanels();
 
@@ -150,7 +159,7 @@ class Dashboard extends Process implements Module {
         // Render main view
         return $this->view('dashboard', [
             'module'   => "$this",
-            'settings' => $this->getSettings(),
+            'settings' => $this->settings,
             'panels'   => $this->renderPanels(),
             'texts'    => $this->texts,
             'version'  => DASHBOARD_VERSION,
@@ -249,7 +258,7 @@ class Dashboard extends Process implements Module {
 
         // Render view
         return $this->view('group', [
-            'settings' => $this->getSettings(),
+            'settings' => $this->settings,
             'size'     => $size,
             'icon'     => $icon,
             'title'    => $title,
@@ -283,15 +292,11 @@ class Dashboard extends Process implements Module {
      */
     public function sanitizePanelSize($input) {
         $size = $this->sanitizer->option($input, self::panelSizes);
-        return $size ?: $this->getDefaultPanelSize();
-    }
-
-    /**
-     * Hook to allow overwriting the default panel size
-     *
-     */
-    public function ___getDefaultPanelSize() {
-        return self::defaultPanelSize;
+        if (!$size) {
+            $default = $this->settings->defaultPanelSize;
+            $size = $this->sanitizer->option($default, self::panelSizes);
+        }
+        return $size ?: self::fallbackPanelSize;
     }
 
     /**
@@ -311,6 +316,7 @@ class Dashboard extends Process implements Module {
     protected function ___getSettings() {
         $settings = new WireData;
         $settings->displayIcons = false;
+        $settings->defaultPanelSize = self::defaultPanelSize;
         return $settings;
     }
 
