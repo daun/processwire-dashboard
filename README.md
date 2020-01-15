@@ -7,7 +7,7 @@
 
 Display a configurable dashboard in ProcessWire's admin interface. Comes with a set of pre-defined panel types but can be extended easily to display any content you want.
 
-![Dashboard](./images/dashboard.png)
+![Dashboard](./docs/images/dashboard.png)
 
 ## Installation
 
