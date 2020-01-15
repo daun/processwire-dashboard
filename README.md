@@ -24,7 +24,7 @@ Check out the [documentation](https://philippdaun.github.io/processwire-dashboar
   Creating your own panels is easy: you can either render a template file or create your own panel types by creating a ProcessWire module.
 
 - **Highly configurable**<br>
-  You're free to customize panels in their size, position, title and layout. Panels can be [grouped and nested](panels/groups.md) to create whatever layout you need.
+  You're free to customize panels in their size, position, title and layout. Panels can be grouped and nested to create whatever layout you need.
 
 - **Configuration as Code**<br>
   All configuration is done as code. This meets two objectives: the dashboard config can be version-controlled and sensitive credentials are never stored in the database. You are free to supply the data any way you want, preferably using environment variables.
