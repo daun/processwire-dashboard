@@ -18,6 +18,11 @@
     }
   }
 
+  .PageListLoading {
+    display: block;
+    margin: 30px 15px;
+  }
+
   .AdminThemeUikit & {
     .PageListRootHidden,
     .PageListRoot {
