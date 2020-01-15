@@ -1,16 +1,16 @@
 /* global $ */
 
-function initPanel($panel, refreshPanel) {
-  const $refreshlinks = $panel.find('.pw-modal[data-refresh]');
-  if ($refreshlinks.length) {
-    $refreshlinks.on('pw-modal-closed', () => {
-      refreshPanel(true);
+function initPanel($panel, reloadPanel) {
+  const $reloadlinks = $panel.find('.pw-modal[data-reload-on-close]');
+  if ($reloadlinks.length) {
+    $reloadlinks.on('pw-modal-closed', () => {
+      reloadPanel(true);
     });
   }
 }
 
-$(document).on('dashboard:panel', (event, { panel, $element, refresh }) => {
+$(document).on('dashboard:panel', (event, { panel, $element, reload }) => {
   if (panel === 'collection') {
-    initPanel($element, refresh);
+    initPanel($element, reload);
   }
 });

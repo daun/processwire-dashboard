@@ -18,7 +18,7 @@ class Dashboard {
     });
     this.triggerDashboardReadyEvent();
 
-    this.setupAutoRefresh();
+    this.setupAutoReload();
   }
 
   getPanelByKey(key) {
@@ -32,17 +32,17 @@ class Dashboard {
   triggerPanelReadyEvent($panel) {
     const key = parseInt($panel.data('key'), 10);
     const panelType = $panel.data('panel');
-    const refresh = (animate = false) => this.refreshPanel(key, animate);
+    const reload = (animate = false) => this.reloadPanel(key, animate);
     const data = {
       key,
       panel: panelType,
       $element: $panel,
-      refresh,
+      reload,
     };
     $(document).trigger('dashboard:panel', [data]);
   }
 
-  setupAutoRefresh() {
+  setupAutoReload() {
     this.$panels.each((_, panel) => {
       const $panel = $(panel);
       const key = parseInt($panel.data('key'), 10);
@@ -51,13 +51,13 @@ class Dashboard {
       if (key >= 0 && interval > 0) {
         interval = Math.max(2000, interval);
         setInterval(() => {
-          this.refreshPanel(key);
+          this.reloadPanel(key);
         }, interval);
       }
     });
   }
 
-  refreshPanel(key, animate = false) {
+  reloadPanel(key, animate = false) {
     const $panel = this.getPanelByKey(key);
     if (!$panel) return;
 
