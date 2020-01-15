@@ -122,9 +122,9 @@ abstract class DashboardPanel extends Wire implements Module {
     }
 
     /**
-     * Get the interval at which this panel will auto-refresh via AJAX
+     * Get the interval at which this panel will auto-reload via AJAX
      *
-     * @return int  Refresh interval (milliseconds)
+     * @return int  Reload interval (milliseconds)
      */
     public function getInterval() {
         return 0;
@@ -253,7 +253,7 @@ abstract class DashboardPanel extends Wire implements Module {
             $buttons = $options['modalButtons'] ?? null;
             $autoclose = $options['modalAutoclose'] ?? null;
             $close = $options['modalClose'] ?? null;
-            $refresh = $options['refreshOnModalClose'] ?? false;
+            $reload = $options['reloadOnModalClose'] ?? false;
             if ($buttons) {
                 $button->attr('data-buttons', $buttons);
                 if ($autoclose) {
@@ -262,8 +262,8 @@ abstract class DashboardPanel extends Wire implements Module {
                 if ($close) {
                     $button->attr('data-close', $close);
                 }
-                if ($refresh) {
-                    $button->attr('data-refresh', true);
+                if ($reload) {
+                    $button->attr('data-reload-on-close', true);
                 }
             }
         } elseif ($blank) {

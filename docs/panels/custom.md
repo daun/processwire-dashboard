@@ -7,20 +7,21 @@ To create custom panels, simply extend the `DashboardPanel` base class.
 
 See [DashboardPanelHelloWorld](https://github.com/philippdaun/processwire-dashboard/blob/master/DashboardPanelHelloWorld.module) for an example implementation.
 
-## Class Interface
+## Class interface
 
 Every panel module **must** implement the `getContent()` method that returns the rendered markup for the panel body. Everything else is optional.
 
 - `setup()`: called before rendering to fetch data, setup variables, etc.
-- `getContent()`: return the panel's body markup (required, string)
-- `getTitle()`: return the panel's title (string)
-- `getIcon()`: return an icon code to display next to the title (string)
-- `getFooter()`: return the rendered markup for the panel footer (string)
-- `getClassNames()`: return additional class names for the panel div (array)
-- `getStyles()`: return styles to load (array of filenames or URLs)
-- `getScripts()`: return scripts to load (array of filenames or URLs)
+- `getContent()`: returns the panel's body markup (required, string)
+- `getTitle()`: returns the panel's title (string)
+- `getIcon()`: returns an icon code to display next to the title (string)
+- `getFooter()`: returns the rendered markup for the panel footer (string)
+- `getClassNames()`: returns additional class names for the panel div (array)
+- `getStyles()`: returns styles to load (array of filenames or URLs)
+- `getScripts()`: returns scripts to load (array of filenames or URLs)
+- `getInterval()`: returns the interval at which the panel is reloaded via AJAX (integer, milliseconds)
 
-## Accessing Config & Data
+## Accessing config & data
 
 Every module derived from the `DashboardPanel` base class has a few properties populated automatically:
 
@@ -33,11 +34,55 @@ Every module derived from the `DashboardPanel` base class has a few properties p
 
 Module assets will be included automatically as long as they're named accordingly (`DashboardPanelHelloWorld.css` and `DashboardPanelHelloWorld.js` respectively).
 
-## Helpers
+## Markup
 
-The panel class has a few helpers for common tasks.
+Panels are generated as UiKit cards with a header, body and footer. This is a simplified version of what is rendered for each panel:
 
-### Render Tables
+```html
+<div class="Dashboard__panel DashboardPanelHelloWorld uk-card">
+  <div class="uk-card-header">
+    <h3 class="uk-card-title">
+      Hello World
+    </h3>
+  </div>
+  <div class="uk-card-body">
+    <p>Nothing to see here</p>
+  </div>
+  <div class="uk-card-footer">
+    Goodbye World
+  </div>
+</div>
+```
+
+## Styling
+
+Namespace your CSS to make sure you're targeting your custom panel type only.
+
+```css
+.DashboardPanelHelloWorld .uk-card-body {
+  font-style: italic;
+}
+```
+
+## Initialize panels with JS
+
+If you need to run JavaScript to initialize a panel, you can listen for the `dashboard:panel` event that is fired whenever a panel is loaded (or reloaded via AJAX). The event receives a data object with three properties: `panel` is the panel type, `$element` is the panel DOM element as a jQuery object and `reload` is a function you can call whenever you need to reload the panel via AJAX.
+
+```js
+$(document).on('dashboard:panel', (event, { panel, $element, reload }) => {
+  if (panel === 'my-panel-type') {
+    /* Initialize the panel */
+  }
+});
+```
+
+See [DashboardPanelHelloWorld.js](https://github.com/philippdaun/processwire-dashboard/blob/master/src/DashboardPanelHelloWorld.js) for an example implementation.
+
+## Markup helpers
+
+The panel class has a few helpers to render common markup categories.
+
+### Tables
 
 `DashboardPanel::renderTable($rows, $options = [])`
 
@@ -62,7 +107,7 @@ $html = $this->renderTable($rows, [
 ]);
 ```
 
-### Render Icons
+### Icons
 
 `DashboardPanel::renderIcon($icon)`
 
@@ -72,7 +117,7 @@ Render a FontAwesome icon in fixed width.
 $icon = $this->renderIcon('star');
 ```
 
-### Render Views
+### Views
 
 `DashboardPanel::view($view, $variables = [])`
 

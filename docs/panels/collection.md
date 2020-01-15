@@ -11,9 +11,11 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 - `actions`: array of actions to allow, or `false` to disable Actions column (`edit` and `view` by default)
 - `pagination`: display pagination info if PageArray has a `limit` set? (bool, `true` by default)
 - `sortable`: make table columns sortable (bool, `false` by default)
-- `showHeaders`: show table headers? (bool, `true` by default)
+- `headers`: show table headers? (bool, `true` by default)
 - `dateFormat`: date format to use for DateTime columns (`relative` by default)
 - `maxImageNum`: number of thumbnails to show for image columns (`1` by default)
+- `editMode`: how to open edit links (string, `none` for same window, `blank` for new tab or `modal`)
+- `viewMode`: how to open view links (same options as `editMode`)
 
 ## Example
 
@@ -73,3 +75,7 @@ To display an icon as table header, pass the FontAwesome icon code as column tit
   'thumbnail' => 'fa-eye'
 ]
 ```
+
+## Reload after modal edits
+
+When setting `editMode` to `modal`, the panel will reload its contents when the modal closes. Any changes made to the page will be visible immediately.

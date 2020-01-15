@@ -210,7 +210,7 @@ class DashboardPanelCollection extends DashboardPanel {
                 'blank' => self::windowModeBlank === $mode,
                 'modalButtons' => self::modalButtons,
                 'modalAutoclose' => self::modalAutocloseAdd,
-                'refreshOnModalClose' => true,
+                'reloadOnModalClose' => true,
             ];
             if (self::windowModeModal === $mode) {
                 $action = $this->setQueryParameter($action, 'modal', 1);
@@ -264,7 +264,7 @@ class DashboardPanelCollection extends DashboardPanel {
                 'label' =>  $this->_('Edit'),
                 'icon' => 'pencil',
                 'mode' => $this->editMode,
-                'refresh' => true,
+                'reload' => true,
                 'disabled' => !$page->editable,
             ];
         }
@@ -297,12 +297,13 @@ class DashboardPanelCollection extends DashboardPanel {
             $mode = $action['mode'] ?? false;
             $class = $action['class'] ?? '';
             if (self::windowModeModal === $mode) {
+                $this->includeModalScripts();
                 $class .= 'pw-modal pw-modal-large';
                 $action['href'] = $this->setQueryParameter($action['href'], 'modal', 1);
                 $attr['data-buttons'] = self::modalButtons;
                 $attr['data-autoclose'] = self::modalAutocloseEdit;
-                if ($action['refresh'] ?? false) {
-                    $attr['data-refresh'] = true;
+                if ($action['reload'] ?? false) {
+                    $attr['data-reload-on-close'] = true;
                 }
             }
             if (self::windowModeBlank === $mode) {

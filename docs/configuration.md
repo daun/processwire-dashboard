@@ -6,14 +6,23 @@ The dashboard can be configured to serve as the default entry point of the admin
 
 To use the dashboard as entry point, you need to edit the `Admin` page (ID `2`) and manually assign the process `Dashboard`. Make sure to restore it to `ProcessHome` in case you decide to uninstall the dashboard module.
 
-## Enable Panel Icons
+## Display panel icons
 
 Panel icons are hidden by default to achieve a clean look across the whole dashboard. If you want to display icons in panel headers, hook into the `getSettings` method and set the `displayIcons` switch.
 
 ```php
 wire()->addHookAfter('Dashboard::getSettings', function ($event) {
-    $settings = $event->return;
-    $settings->displayIcons = true;
+  $event->return->displayIcons = true;
+});
+```
+
+## Default panel size
+
+The default panel size can be changed from `normal` to whatever size makes sense for your dashboard. Again, hook into `getSettings` to set the `defaultPanelSize` key.
+
+```php
+wire()->addHookAfter('Dashboard::getSettings', function ($event) {
+  $event->return->defaultPanelSize = 'full';
 });
 ```
 
