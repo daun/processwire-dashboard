@@ -14,10 +14,20 @@ class DashboardPanelPageList extends DashboardPanel {
     }
 
     public function getContent() {
+        // Generate page list
         $module = $this->modules->get('ProcessPageList');
         $module->set('id', $this->parentID);
         $module->set('showRootPage', $this->showRootPage);
-        return $module->execute();
+        $output = $module->execute();
+
+        // Modify markup
+        $unique_key = rand(1, 99999);
+        $container_id = "PageListContainer__{$unique_key}";
+        $output = str_replace("id='PageListContainer'", "id='{$container_id}'", $output);
+        $output = preg_replace('/<script>.*?<\/script>/', '', $output);
+        $output .= "<script>$('#{$container_id}').ProcessPageList(ProcessWire.config.ProcessPageList);</script>";
+
+        return $output;
     }
 
     public function setup() {
