@@ -18,11 +18,10 @@ Display a configurable dashboard in ProcessWire's admin interface. Comes with a 
   Creating your own panels is easy: you can either [render a template file](panels/template.md) or [create your own panel types](panels/custom.md) by creating a ProcessWire module.
 
 - **Highly Configurable**<br>
-  Feel free to [customize panels](getting-started.md#configuring-panels) in their size, position, title and layout. Panels can be [grouped and nested](panels/groups.md) to create whatever layout you need.
+  You're free to [customize panels](getting-started.md#configuring-panels) in their size, position, title and layout. Panels can be [grouped and nested](panels/groups.md) to create whatever layout you need.
 
 - **Configuration as Code**<br>
   All configuration is done as code. This meets two objectives: the dashboard config can be version-controlled and sensitive credentials are never stored in the database. You are free to supply the data any way you want, preferably using environment variables.
-  Enhancements that are unique to docsify-themeable—along with docsify- and browser-related bug fixes—provide a more enjoyable and trouble-free experience for site authors and visitors.
 
 ## Contact & Support
 
