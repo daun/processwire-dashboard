@@ -67,12 +67,15 @@ class Dashboard {
       panel,
     };
 
-    $.post(this.url, request)
+    $.post(this.url, request, null, 'text')
       .done((data) => {
         const $new = $(data);
         const update = () => {
           $panel.html($new.html());
           $panel.prop('className', $new.prop('className'));
+          $new.filter('script').each(function() {
+              $.globalEval(this.text || this.textContent || this.innerHTML || '');
+          });
           setupTooltips($panel);
           this.triggerPanelReadyEvent($panel);
         };
