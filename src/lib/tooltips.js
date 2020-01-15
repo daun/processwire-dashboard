@@ -28,7 +28,7 @@ function setupDefaultTooltips(context = document) {
 }
 
 function setupUiKitTooltips(context = document) {
-  if (!UIkit) return;
+  if (typeof UIkit === 'undefined') return;
   /* eslint-disable func-names */
   $('.tooltip, .pw-tooltip', context).each(function () {
     $(this).removeClass('tooltip pw-tooltip');
