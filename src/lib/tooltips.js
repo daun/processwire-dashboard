@@ -1,6 +1,6 @@
 /* global $, UIkit */
 
-function setupDefaultTooltips(context = document) {
+function setupDefaultTooltips(context) {
   /* eslint-disable func-names */
   $('a.tooltip, .pw-tooltip', context).tooltip({
     position: {
@@ -27,8 +27,7 @@ function setupDefaultTooltips(context = document) {
   });
 }
 
-function setupUiKitTooltips(context = document) {
-  if (typeof UIkit === 'undefined') return;
+function setupUiKitTooltips(context) {
   /* eslint-disable func-names */
   $('.tooltip, .pw-tooltip', context).each(function () {
     $(this).removeClass('tooltip pw-tooltip');
@@ -37,5 +36,9 @@ function setupUiKitTooltips(context = document) {
 }
 
 export default function setupTooltips(context = document) {
-  setupUiKitTooltips(context);
+  if (typeof UIkit !== 'undefined') {
+    setupUiKitTooltips(context);
+  } else {
+    setupDefaultTooltips(context);
+  }
 }
