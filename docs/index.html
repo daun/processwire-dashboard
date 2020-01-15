@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ProcessWire Dashboard – Documentation</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="A configurable dashboard for ProcessWire's admin interface">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-defaults.css">
+  <link rel="stylesheet" href="./assets/prism-themes/prismjs-github.css">
+  <style>
+    :root {
+      --base-font-size: 14px;
+      --theme-color: purple;
+      --border-radius-m: 6px;
+      --border-radius-s: 3px;
+      --link-color: var(--theme-color);
+      --sidebar-width: 18rem;
+      /* --sidebar-background: var(--mono-tint3); */
+      --sidebar-border-color: var(--mono-tint2);
+      --sidebar-border-width: 0 1px 0 0;
+      --sidebar-name-text-align: left;
+      --sidebar-nav-link-color--active: var(--link-color);
+      --sidebar-nav-link-font-weight--active: bold;
+      --sidebar-nav-link-text-decoration--active: none;
+      --sidebar-toggle-icon-color: var(--mono-tint1);
+      --sidebar-toggle-width: 52px;
+    }
+    .sidebar>h1 {
+      font-weight: inherit;
+      font-size: 1.35em;
+      line-height: 1.3;
+    }
+    .github-corner svg {
+      width: 60px;
+      height: 60px;
+      filter: grayscale(1);
+    }
+    .content .docsify-copy-code-button {
+      font-size: .8em;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      name: 'ProcessWire Dashboard',
+      repo: 'https://github.com/philippdaun/processwire-dashboard',
+      homepage: 'introduction.md',
+      loadSidebar: true,
+      autoHeader: true,
+      subMaxLevel: 2,
+      auto2top: true,
+    }
+  </script>
+  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script>
+  <script src="//unpkg.com/prismjs/components/prism-php.min.js"></script>
+  <script src="//unpkg.com/docsify-copy-code"></script>
+</body>
+</html>
