@@ -2,7 +2,7 @@
 
 Display a collection of pages in a table. Supply either a PageArray or a selector string.
 
-<img src="../images/collection.png" width="400">
+![Collection](../images/collection.png ':size=400')
 
 ## Options
 

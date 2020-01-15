@@ -2,7 +2,7 @@
 
 Display a chart using [Chart.js](https://www.chartjs.org/).
 
-<img src="/images/chart.png" width="400">
+![Chart](../images/chart.png ':size=400')
 
 ## Options
 
