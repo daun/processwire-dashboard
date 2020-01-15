@@ -297,6 +297,7 @@ class DashboardPanelCollection extends DashboardPanel {
             $mode = $action['mode'] ?? false;
             $class = $action['class'] ?? '';
             if (self::windowModeModal === $mode) {
+                $this->includeModalScripts();
                 $class .= 'pw-modal pw-modal-large';
                 $action['href'] = $this->setQueryParameter($action['href'], 'modal', 1);
                 $attr['data-buttons'] = self::modalButtons;
