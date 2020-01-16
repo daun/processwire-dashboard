@@ -6,7 +6,9 @@
 
 Install the module by either copying the folder into your `/site/modules/` directory or installing it via the admin interface.
 
-Upon installation, a dashboard page is created. To access the dashboard, users need to have the permission `dashboard-view`.
+## Accessing the dashboard
+
+A new dashboard page is created when you first install the module. Accessing it requires the permission `dashboard-view` or superuser status. A link to the dashboard page is added to the user dropdown menu where supported by the admin theme.
 
 You can optionally [display the Dashboard as the main entry point](configuration.md#dashboard-as-entry-point) after login.
 
