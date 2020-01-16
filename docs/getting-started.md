@@ -4,13 +4,15 @@
 
 ?> Please check the [requirements](requirements.md) to make sure your version of ProcessWire is supported.
 
-Install the module by either copying the folder into your `/site/modules/` directory or installing it via the admin interface.
+Install the module by copying the module folder into your `/site/modules/` directory. **Installation through the admin interface is currently not supported.** Doing so will break your site and require removing the module files manually.
 
-Upon installation, a dashboard page is created. To access the dashboard, users need to have the permission `dashboard-view`.
+## Accessing the dashboard
+
+A new dashboard page is created when you first install the module. Accessing it requires the permission `dashboard-view` or superuser status. A link to the dashboard page is added to the user dropdown menu where supported by the admin theme.
 
 You can optionally [display the Dashboard as the main entry point](configuration.md#dashboard-as-entry-point) after login.
 
-## Adding Panels
+## Adding panels
 
 Panels are added via a hook. The method's return value is a `WireArray`, which means you can just `add()` your panels.
 
@@ -48,11 +50,11 @@ foreach ($charts as $panel) {
 }
 ```
 
-## Nesting Panels
+## Nesting panels
 
-See the section [Panel Groups](/panels/groups.md) for information about grouping and nesting panels.
+See the section [panel groups](/panels/groups.md) for information about grouping and nesting panels.
 
-## Configuring Panels
+## Configuring panels
 
 Each panel configuration is a simple associative array holding the following global configuration keys. The only required option is `panel`. Each panel might additionally require one or more keys in the `data` array to display correctly.
 

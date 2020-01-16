@@ -1,3 +1,7 @@
 # Requirements
 
-Tested and supported for the latest stable version of ProcessWire (3.0.148). It may well work with older versions, I can't however give any guarantuees. Should display fine in all browsers that properly support CSS grids. Recommended for use with AdminThemeUikit.
+- **PHP**: 7.0 or newer
+- **ProcessWire**: 3.0.148 (current stable release)
+- **Admin theme**: UiKit recommended
+  - The basics should work on most themes, but feature parity is not a goal
+- **Browsers**: those with proper [CSS grid support](https://caniuse.com/#feat=css-grid)

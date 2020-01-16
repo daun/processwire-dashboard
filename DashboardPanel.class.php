@@ -326,7 +326,7 @@ abstract class DashboardPanel extends Wire implements Module {
         $query = http_build_query($params);
 
         $result = $info['path'] ?? '';
-        if ($info['host']) {
+        if ($info['host'] ?? false) {
             $origin = $info['scheme'] . '://' . $info['host'];
             $result = $origin . $result;
         }
