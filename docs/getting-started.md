@@ -10,7 +10,7 @@ Upon installation, a dashboard page is created. To access the dashboard, users n
 
 You can optionally [display the Dashboard as the main entry point](configuration.md#dashboard-as-entry-point) after login.
 
-## Adding Panels
+## Adding panels
 
 Panels are added via a hook. The method's return value is a `WireArray`, which means you can just `add()` your panels.
 
@@ -48,11 +48,11 @@ foreach ($charts as $panel) {
 }
 ```
 
-## Nesting Panels
+## Nesting panels
 
-See the section [Panel Groups](/panels/groups.md) for information about grouping and nesting panels.
+See the section [panel groups](/panels/groups.md) for information about grouping and nesting panels.
 
-## Configuring Panels
+## Configuring panels
 
 Each panel configuration is a simple associative array holding the following global configuration keys. The only required option is `panel`. Each panel might additionally require one or more keys in the `data` array to display correctly.
 

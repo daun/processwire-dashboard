@@ -30,7 +30,7 @@ wire()->addHookAfter('Dashboard::getSettings', function ($event) {
 });
 ```
 
-## Customize the Headline
+## Customize the headline
 
 Use the `getHeadline` hook to set the main headline or hide it by returning an empty string.
 

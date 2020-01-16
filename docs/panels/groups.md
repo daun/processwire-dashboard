@@ -23,7 +23,7 @@ foreach (getNotifications() as $message) {
 }
 ```
 
-## Example Configuration
+## Example configuration
 
 See the example below for a common group setup and the necessary code.
 
