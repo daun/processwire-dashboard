@@ -4,7 +4,7 @@
 
 ?> Please check the [requirements](requirements.md) to make sure your version of ProcessWire is supported.
 
-Install the module by either copying the folder into your `/site/modules/` directory or installing it via the admin interface.
+Install the module by copying the module folder into your `/site/modules/` directory. **Installation through the admin interface is currently not supported.** Doing so will break your site and require removing the module files manually.
 
 ## Accessing the dashboard
 
