@@ -23,9 +23,9 @@
         <div class='Dashboard__getStarted'>
             <p><i class="fa fa-magic"></i></p>
             <p><?= $texts->empty_panel_notice ?></p>
-            <p><?= sprintf($texts->setup_hint, $texts->repo_url) ?></p>
+            <p><?= sprintf($texts->setup_hint, $texts->docs_url) ?></p>
             <p>
-                <a href="<?= $texts->repo_url ?>" target="_blank" class="ui-button ui-priority-secondary">
+                <a href="<?= $texts->get_started_url ?>" target="_blank" class="ui-button ui-priority-secondary">
                     <?= $texts->get_started ?>
                 </a>
             </p>

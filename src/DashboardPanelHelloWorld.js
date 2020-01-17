@@ -1,14 +1,15 @@
 /* global $ */
 
-function initPanel($panel, reloadPanel) {
+function initPanel($panel) {
   const paragraphCount = $panel.find('p').length;
   console.log(`Hello world! I found ${paragraphCount} paragraph(s)`);
 
-  /* Reload the panel: reloadPanel(); */
+  /**
+   * Reload the panel:
+   * $panel.trigger('reload', { animate: true });
+   */
 }
 
-$(document).on('dashboard:panel', (event, { panel, $element, reload }) => {
-  if (panel === 'hello-world') {
-    initPanel($element, reload);
-  }
+$(document).on('dashboard:panel(hello-world)', (event, { $element }) => {
+  initPanel($element);
 });

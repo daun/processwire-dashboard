@@ -28,8 +28,6 @@ function initPanel($panel) {
 setChartJSDefaults();
 registerColorThemePlugin();
 
-$(document).on('dashboard:panel', (event, { panel, $element }) => {
-  if (panel === 'chart') {
-    initPanel($element);
-  }
+$(document).on('dashboard:panel(chart)', (event, { $element }) => {
+  initPanel($element);
 });

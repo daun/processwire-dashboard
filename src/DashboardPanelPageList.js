@@ -26,7 +26,7 @@ function makeLinksOpenInModal($container, selector) {
   });
 }
 
-function initPanel($panel, reloadPanel) {
+function initPanel($panel) {
   const $pagelist = $panel.find(selectors.pageList);
 
   // Edit mode
@@ -45,12 +45,10 @@ function initPanel($panel, reloadPanel) {
   }
 
   $pagelist.on('pw-modal-closed', selectors.editLink, () => {
-    reloadPanel(true);
+    $panel.trigger('reload', { animate: true });
   });
 }
 
-$(document).on('dashboard:panel', (event, { panel, $element, reload }) => {
-  if (panel === 'page-list') {
-    initPanel($element, reload);
-  }
+$(document).on('dashboard:panel(page-list)', (event, { $element }) => {
+  initPanel($element);
 });

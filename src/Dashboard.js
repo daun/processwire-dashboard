@@ -14,11 +14,13 @@ class Dashboard {
     this.$panels = $(this.selectors.panel);
 
     this.$panels.each((_, panel) => {
-      this.triggerPanelReadyEvent($(panel));
+      this.setupPanel($(panel));
     });
-    this.triggerDashboardReadyEvent();
 
+    this.setupReloadEvents();
     this.setupAutoReload();
+
+    this.triggerDashboardReadyEvent();
   }
 
   getPanelByKey(key) {
@@ -29,17 +31,26 @@ class Dashboard {
     $(document).trigger('dashboard:ready');
   }
 
-  triggerPanelReadyEvent($panel) {
+  setupPanel($panel, isReload = false) {
+    if (isReload) {
+      setupTooltips($panel);
+    }
+
     const key = parseInt($panel.data('key'), 10);
-    const panelType = $panel.data('panel');
-    const reload = (animate = false) => this.reloadPanel(key, animate);
+    const panel = $panel.data('panel');
     const data = {
-      key,
-      panel: panelType,
       $element: $panel,
-      reload,
+      key,
+      panel,
     };
     $(document).trigger('dashboard:panel', [data]);
+    $(document).trigger(`dashboard:panel(${panel})`, [data]);
+  }
+
+  setupReloadEvents() {
+    $(document).on('reload', this.selectors.panel, (event, { animate } = {}) => {
+      this.reloadPanel($(event.target), animate);
+    });
   }
 
   setupAutoReload() {
@@ -51,16 +62,16 @@ class Dashboard {
       if (key >= 0 && interval > 0) {
         interval = Math.max(2000, interval);
         setInterval(() => {
-          this.reloadPanel(key);
+          $panel.trigger('reload');
         }, interval);
       }
     });
   }
 
-  reloadPanel(key, animate = false) {
-    const $panel = this.getPanelByKey(key);
-    if (!$panel) return;
+  reloadPanel($panel, animate = false) {
+    if (!$panel.length) return;
 
+    const key = parseInt($panel.data('key'), 10);
     const panel = $panel.data('panel');
     const request = {
       key,
@@ -73,11 +84,10 @@ class Dashboard {
         const update = () => {
           $panel.html($new.html());
           $panel.prop('className', $new.prop('className'));
-          $new.filter('script').each(function() {
-              $.globalEval(this.text || this.textContent || this.innerHTML || '');
+          $new.filter('script').each((_, script) => {
+            $.globalEval(script.text || script.textContent || script.innerHTML || '');
           });
-          setupTooltips($panel);
-          this.triggerPanelReadyEvent($panel);
+          this.setupPanel($panel, true);
         };
         if (animate) {
           $panel.children().fadeOut(400, () => {
