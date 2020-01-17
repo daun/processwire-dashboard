@@ -73,17 +73,28 @@ Namespace your CSS to make sure you're targeting your custom panel type only.
 
 ## Initialize panels with JS
 
-If you need to run JavaScript to initialize a panel, you can listen for the `dashboard:panel` event that is fired whenever a panel is loaded (or reloaded via AJAX). The event receives a data object with three properties: `panel` is the panel type, `$element` is the panel DOM element as a jQuery object and `reload` is a function you can call whenever you need to reload the panel via AJAX.
+If you need to run JavaScript to initialize a panel, you can listen for the `dashboard:panel` event that is fired whenever a panel is loaded (or reloaded via AJAX). The event receives a data object with two relevant properties: `$element` is the panel DOM element as a jQuery object and `panel` is the panel type.
 
 ```js
-$(document).on('dashboard:panel', (event, { panel, $element, reload }) => {
-  if (panel === 'my-panel-type') {
-    /* Initialize the panel */
-  }
+/* Listen to ready event of new 'hello-world' panels */
+$(document).on('dashboard:panel(hello-world)', (event, { $element }) => {
+  /* Initialize the panel */
 });
 ```
 
 See [DashboardPanelHelloWorld.js](https://github.com/philippdaun/processwire-dashboard/blob/master/src/DashboardPanelHelloWorld.js) for an example implementation.
+
+## Reload panels
+
+To reload a panel via AJAX, trigger a `reload` event on the panel object.
+
+```js
+/* Instant reload */
+$panel.trigger('reload');
+
+/* Fade transition */
+$panel.trigger('reload', { animate: true });
+```
 
 ## Markup helpers
 
