@@ -6,7 +6,9 @@ Display a chart using [Chart.js](https://www.chartjs.org/).
 
 ## Options
 
-- `chart`: array of configuration options to pass to Chart.js (converted to JSON)
+|Parameter|Description|Type|Required|
+|---|---|---|---|
+|`chart`|Chart.js configuration options|`array`|**✓**|
 
 ## Example
 

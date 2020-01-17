@@ -6,6 +6,20 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 
 ## Options
 
+|Parameter|Description|Type|Default|Required|
+|---|---|---|---|---|
+|`collection`|Collection of pages to show|`PageArray`<br>selector string||**✓**|
+|`columns`|Columns to display|`array`|`title` and `url`||
+|`actions`|Actions to allow|`array`<br>`false` to disable|`edit` and `view`||
+|`pagination`|Display pagination info if collection has a `limit` set?|`bool`|`true`||
+|`sortable`|Make table columns sortable?|`bool`|`false`||
+|`headers`|Display table headers?|`bool`|`true`||
+|`dateFormat`|Format to use for DateTime columns|`string`|`relative`||
+|`maxImageNum`|Number of thumbnails to show for image columns|`int`|`1`||
+|`editMode`|How to open edit links|`string`<br>`none` for same window<br>`blank` for new tab<br>`modal`|`blank`||
+|`editMode`|How to open view links|`string`<br>same as `editMode`|`blank`||
+
+
 - `collection`: PageArray or selector string (required)
 - `columns`: columns to display (array, `title` and `url` by default)
 - `actions`: array of actions to allow, or `false` to disable Actions column (`edit` and `view` by default)
