@@ -13,9 +13,9 @@ Required options are marked with an asterisk `*`
 |**`collection *`**|Collection of pages to show|`PageArray` or selector string||
 |`columns`|Columns to display|`array`|`title` & `url`|
 |`sortable`|Make table columns sortable?|`bool`|`false`|
-|`actions`|Actions to allow|`array` or `false` to disable|`edit` & `view`|
-|`editMode`|How to open edit links|`string`: one of `none` (same window), `blank` (new tab) or `modal` (modal)|`blank`|
-|`viewMode`|How to open view links|`string`: same as `editMode`|`blank`|
+|`actions`|Actions to allow (`false` to disable)|`array`, `bool`|`edit` & `view`|
+|`editMode`|How to open edit links (`none` for same window, `blank` for new tab or `modal`)|`string`|`blank`|
+|`viewMode`|How to open view links (same options as `editMode`)|`string`|`blank`|
 |`pagination`|Display pagination info if collection has a `limit` set?|`bool`|`true`|
 |`headers`|Display table headers?|`bool`|`true`|
 |`dateFormat`|Format to use for DateTime columns|`string`|`relative`|
