@@ -6,19 +6,20 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 
 ## Options
 
-|Parameter|Description|Type|Default|Required|
-|---|---|---|---|---|
-|`collection`|Collection of pages to show|`PageArray`<br>selector string||**✓**|
-|`columns`|Columns to display|`array`|`title` and `url`||
-|`actions`|Actions to allow|`array`<br>`false` to disable|`edit` and `view`||
-|`pagination`|Display pagination info if collection has a `limit` set?|`bool`|`true`||
-|`sortable`|Make table columns sortable?|`bool`|`false`||
-|`headers`|Display table headers?|`bool`|`true`||
-|`dateFormat`|Format to use for DateTime columns|`string`|`relative`||
-|`maxImageNum`|Number of thumbnails to show for image columns|`int`|`1`||
-|`editMode`|How to open edit links|`string`<br>`none` for same window<br>`blank` for new tab<br>`modal`|`blank`||
-|`editMode`|How to open view links|`string`<br>same as `editMode`|`blank`||
+Required options are marked with an asterisk `*`
 
+|Name|Description|Type|Default|
+|---|---|---|---|
+|**`collection *`**|Collection of pages to show|`PageArray` or selector string||
+|`columns`|Columns to display|`array`|`title` & `url`|
+|`sortable`|Make table columns sortable?|`bool`|`false`|
+|`actions`|Actions to allow|`array` or `false` to disable|`edit` & `view`|
+|`editMode`|How to open edit links|`string`: one of `none` (same window), `blank` (new tab) or `modal` (modal)|`blank`|
+|`viewMode`|How to open view links|`string`: same as `editMode`|`blank`|
+|`pagination`|Display pagination info if collection has a `limit` set?|`bool`|`true`|
+|`headers`|Display table headers?|`bool`|`true`|
+|`dateFormat`|Format to use for DateTime columns|`string`|`relative`|
+|`maxImageNum`|Number of thumbnails to show for image columns|`int`|`1`|
 
 - `collection`: PageArray or selector string (required)
 - `columns`: columns to display (array, `title` and `url` by default)
