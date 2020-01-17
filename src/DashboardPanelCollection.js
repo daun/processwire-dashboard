@@ -1,16 +1,14 @@
 /* global $ */
 
-function initPanel($panel, reloadPanel) {
+function initPanel($panel) {
   const $reloadlinks = $panel.find('.pw-modal[data-reload-on-close]');
   if ($reloadlinks.length) {
     $reloadlinks.on('pw-modal-closed', () => {
-      reloadPanel(true);
+      $panel.trigger('reload', { animate: true });
     });
   }
 }
 
-$(document).on('dashboard:panel', (event, { panel, $element, reload }) => {
-  if (panel === 'collection') {
-    initPanel($element, reload);
-  }
+$(document).on('dashboard:panel(collection)', (event, { $element }) => {
+  initPanel($element);
 });
