@@ -182,11 +182,11 @@ abstract class DashboardPanel extends Wire implements Module {
         $this->style = $options['style'] ?? [];
         $this->align = $options['align'] ?? '';
 
-        // Include scripts and stylesheets
-        $this->includeFiles();
-
         // Setup panel
         $this->setup();
+
+        // Include scripts and stylesheets
+        $this->includeFiles();
 
         // Create output partials
         $icon = $this->renderIcon($options['icon'] ?? $this->getIcon());
