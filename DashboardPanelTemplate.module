@@ -24,7 +24,7 @@ class DashboardPanelTemplate extends DashboardPanel {
 
     public function getContent() {
         if (!is_file($this->templatePath)) {
-            $error = sprintf($this->_('Template file missing or invalid: %s'), $this->template);
+            $error = sprintf($this->_('Template file missing: %s'), $this->template);
             $this->error($error);
             return;
         }
