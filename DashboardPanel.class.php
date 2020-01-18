@@ -402,18 +402,23 @@ abstract class DashboardPanel extends Wire implements Module {
      *
      */
     final protected function includeFiles() {
-        $path = $this->config->paths->$this;
-        $url = $this->config->urls->$this;
+        $modulePath = $this->config->paths->$this;
+        $moduleUrl = $this->config->urls->$this;
         $version = $this->modules->getModuleInfoProperty($this, 'version');
+
+        $templatePath = $this->config->paths->templates;
+        $templateUrl = $this->config->urls->templates;
 
         // Stylesheets
         $styles = (array) $this->getStyles();
         $styles[] = "{$this}.css";
         foreach ($styles as $file) {
             if (stripos($file, '://') !== false) {
-                $this->config->scripts->add($file);
-            } else if (file_exists($path.$file)) {
-                $this->config->styles->add("{$url}{$file}?v={$version}");
+                $this->config->styles->add($file);
+            } else if (file_exists($modulePath.$file)) {
+                $this->config->styles->add("{$moduleUrl}{$file}?v={$version}");
+            } else if (file_exists($templatePath.$file)) {
+                $this->config->styles->add("{$templateUrl}{$file}?v={$version}");
             }
         }
 
@@ -423,8 +428,10 @@ abstract class DashboardPanel extends Wire implements Module {
         foreach ($scripts as $file) {
             if (stripos($file, '://') !== false) {
                 $this->config->scripts->add($file);
-            } else if (file_exists($path.$file)) {
-                $this->config->scripts->add("{$url}{$file}?v={$version}");
+            } else if (file_exists($modulePath.$file)) {
+                $this->config->scripts->add("{$moduleUrl}{$file}?v={$version}");
+            } else if (file_exists($templatePath.$file)) {
+                $this->config->scripts->add("{$templateUrl}{$file}?v={$version}");
             }
         }
     }
