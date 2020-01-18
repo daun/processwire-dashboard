@@ -305,27 +305,6 @@ class DashboardPanelCollection extends DashboardPanel {
     }
 
     /**
-     * Render attribute array as HTML attribute string
-     *
-     */
-    protected function renderAttributes($attributes = []) {
-        if (empty($attributes)) return '';
-        if (!is_array($attributes)) return $attributes;
-
-        $attributePairs = [];
-        foreach ($attributes as $key => $val) {
-            if (is_int($key)) {
-                $attributePairs[] = $val;
-                continue;
-            }
-            $val = htmlspecialchars($val, ENT_QUOTES);
-            $attributePairs[] = "{$key}=\"{$val}\"";
-        }
-
-        return join(' ', $attributePairs);
-    }
-
-    /**
      * Render image thumbnails
      *
      */

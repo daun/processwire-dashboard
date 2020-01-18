@@ -130,6 +130,15 @@ abstract class DashboardPanel extends Wire implements Module {
     }
 
     /**
+     * Get a list of additional HTML attributes for the panel card
+     *
+     * @return array  Array of attributes (['attr' => 'value'])
+     */
+    public function getAttributes() {
+        return [];
+    }
+
+    /**
      * Get a list of the panel's stylesheets
      *
      * @return array  Array of file names or URLs
@@ -184,8 +193,14 @@ abstract class DashboardPanel extends Wire implements Module {
         $title = $options['title'] ?? $this->getTitle();
         $content = $this->getContent();
         $footer = $this->getFooter();
-        $classNames = join(' ', $this->getClassNames());
         $interval = (int) ($options['interval'] ?? $this->getInterval());
+        $classNames = join(' ', $this->getClassNames());
+        $attributes = $this->renderAttributes(
+            array_merge(
+                $this->generateStyleAttributes(),
+                $this->getAttributes()
+            )
+        );
 
         // Render panel
         return $this->dashboard->view('panel', [
@@ -199,6 +214,7 @@ abstract class DashboardPanel extends Wire implements Module {
             'align' => $this->align,
             'interval' => $interval,
             'classNames' => $classNames,
+            'attributes' => $attributes,
             'icon' => $icon,
             'title' => $title,
             'content' => $content,
@@ -314,6 +330,27 @@ abstract class DashboardPanel extends Wire implements Module {
     }
 
     /**
+     * Render attribute array as HTML attribute string
+     *
+     */
+    protected function renderAttributes($attributes = []) {
+        if (!is_array($attributes)) return $attributes;
+        if (empty($attributes)) return '';
+
+        $attributePairs = [];
+        foreach ($attributes as $key => $val) {
+            if (is_int($key)) {
+                $attributePairs[] = $val;
+                continue;
+            }
+            $val = htmlspecialchars($val, ENT_QUOTES);
+            $attributePairs[] = "{$key}=\"{$val}\"";
+        }
+
+        return join(' ', $attributePairs);
+    }
+
+    /**
      * Add/update query parameters on a url
      *
      */
@@ -334,6 +371,22 @@ abstract class DashboardPanel extends Wire implements Module {
             $result .= '?' . $query;
         }
         return $result;
+    }
+
+    /**
+     * Generate HTML attribute array from style options
+     *
+     */
+    protected function generateStyleAttributes() {
+        // Map styles array, and also transform the keys
+        return array_column(
+            array_map(function ($option, $value) {
+                $option = $this->sanitizer->kebabCase($option);
+                $key = "data-style-{$option}";
+                $value = $value ? 'true' : 'false';
+                return [$key, $value];
+            }, array_keys($this->style), $this->style)
+        , 1, 0);
     }
 
     /**
