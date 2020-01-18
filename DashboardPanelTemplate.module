@@ -34,13 +34,16 @@ class DashboardPanelTemplate extends DashboardPanel {
         } catch (\Throwable $th) {
             $this->error($th->getMessage());
         }
+    }
 
+    public function getAttributes() {
+        return ['data-file' => $this->templateFile];
     }
 
     public function setup() {
         parent::setup();
-        $this->template = $this->data['template'] ?? null;
-        $this->templatePath = $this->config->paths->templates . ltrim($this->template);
+        $this->templateFile = ltrim($this->data['template'] ?? '', '/\\');
+        $this->templatePath = $this->templateFile ? $this->config->paths->templates . $this->templateFile : null;
         $this->variables = $this->data['variables'] ?? [];
     }
 }
