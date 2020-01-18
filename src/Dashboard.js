@@ -31,20 +31,35 @@ class Dashboard {
     $(document).trigger('dashboard:ready');
   }
 
-  setupPanel($panel, isReload = false) {
-    if (isReload) {
-      setupTooltips($panel);
-    }
+  triggerPanelReadyEvent($panel) {
+    return this.triggerPanelEvent($panel, 'panel');
+  }
 
+  triggerPanelEvent($panel, event, additionalData = {}) {
     const key = parseInt($panel.data('key'), 10);
     const panel = $panel.data('panel');
     const data = {
       $element: $panel,
       key,
       panel,
+      ...additionalData,
     };
-    $(document).trigger('dashboard:panel', [data]);
-    $(document).trigger(`dashboard:panel(${panel})`, [data]);
+
+    /* Trigger events and collect info on whether it was cancelled in a handler */
+    const generalEvent = $.Event(`dashboard:${event}`);
+    const namespacedEvent = $.Event(`dashboard:${event}(${panel})`);
+    $(document).trigger(generalEvent, [data]);
+    $(document).trigger(namespacedEvent, [data]);
+
+    const prevented = generalEvent.isDefaultPrevented() || namespacedEvent.isDefaultPrevented();
+    return !prevented;
+  }
+
+  setupPanel($panel, isReload = false) {
+    if (isReload) {
+      setupTooltips($panel);
+    }
+    this.triggerPanelReadyEvent($panel);
   }
 
   setupReloadEvents() {
@@ -81,6 +96,13 @@ class Dashboard {
     $.post(this.url, request, null, 'text')
       .done((data) => {
         const $new = $(data);
+
+        // Abort if any event handlers cancelled this reload
+        const reloadEventAllowed = this.triggerPanelEvent($panel, 'reload', { $new });
+        if (!reloadEventAllowed) {
+          return;
+        }
+
         const update = () => {
           $panel.html($new.html());
           $panel.prop('className', $new.prop('className'));

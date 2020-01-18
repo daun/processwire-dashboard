@@ -12,16 +12,47 @@ Display the output of any file in your template folder. The file will receive al
 
 ## Example
 
+The following configuration will include `/site/templates/dashboard/example.php`.
+
 ```php
-/* Panel config */
 [
-  'template' => 'dash.php',
+  'template' => 'dashboard/example.php',
   'variables' => [
     'text' => 'Lorem ipsum dolor ...',
   ],
 ]
+```
 
-/* Template file: site/templates/dash.php */
+The specified template file will be rendered like any other ProcessWire template.
 
-echo $text;
+```php
+/* site/templates/dashboard/example.php */
+
+<p><?= $text ?></p>
+```
+
+## CSS and JS files
+
+Scripts and stylesheets that match the template file name will be included automatically. For the example above, this would mean that `/site/templates/dashboard/example.css` and `*.js` will be included as well (if they exist).
+
+## Namespacing
+
+Each template panel has a `data-template` attribute that contains the exact filename of the template being rendered. You can use this attribute to namespace any custom styles or track down the DOM element via JS.
+
+```css
+/* Style panel by its template file */
+
+.DashboardPanelTemplate[data-file="dashboard/example.php"] {
+  color: red;
+}
+```
+
+```js
+/* Find a panel by its template file and initialize it */
+
+$(document).on('dashboard:panel(template)', (event, { $element }) => {
+  if ($element.data('file' === 'dashboard/example.php')) {
+    /* Initialize the panel */
+  }
+});
 ```

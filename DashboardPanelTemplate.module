@@ -24,25 +24,41 @@ class DashboardPanelTemplate extends DashboardPanel {
 
     public function getContent() {
         if (!is_file($this->templatePath)) {
-            $error = sprintf($this->_('Template file missing or invalid: %s'), $this->template);
+            $error = sprintf($this->_('Template file missing: %s'), $this->template);
             $this->error($error);
             return;
         }
 
-        $output = '';
         try {
-            $output = $this->files->render($this->templatePath, $this->variables);
+            return $this->files->render($this->templatePath, $this->variables);
         } catch (\Throwable $th) {
             $this->error($th->getMessage());
         }
+    }
 
-        return $output;
+    public function getScripts() {
+        return [$this->replaceFileExtension($this->templateFile, 'js')];
+    }
+
+    public function getStyles() {
+        return [$this->replaceFileExtension($this->templateFile, 'css')];
+    }
+
+    public function getAttributes() {
+        return ['data-file' => $this->templateFile];
     }
 
     public function setup() {
         parent::setup();
-        $this->template = $this->data['template'] ?? null;
-        $this->templatePath = $this->config->paths->templates . ltrim($this->template);
+        $this->templateFile = ltrim($this->data['template'] ?? '', '/\\');
+        $this->templatePath = $this->templateFile ? $this->config->paths->templates . $this->templateFile : null;
         $this->variables = $this->data['variables'] ?? [];
+    }
+
+    protected function replaceFileExtension($filename, $new_extension) {
+        $info = pathinfo($filename);
+        $dirname = $info['dirname'] ?? '';
+        $dir = $dirname ? $dirname . DIRECTORY_SEPARATOR : '';
+        return $dir . $info['filename'] . '.' . $new_extension;
     }
 }

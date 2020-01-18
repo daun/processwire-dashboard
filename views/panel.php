@@ -1,13 +1,3 @@
-<?php
-
-$attrs = array_map(function ($value, $option) use ($sanitizer) {
-    $name = $sanitizer->kebabCase($option);
-    $value = $value ? 'true' : 'false';
-    return "data-style-{$name}='{$value}'";
-}, $style, array_keys($style));
-
-?>
-
 <div
     class="Dashboard__panel <?= $module ?> <?= $classNames ?> uk-card uk-card-default uk-card-small ui-corner-all"
     data-dashboard-panel
@@ -16,7 +6,7 @@ $attrs = array_map(function ($value, $option) use ($sanitizer) {
     data-size="<?= $size ?>"
     data-align="<?= $align ?>"
     data-interval="<?= $interval ?>"
-    <?= join(' ', $attrs) ?>
+    <?= $attributes ?>
 >
 
     <?php if ($title): ?>
