@@ -29,14 +29,12 @@ class DashboardPanelTemplate extends DashboardPanel {
             return;
         }
 
-        $output = '';
         try {
-            $output = $this->files->render($this->templatePath, $this->variables);
+            return $this->files->render($this->templatePath, $this->variables);
         } catch (\Throwable $th) {
             $this->error($th->getMessage());
         }
 
-        return $output;
     }
 
     public function setup() {
