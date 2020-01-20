@@ -1,10 +1,14 @@
 <?php namespace ProcessWire;
 
 /**
- * Dashboard panel base class
+ * ProcessWire Dashboard
+ * Panel base class
  *
- * Base class all dashboard panels must inherit from. Defines basic behavior and
- * minimum expected public interface
+ * Base module class all dashboard panel modules must inherit from.
+ * Defines basic behavior and a minimal expected public interface.
+ *
+ * @author Philipp Daun <post@philippdaun.net>
+ * @license GPL-3.0
  */
 abstract class DashboardPanel extends Wire implements Module {
 
