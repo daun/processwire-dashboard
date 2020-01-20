@@ -10,6 +10,14 @@
  * @author Philipp Daun <post@philippdaun.net>
  * @license GPL-3.0
  */
+
+/**
+ * Define module version
+ * This is done here because all panel modules include this base class.
+ * This way, all panel modules can inherit the main module version.
+ */
+define('DASHBOARD_VERSION', trim(@file_get_contents(__DIR__ . '/VERSION') ?: '0.0.1'));
+
 abstract class DashboardPanel extends Wire implements Module {
 
     /**

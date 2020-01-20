@@ -3,7 +3,6 @@
 // Include abstract panel base class
 require_once 'DashboardPanel.class.php';
 
-define('DASHBOARD_VERSION', trim(@file_get_contents(__DIR__ . '/VERSION') ?: '0.0.1'));
 // Include panel instance helpers
 require_once 'DashboardPanelInstance.class.php';
 
