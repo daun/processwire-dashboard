@@ -1,9 +1,18 @@
 <?php namespace ProcessWire;
 
-require_once 'DashboardPanel.class.php';
-require_once 'DashboardPanelInstance.class.php';
+/**
+ * ProcessWire Dashboard
+ * Module class
+ *
+ * @author Philipp Daun <post@philippdaun.net>
+ * @license GPL-3.0
+ */
 
-define('DASHBOARD_VERSION', trim(@file_get_contents(__DIR__ . '/VERSION') ?: '0.0.1'));
+// Include abstract panel base class
+require_once 'DashboardPanel.class.php';
+
+// Include panel instance helpers
+require_once 'DashboardPanelInstance.class.php';
 
 class Dashboard extends Process implements Module {
 
@@ -27,7 +36,17 @@ class Dashboard extends Process implements Module {
                 'PHP>=7.0',
                 'ProcessWire>=3.0.123',
             ],
-            'autoload' => 2, // high priority to always load base class
+            'installs' => [
+                'DashboardPanelChart',
+                'DashboardPanelCollection',
+                'DashboardPanelHelloWorld',
+                'DashboardPanelNotice',
+                'DashboardPanelNumber',
+                'DashboardPanelPageList',
+                'DashboardPanelShortcuts',
+                'DashboardPanelTemplate',
+            ],
+            'autoload' => 10, // high priority to always load base class
             'singular' => true,
         ];
     }
@@ -375,7 +394,7 @@ class Dashboard extends Process implements Module {
     /**
      * Hook to set and add dashboard settings
      *
-     * @return WireArray
+     * @return WireData
      */
     protected function ___getSettings() {
         $settings = new WireData;
@@ -424,7 +443,8 @@ class Dashboard extends Process implements Module {
     /**
      * Render icon as markup
      *
-     * @return string
+     * @param string $icon
+     * @return string Icon markup
      */
     public function renderIcon($icon) {
         return $icon ? wireIconMarkup($icon, 'fw') : '';
