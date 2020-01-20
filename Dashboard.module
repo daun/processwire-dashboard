@@ -93,8 +93,12 @@ class Dashboard extends Process implements Module {
             'headline_without_user' => $this->_('Welcome'),
             'panel_not_found' => $this->_('Dashboard panel not found: %s'),
             'empty_panel_notice' => $this->_('Your dashboard is empty'),
-            'setup_hint' => $this->_('Learn how to add and configure panels reading the <a href="%s" target="_blank">documentation</a>.'),
+            'setup_hint' => $this->sanitizer->entitiesMarkdown(
+                $this->_('Learn how to add and configure panels reading the [documentation](%s).')
+            ),
             'get_started' => $this->_('Get started'),
+            'get_started_url' => 'https://philippdaun.github.io/processwire-dashboard/#/getting-started',
+            'docs_url' => 'https://philippdaun.github.io/processwire-dashboard/',
             'repo_url' => 'https://github.com/philippdaun/processwire-dashboard',
         ];
 
