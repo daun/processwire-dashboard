@@ -1,5 +1,13 @@
 <?php namespace ProcessWire;
 
+/**
+ * ProcessWire Dashboard
+ * Module class
+ *
+ * @author Philipp Daun <post@philippdaun.net>
+ * @license GPL-3.0
+ */
+
 // Include abstract panel base class
 require_once 'DashboardPanel.class.php';
 
@@ -386,7 +394,7 @@ class Dashboard extends Process implements Module {
     /**
      * Hook to set and add dashboard settings
      *
-     * @return WireArray
+     * @return WireData
      */
     protected function ___getSettings() {
         $settings = new WireData;
@@ -435,7 +443,8 @@ class Dashboard extends Process implements Module {
     /**
      * Render icon as markup
      *
-     * @return string
+     * @param string $icon
+     * @return string Icon markup
      */
     public function renderIcon($icon) {
         return $icon ? wireIconMarkup($icon, 'fw') : '';
