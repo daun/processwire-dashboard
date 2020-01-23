@@ -6,31 +6,20 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 
 ## Options
 
-Required options are marked with an asterisk `*`
+Required parameters are marked with an asterisk `*`
 
-|Name|Description|Type|Default|
+|Parameter|Type|Default|Description|
 |---|---|---|---|
-|**`collection *`**|Collection of pages to show|`PageArray` or selector string||
-|`columns`|Columns to display|`array`|`title` & `url`|
-|`sortable`|Make table columns sortable?|`bool`|`false`|
-|`actions`|Actions to allow (`false` to disable)|`array`, `bool`|`edit` & `view`|
-|`editMode`|How to open edit links (`none` for same window, `blank` for new tab or `modal`)|`string`|`blank`|
-|`viewMode`|How to open view links (same options as `editMode`)|`string`|`blank`|
-|`pagination`|Display pagination info if collection has a `limit` set?|`bool`|`true`|
-|`headers`|Display table headers?|`bool`|`true`|
-|`dateFormat`|Format to use for DateTime columns|`string`|`relative`|
-|`maxImageNum`|Number of thumbnails to show for image columns|`int`|`1`|
-
-- `collection`: PageArray or selector string (required)
-- `columns`: columns to display (array, `title` and `url` by default)
-- `actions`: array of actions to allow, or `false` to disable Actions column (`edit` and `view` by default)
-- `pagination`: display pagination info if PageArray has a `limit` set? (bool, `true` by default)
-- `sortable`: make table columns sortable (bool, `false` by default)
-- `headers`: show table headers? (bool, `true` by default)
-- `dateFormat`: date format to use for DateTime columns (`relative` by default)
-- `maxImageNum`: number of thumbnails to show for image columns (`1` by default)
-- `editMode`: how to open edit links (string, `none` for same window, `blank` for new tab or `modal`)
-- `viewMode`: how to open view links (same options as `editMode`)
+|**`collection *`**|`PageArray`, `string`||Collection of pages to show (or selector string)|
+|`columns`|`array`|`title` & `url`|Columns to display|
+|`sortable`|`bool`|`false`|Make table columns sortable?|
+|`actions`|`array`, `bool`|`edit` & `view`|Actions to allow (`false` to disable)|
+|`editMode`|`string`|`blank`|How to open edit links (`none` for same window, `blank` for new tab or `modal`)|
+|`viewMode`|`string`|`blank`|How to open view links (same options as `editMode`)|
+|`pagination`|`bool`|`true`|Display pagination info if collection has a `limit` set?|
+|`headers`|`bool`|`true`|Display table headers?|
+|`dateFormat`|`string`|`relative`|Format to use for DateTime columns|
+|`maxImageNum`|`int`|`1`|Number of thumbnails to show for image columns|
 
 ## Example
 

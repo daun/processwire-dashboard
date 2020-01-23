@@ -6,10 +6,12 @@ Display a ProcessPageList widget.
 
 ## Options
 
-- `parent`: the root page to render the page list for (Page object, ID or selector, homepage by default)
-- `showRootPage`: whether to include the root page in the output (bool, `true` by default)
-- `editMode`: how to open edit links (string, `none` for same window, `blank` for new tab or `modal`)
-- `viewMode`: how to open view links (same options as `editMode`)
+|Parameter|Type|Default|Description|
+|---|---|---|---|
+|`parent`|`Page`, `int`, `string`|Homepage|Root page to render the page list for (Page, ID or selector)|
+|`showRootPage`|`bool`|`true`|Include the root page in the output?|
+|`editMode`|`string`|`blank`|How to open edit links (`none` for same window, `blank` for new tab or `modal`)|
+|`viewMode`|`string`|`blank`|How to open view links (same options as `editMode`)|
 
 ## Example
 

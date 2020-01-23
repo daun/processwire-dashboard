@@ -7,21 +7,30 @@ Display the output of any file in your template folder. The file will receive al
 
 ## Options
 
-- `template`: template file name, relative to `/site/templates/` and including extension (string, required)
-- `variables`: variables to pass into the template (array, empty by default)
+Required parameters are marked with an asterisk `*`
+
+|Parameter|Type|Default|Description|
+|---|---|---|---|
+|**`template *`**|`string`||Template file name, relative to `/site/templates/` and including extension|
+|`variables`|`array`|`[]`|Data to pass into the template|
 
 ## Example
 
+### Panel configuration
+
 ```php
-/* Panel config */
 [
-  'template' => 'dash.php',
+  'template' => 'dashboard/lorem.php',
   'variables' => [
     'text' => 'Lorem ipsum dolor ...',
   ],
 ]
+```
 
-/* Template file: site/templates/dash.php */
+### Template file
 
-echo $text;
+```php
+/* site/templates/dashboard/lorem.php */
+
+<p><?= $text ?></p>
 ```

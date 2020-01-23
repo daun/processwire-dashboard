@@ -6,11 +6,11 @@ Display a chart using [Chart.js](https://www.chartjs.org/).
 
 ## Options
 
-Required options are marked with an asterisk `*`
+Required parameters are marked with an asterisk `*`
 
-|Name|Description|Type|
-|---|---|---|
-|**`chart *`**|Chart.js configuration options|`array`|
+|Parameter|Type|Default|Description|
+|---|---|---|---|
+|**`chart *`**|`array`|`[]`|Chart.js configuration options|
 
 ## Example
 
