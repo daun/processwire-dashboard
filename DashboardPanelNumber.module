@@ -2,6 +2,9 @@
 
 use \NumberFormatter;
 
+// Include abstract panel base class
+require_once dirname(__DIR__) . '/Dashboard/DashboardPanel.class.php';
+
 class DashboardPanelNumber extends DashboardPanel {
 
     public static function getModuleInfo() {
