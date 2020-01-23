@@ -1,7 +1,7 @@
 
 # Panel Groups
 
-Panels can be displayed in a nested grid by creating groups. Each group can have a `title` and add extra `margin` below. To control vertical alignment inside the group, set the `align` property to one of `top`, `bottom`, `center`, `distribute` or `fill` (`fill` by default).
+Panels can be displayed in a nested grid by creating groups. Each group can have a title and add extra margin below.
 
 ```php
 /* Create a group */
@@ -22,6 +22,14 @@ foreach (getNotifications() as $message) {
   ]);
 }
 ```
+
+## Options
+
+|Parameter|Type|Default|Description|
+|---|---|---|---|
+|`title`|`string`||Heading displayed above the group|
+|`margin`|`bool`|`false`|Add extra margin below the group|
+|`align`|`string`|`fill`|Control vertical alignment of the panels inside the group: `top`, `bottom`, `center`, `distribute` (add space between) or `fill` (stretch to fill space)|
 
 ## Example configuration
 

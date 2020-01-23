@@ -1,14 +1,18 @@
 # Panel Type: Notice
 
-Display a notice with icon and actions. If set, the panel's `title` will be displayed inline and in bold instead of inside a panel header.
+Display a notice with icon and actions. If set, the panel's title will be displayed inline and in bold instead of inside a panel header.
 
 ![Notice](../images/notice.png ':size=400')
 
 ## Options
 
-- `message`: notice to display (string, required)
-- `status`: status of the notice (string: one of either `success`, `warning` or `error`; `notice` by default)
-- `actions`: additional links to display (array of format `['Label' => 'url']`)
+Required parameters are marked with an asterisk `*`
+
+|Parameter|Type|Default|Description|
+|---|---|---|---|
+|**`message *`**|`string`||Notice to display|
+|`status`|`string`|`notice`|Status of the notice: `notice`, `success`, `warning` or `error`|
+|`actions`|`array`|`[]`|Additional links to display (array of format `['Label' => 'url']`)|
 
 ## Example
 
