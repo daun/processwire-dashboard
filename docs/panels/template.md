@@ -41,7 +41,7 @@ Scripts and stylesheets that match the template file name will be included autom
 
 ## Namespacing
 
-Each template panel has a `data-template` attribute that contains the exact filename of the template being rendered. You can use this attribute to namespace any custom styles or track down the DOM element via JS.
+Each template panel has a `data-file` attribute that contains the exact filename of the template being rendered. You can use this attribute to namespace any custom styles or track down the DOM element via JS.
 
 ```css
 /* Style panel by its template file */
