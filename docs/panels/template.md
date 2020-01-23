@@ -7,8 +7,12 @@ Display the output of any file in your template folder. The file will receive al
 
 ## Options
 
-- `template`: template file name, relative to `/site/templates/` and including extension (string, required)
-- `variables`: variables to pass into the template (array, empty by default)
+Required parameters are marked with an asterisk `*`
+
+|Parameter|Type|Default|Description|
+|---|---|---|---|
+|**`template *`**|`string`||Template file name, relative to `/site/templates/` and including extension|
+|`variables`|`array`|`[]`|Data to pass into the template|
 
 ## Example
 
@@ -51,7 +55,7 @@ Each template panel has a `data-file` attribute that contains the exact filename
 /* Find a panel by its template file and initialize it */
 
 $(document).on('dashboard:panel(template)', (event, { $element }) => {
-  if ($element.data('file' === 'dashboard/example.php')) {
+  if ($element.data('file') === 'dashboard/example.php') {
     /* Initialize the panel */
   }
 });

@@ -25,6 +25,27 @@
       --sidebar-nav-link-text-decoration--active: none;
       --sidebar-toggle-icon-color: var(--mono-tint1);
       --sidebar-toggle-width: 52px;
+
+      --table-row-odd-background: transparent;
+      --table-cell-border-color: var(--mono-tint2);
+      --table-cell-border-width: 1px 0 0 0;
+    }
+    td {
+      vertical-align: top;
+    }
+    .markdown-section table {
+      --code-inline-background: transparent;
+      --code-inline-color: currentColor;
+    }
+    .markdown-section table code {
+      border: 1px solid var(--mono-tint2);
+    }
+    .markdown-section table strong code {
+      /* background: var(--code-inline-background);
+      color: var(--code-inline-color, currentColor); */
+      /* color: var(--mono-tint0) !important;
+      border-color: var(--mono-tint0); */
+      font-weight: bold;
     }
     .sidebar>h1 {
       font-weight: inherit;
