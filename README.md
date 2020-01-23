@@ -5,7 +5,7 @@
 [![GitHub License](https://img.shields.io/github/license/philippdaun/processwire-dashboard?color=97aab4)](./LICENSE) 
 [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/philippdaun/processwire-dashboard?label=updated)](https://github.com/philippdaun/processwire-dashboard/releases)
 
-Display a configurable dashboard in ProcessWire's admin interface. Comes with a set of pre-defined panel types but can be extended easily to display any content you want.
+Display a configurable dashboard in ProcessWire's admin interface. Includes a set of predefined panel types, but can be easily extended to display any content you want.
 
 [Documentation](https://philippdaun.github.io/processwire-dashboard/) • [Releases](https://github.com/philippdaun/processwire-dashboard/releases) • [Support forum](https://processwire.com/talk/topic/22847-processwire-dashboard/)
 
