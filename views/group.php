@@ -5,18 +5,18 @@
     data-margin="<?= $margin ? 'true' : 'false' ?>"
 >
 
-    <?php if ($title): ?>
+    <?php if ($title) { ?>
         <h2 class="Dashboard__group__title">
             <?= $icon ?> <?= $title ?>
         </h2>
-    <?php endif; ?>
+    <?php } ?>
 
-    <?php if (count($panels)): ?>
+    <?php if (count($panels)) { ?>
         <div class="Dashboard__grid Dashboard__group__content">
-            <?php foreach ($panels as $markup): ?>
+            <?php foreach ($panels as $markup) { ?>
                 <?= $markup ?>
-            <?php endforeach; ?>
+            <?php } ?>
         </div>
-    <?php endif; ?>
+    <?php } ?>
 
 </div>
