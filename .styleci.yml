@@ -1,0 +1,4 @@
+finder:
+  name:
+    - "*.php"
+    - "*.module"
