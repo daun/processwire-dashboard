@@ -1,8 +1,10 @@
-<?php namespace ProcessWire;
+<?php
+
+namespace ProcessWire;
 
 /**
  * ProcessWire Dashboard
- * Panel base class
+ * Panel base class.
  *
  * Base module class all dashboard panel modules must inherit from.
  * Defines basic behavior and a minimal expected public interface.
@@ -16,67 +18,62 @@
  * This is done here because all panel modules include this base class.
  * This way, all panel modules can inherit the main module version.
  */
-define('DASHBOARD_VERSION', trim(@file_get_contents(__DIR__ . '/VERSION') ?: '0.0.1'));
+define('DASHBOARD_VERSION', trim(@file_get_contents(__DIR__.'/VERSION') ?: '0.0.1'));
 
-abstract class DashboardPanel extends Wire implements Module {
-
+abstract class DashboardPanel extends Wire implements Module
+{
     /**
-     * Instance of the main dashboard module
+     * Instance of the main dashboard module.
      *
      * @var Dashboard
      */
     private $dashboard = null;
 
     /**
-     * Options passed to this instance
+     * Options passed to this instance.
      *
      * @var array
      */
     protected $options = [];
 
     /**
-     * Data passed to this instance
+     * Data passed to this instance.
      *
      * @var array
      */
     protected $data = [];
 
     /**
-     * Open links in the current tab
-     *
+     * Open links in the current tab.
      */
-    const windowModeNone  = 'none';  // regular link
+    const windowModeNone = 'none';  // regular link
     /**
-     * Open links in a modal popup
-     *
+     * Open links in a modal popup.
      */
     const windowModeModal = 'modal'; // opens modal
     /**
-     * Open links in a new tab
-     *
+     * Open links in a new tab.
      */
     const windowModeBlank = 'blank'; // opens target=_blank
 
     /**
-     * Buttons displayed as floating modal buttons
-     *
+     * Buttons displayed as floating modal buttons.
      */
     const modalButtons = '#submit_publish, #submit_save, #submit_save_unpublished, #Inputfield_submit_save';
     /**
-     * Buttons that automatically close a modal after save (edit-page screen)
-     *
+     * Buttons that automatically close a modal after save (edit-page screen).
      */
     const modalAutocloseEdit = '#submit_publish, #submit_save_unpublished, #submit_save';
     /**
-     * Buttons that automatically close a modal after save (add-page screen)
-     *
+     * Buttons that automatically close a modal after save (add-page screen).
      */
     const modalAutocloseAdd = '#submit_publish, #submit_save_unpublished';
 
     /**
-     * Module info stub to be extended by the implementing panel modules
+     * Module info stub to be extended by the implementing panel modules.
      */
-    public static function getModuleInfo() {
+    public static function getModuleInfo()
+    {
         return [
             'title'    => __('Dashboard Panel: Base Class', __FILE__),
             'requires' => 'Dashboard',
@@ -88,9 +85,10 @@ abstract class DashboardPanel extends Wire implements Module {
     }
 
     /**
-     * Constructor
+     * Constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->dashboard = $this->modules->Dashboard;
         $this->viewFolder = __DIR__.'/views/';
     }
@@ -100,97 +98,108 @@ abstract class DashboardPanel extends Wire implements Module {
      *
      * @return bool
      */
-    public function setup() {
+    public function setup()
+    {
         return true;
     }
 
     /**
-     * Get the panel's FontAwesome icon code (without the fa- prefix)
+     * Get the panel's FontAwesome icon code (without the fa- prefix).
      *
-     * @return string  Icon code
+     * @return string Icon code
      */
-    public function getIcon() {
+    public function getIcon()
+    {
         return '';
     }
 
     /**
-     * Get the panel's title
+     * Get the panel's title.
      *
-     * @return string  Panel title
+     * @return string Panel title
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         return '';
     }
 
     /**
-     * Get the panel's main content
+     * Get the panel's main content.
      *
-     * @return string  Panel content
+     * @return string Panel content
      */
     abstract public function getContent();
 
     /**
-     * Get the panel's footer
+     * Get the panel's footer.
      *
-     * @return string  Panel footer
+     * @return string Panel footer
      */
-    public function getFooter() {
+    public function getFooter()
+    {
         return '';
     }
 
     /**
-     * Get a list of additional class names for the panel card
+     * Get a list of additional class names for the panel card.
      *
-     * @return array  Array of class names
+     * @return array Array of class names
      */
-    public function getClassNames() {
+    public function getClassNames()
+    {
         return [];
     }
 
     /**
-     * Get a list of additional HTML attributes for the panel card
+     * Get a list of additional HTML attributes for the panel card.
      *
-     * @return array  Array of attributes (['attr' => 'value'])
+     * @return array Array of attributes (['attr' => 'value'])
      */
-    public function getAttributes() {
+    public function getAttributes()
+    {
         return [];
     }
 
     /**
-     * Get a list of the panel's required stylesheets
+     * Get a list of the panel's required stylesheets.
      *
-     * @return array  Array of file names or URLs
+     * @return array Array of file names or URLs
      */
-    public function getStyles() {
+    public function getStyles()
+    {
         return [];
     }
 
     /**
-     * Get a list of the panel's required script files
+     * Get a list of the panel's required script files.
      *
-     * @return array  Array of file names or URLs
+     * @return array Array of file names or URLs
      */
-    public function getScripts() {
+    public function getScripts()
+    {
         return [];
     }
 
     /**
-     * Get the interval at which this panel will auto-reload via AJAX
+     * Get the interval at which this panel will auto-reload via AJAX.
      *
-     * @return int  Reload interval (milliseconds)
+     * @return int Reload interval (milliseconds)
      */
-    public function getInterval() {
+    public function getInterval()
+    {
         return 0;
     }
 
     /**
-     * Render the panel markup
+     * Render the panel markup.
      *
      * @param array $options Options passed to this panel instance
-     * @param int $key Key of this instance among all panels
+     * @param int   $key     Key of this instance among all panels
+     *
      * @return string
      */
-    final public function render($options, $key = -1) {
+    final public function render($options, $key = -1)
+    {
         // Create shortcut properties
         $this->options = $options;
         $this->name = $options['panel'] ?? '';
@@ -215,7 +224,7 @@ abstract class DashboardPanel extends Wire implements Module {
         $content = $this->getContent();
         $footer = $this->getFooter();
         $interval = (int) ($options['interval'] ?? $this->getInterval());
-        $classNames = join(' ', $this->getClassNames());
+        $classNames = implode(' ', $this->getClassNames());
         $attributes = $this->renderAttributes(
             array_merge(
                 $this->generateStyleAttributes(),
@@ -225,42 +234,46 @@ abstract class DashboardPanel extends Wire implements Module {
 
         // Render panel
         return $this->dashboard->view('panel', [
-            'key' => $key,
-            'panel' => $this->name,
-            'module' => $this->class,
-            'options' => $this->options,
-            'size' => $this->size,
-            'data' => $this->data,
-            'style' => $this->style,
-            'align' => $this->align,
-            'interval' => $interval,
+            'key'        => $key,
+            'panel'      => $this->name,
+            'module'     => $this->class,
+            'options'    => $this->options,
+            'size'       => $this->size,
+            'data'       => $this->data,
+            'style'      => $this->style,
+            'align'      => $this->align,
+            'interval'   => $interval,
             'classNames' => $classNames,
             'attributes' => $attributes,
-            'icon' => $icon,
-            'title' => $title,
-            'content' => $content,
-            'footer' => $footer,
+            'icon'       => $icon,
+            'title'      => $title,
+            'content'    => $content,
+            'footer'     => $footer,
         ]);
     }
 
     /**
-     * Render icon as markup
+     * Render icon as markup.
      *
      * @param string $icon Icon code (without fa-)
+     *
      * @return string
      */
-    final protected function renderIcon($icon) {
+    final protected function renderIcon($icon)
+    {
         return $this->dashboard->renderIcon($icon);
     }
 
     /**
-     * Render data table
+     * Render data table.
      *
-     * @param array $rows Table rows
+     * @param array $rows    Table rows
      * @param array $options Array of options
+     *
      * @return string
      */
-    protected function renderTable($rows, $options = []) {
+    protected function renderTable($rows, $options = [])
+    {
         $table = $this->modules->get('MarkupAdminDataTable');
 
         $table->setSortable($options['sortable'] ?? false);
@@ -290,14 +303,16 @@ abstract class DashboardPanel extends Wire implements Module {
     }
 
     /**
-     * Render a button
+     * Render a button.
      *
-     * @param string $href Link target
-     * @param string $label Button label
-     * @param array $options Array of options
+     * @param string $href    Link target
+     * @param string $label   Button label
+     * @param array  $options Array of options
+     *
      * @return string
      */
-    protected function renderButton($href, $label, $options = []) {
+    protected function renderButton($href, $label, $options = [])
+    {
         $icon = $options['icon'] ?? '';
         $small = $options['small'] ?? null;
         $secondary = $options['secondary'] ?? null;
@@ -345,14 +360,16 @@ abstract class DashboardPanel extends Wire implements Module {
     }
 
     /**
-     * Render a footer button. Identical to renderButton(), but with smaller & lighter buttons by default
+     * Render a footer button. Identical to renderButton(), but with smaller & lighter buttons by default.
      *
-     * @param string $href Link target
-     * @param string $label Button label
-     * @param array $options Array of options
+     * @param string $href    Link target
+     * @param string $label   Button label
+     * @param array  $options Array of options
+     *
      * @return string
      */
-    protected function renderFooterButton($href, $label, $options = []) {
+    protected function renderFooterButton($href, $label, $options = [])
+    {
         $options['light'] = $options['secondary'] ?? false;
         $options['small'] = true;
         $options['secondary'] = true;
@@ -361,14 +378,20 @@ abstract class DashboardPanel extends Wire implements Module {
     }
 
     /**
-     * Render attribute array as HTML attribute string
+     * Render attribute array as HTML attribute string.
      *
      * @param array $attributes Attributes (['attr' => 'value'])
+     *
      * @return string
      */
-    protected function renderAttributes($attributes = []) {
-        if (!is_array($attributes)) return $attributes;
-        if (empty($attributes)) return '';
+    protected function renderAttributes($attributes = [])
+    {
+        if (!is_array($attributes)) {
+            return $attributes;
+        }
+        if (empty($attributes)) {
+            return '';
+        }
 
         $attributePairs = [];
         foreach ($attributes as $key => $val) {
@@ -380,22 +403,24 @@ abstract class DashboardPanel extends Wire implements Module {
             $attributePairs[] = "{$key}=\"{$val}\"";
         }
 
-        return join(' ', $attributePairs);
+        return implode(' ', $attributePairs);
     }
 
     /**
-     * Add/update query parameters on a url
-     *
+     * Add/update query parameters on a url.
      */
+
     /**
-     * Add/update query parameters on a url (either ? or &)
+     * Add/update query parameters on a url (either ? or &).
      *
-     * @param string $url URL to update
-     * @param string $key Query parameter to add/change
+     * @param string $url   URL to update
+     * @param string $key   Query parameter to add/change
      * @param string $value Value to set parameter to
+     *
      * @return string Updated URL
      */
-    protected function setQueryParameter($url, $key, $value) {
+    protected function setQueryParameter($url, $key, $value)
+    {
         $info = parse_url($url);
         $query = $info['query'] ?? '';
         parse_str($query, $params);
@@ -405,26 +430,28 @@ abstract class DashboardPanel extends Wire implements Module {
 
         $result = $info['path'] ?? '';
         if ($info['host'] ?? false) {
-            $origin = $info['scheme'] . '://' . $info['host'];
-            $result = $origin . $result;
+            $origin = $info['scheme'].'://'.$info['host'];
+            $result = $origin.$result;
         }
         if ($query) {
-            $result .= '?' . $query;
+            $result .= '?'.$query;
         }
+
         return $result;
     }
 
     /**
-     * Generate HTML attribute array from style options
-     *
+     * Generate HTML attribute array from style options.
      */
-    protected function generateStyleAttributes() {
+    protected function generateStyleAttributes()
+    {
         // Map styles array, and also transform the keys
         return array_column(
             array_map(function ($option, $value) {
                 $option = $this->sanitizer->kebabCase($option);
                 $key = "data-style-{$option}";
                 $value = $value ? 'true' : 'false';
+
                 return [$key, $value];
             }, array_keys($this->style), $this->style),
             1,
@@ -433,20 +460,22 @@ abstract class DashboardPanel extends Wire implements Module {
     }
 
     /**
-     * Include required JS files for modal popups
+     * Include required JS files for modal popups.
      *
      * @return void
      */
-    protected function includeModalScripts() {
+    protected function includeModalScripts()
+    {
         $this->modules->get('JqueryUI')->use('modal');
     }
 
     /**
-     * Include module scripts and stylesheets
+     * Include module scripts and stylesheets.
      *
      * @return void
      */
-    final protected function includeFiles() {
+    final protected function includeFiles()
+    {
         $modulePath = $this->config->paths->$this;
         $moduleUrl = $this->config->urls->$this;
         $version = $this->modules->getModuleInfoProperty($this, 'version');
@@ -460,9 +489,9 @@ abstract class DashboardPanel extends Wire implements Module {
         foreach ($styles as $file) {
             if (stripos($file, '://') !== false) {
                 $this->config->styles->add($file);
-            } else if (file_exists($modulePath.$file)) {
+            } elseif (file_exists($modulePath.$file)) {
                 $this->config->styles->add("{$moduleUrl}{$file}?v={$version}");
-            } else if (file_exists($templatePath.$file)) {
+            } elseif (file_exists($templatePath.$file)) {
                 $this->config->styles->add("{$templateUrl}{$file}?v={$version}");
             }
         }
@@ -473,43 +502,49 @@ abstract class DashboardPanel extends Wire implements Module {
         foreach ($scripts as $file) {
             if (stripos($file, '://') !== false) {
                 $this->config->scripts->add($file);
-            } else if (file_exists($modulePath.$file)) {
+            } elseif (file_exists($modulePath.$file)) {
                 $this->config->scripts->add("{$moduleUrl}{$file}?v={$version}");
-            } else if (file_exists($templatePath.$file)) {
+            } elseif (file_exists($templatePath.$file)) {
                 $this->config->scripts->add("{$templateUrl}{$file}?v={$version}");
             }
         }
     }
 
     /**
-     * Render local view with supplied variables
+     * Render local view with supplied variables.
      *
-     * @param string $view View name (filename relative to /views/ folder)
-     * @param array $variables Array of variables (['var' => 'value'])
+     * @param string $view      View name (filename relative to /views/ folder)
+     * @param array  $variables Array of variables (['var' => 'value'])
+     *
      * @return string Rendered view
      */
-    final protected function view($view, $variables) {
+    final protected function view($view, $variables)
+    {
         return $this->files->render($this->viewFolder.$view, $variables);
     }
 
     /**
-     * Load a page from either an ID, a selector or return the page itself
-     *
+     * Load a page from either an ID, a selector or return the page itself.
      */
+
     /**
-     * Load a page from either an ID, a selector or return the page itself
+     * Load a page from either an ID, a selector or return the page itself.
      *
      * @param Page|int|string|null $input
+     *
      * @return Page|null
      */
-    protected function getPageFromObjectOrSelectorOrID($input) {
-        if (!$input) return;
+    protected function getPageFromObjectOrSelectorOrID($input)
+    {
+        if (!$input) {
+            return;
+        }
 
         if (is_object($input) && $input instanceof Page) {
             $page = $input;
-        } else if (is_int($input)) {
+        } elseif (is_int($input)) {
             $page = $this->pages->get($input);
-        } else if (is_string($input) && Selectors::stringHasSelector($input)) {
+        } elseif (is_string($input) && Selectors::stringHasSelector($input)) {
             $page = $this->pages->get($input);
         }
 

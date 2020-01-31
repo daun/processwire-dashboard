@@ -9,22 +9,22 @@
     <?= $attributes ?>
 >
 
-    <?php if ($title): ?>
+    <?php if ($title) { ?>
         <div class="uk-card-header">
             <h3 class="uk-card-title">
                 <?= $icon ?> <?= $title ?>
             </h3>
         </div>
-    <?php endif; ?>
+    <?php } ?>
 
     <div class="uk-card-body">
         <?= $content ?>
     </div>
 
-    <?php if ($footer): ?>
+    <?php if ($footer) { ?>
         <div class="uk-card-footer">
             <?= $footer ?>
         </div>
-    <?php endif; ?>
+    <?php } ?>
 
 </div>
