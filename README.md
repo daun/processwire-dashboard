@@ -9,7 +9,7 @@ Display a configurable dashboard in ProcessWire's admin interface. Includes a se
 
 [Documentation](https://philippdaun.github.io/processwire-dashboard/) • [Releases](https://github.com/philippdaun/processwire-dashboard/releases) • [Support forum](https://processwire.com/talk/topic/22847-processwire-dashboard/)
 
-![Dashboard](./docs/images/dashboard.png)
+![Dashboard](https://github.com/philippdaun/processwire-dashboard/raw/master/docs/images/dashboard.png)
 
 ## Getting Started
 
