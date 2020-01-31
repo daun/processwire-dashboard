@@ -12,8 +12,6 @@ namespace ProcessWire;
  * @author Philipp Daun <post@philippdaun.net>
  * @license GPL-3.0
  */
-
-
 abstract class DashboardPanel extends Wire implements Module
 {
     /**
