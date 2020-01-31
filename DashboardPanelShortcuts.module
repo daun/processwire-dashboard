@@ -1,11 +1,14 @@
-<?php namespace ProcessWire;
+<?php
+
+namespace ProcessWire;
 
 // Include abstract panel base class
-require_once dirname(__DIR__) . '/Dashboard/DashboardPanel.class.php';
+require_once dirname(__DIR__).'/Dashboard/DashboardPanel.class.php';
 
-class DashboardPanelShortcuts extends DashboardPanel {
-
-    public static function getModuleInfo() {
+class DashboardPanelShortcuts extends DashboardPanel
+{
+    public static function getModuleInfo()
+    {
         return array_merge(parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: Shortcuts', __FILE__),
@@ -23,19 +26,23 @@ class DashboardPanelShortcuts extends DashboardPanel {
 
     const defaultDisplayOption = 'grid';
 
-    public function getIcon() {
+    public function getIcon()
+    {
         return 'flash';
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->_('Shortcuts');
     }
 
-    public function getClassNames() {
+    public function getClassNames()
+    {
         return ["{$this}--{$this->display}"];
     }
 
-    public function getContent() {
+    public function getContent()
+    {
         if (!($this->shortcuts && count($this->shortcuts))) {
             return;
         }
@@ -58,9 +65,9 @@ class DashboardPanelShortcuts extends DashboardPanel {
             // otherwise treat shortcut as URL string
             if (is_object($shortcut) && $shortcut instanceof Page) {
                 $page = $shortcut;
-            } else if (is_int($shortcut)) {
+            } elseif (is_int($shortcut)) {
                 $page = $this->pages->get($shortcut);
-            } else if (is_string($shortcut)) {
+            } elseif (is_string($shortcut)) {
                 if (Selectors::stringHasSelector($shortcut)) {
                     $page = $this->pages->get($shortcut);
                 } else {
@@ -77,7 +84,7 @@ class DashboardPanelShortcuts extends DashboardPanel {
                 $summary = $summary ?: $info->summary;
                 $pageIcon = $info->icon;
                 $url = $page->url;
-            } else if ($url) {
+            } elseif ($url) {
                 $title = $key;
             } else {
                 return;
@@ -102,19 +109,23 @@ class DashboardPanelShortcuts extends DashboardPanel {
                 </li>";
         }, $this->shortcuts, array_keys($this->shortcuts));
 
-        $output = join('', $rows);
+        $output = implode('', $rows);
+
         return "<ul data-display='{$this->display}'>{$output}</ul>";
     }
 
-    protected function renderPageIcon($icon) {
+    protected function renderPageIcon($icon)
+    {
         if ($this->icon !== null) {
             $icon = $this->icon;
         }
         $icon = $icon ?: $this->fallbackIcon;
+
         return $icon ? wireIconMarkup($icon, 'fw') : '';
     }
 
-    protected function getPageInfo($page) {
+    protected function getPageInfo($page)
+    {
         $adminTheme = $this->wire('adminTheme');
         $hasInfoMethods = ($adminTheme && $adminTheme instanceof AdminThemeFramework);
 
@@ -130,10 +141,12 @@ class DashboardPanelShortcuts extends DashboardPanel {
             }
             $icon = $page->getIcon() ?: $icon;
             $title = $hasInfoMethods ? $adminTheme->getPageTitle($page) : '';
-            if (!$icon) switch($page->id) {
+            if (!$icon) {
+                switch ($page->id) {
                 case 22: $icon = 'gears'; break; // Setup
                 case 21: $icon = 'plug'; break; // Modules
                 case 28: $icon = 'key'; break; // Access
+            }
             }
         }
         if (!$title) {
@@ -150,16 +163,23 @@ class DashboardPanelShortcuts extends DashboardPanel {
         );
     }
 
-    protected function isPageViewable($page) {
-        if (!$page || !$page->url) return false;
-        if (!$this->checkAccess) return true;
+    protected function isPageViewable($page)
+    {
+        if (!$page || !$page->url) {
+            return false;
+        }
+        if (!$this->checkAccess) {
+            return true;
+        }
         if ($page->template == 'admin' && !$page->viewable()) {
             return false;
         }
+
         return true;
     }
 
-    public function setup() {
+    public function setup()
+    {
         parent::setup();
         $this->shortcuts = $this->data['shortcuts'] ?? [];
         $this->display = $this->sanitizer->option($this->data['display'] ?? '', self::displayOptions) ?: self::defaultDisplayOption;

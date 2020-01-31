@@ -1,11 +1,14 @@
-<?php namespace ProcessWire;
+<?php
+
+namespace ProcessWire;
 
 // Include abstract panel base class
-require_once dirname(__DIR__) . '/Dashboard/DashboardPanel.class.php';
+require_once dirname(__DIR__).'/Dashboard/DashboardPanel.class.php';
 
-class DashboardPanelPageList extends DashboardPanel {
-
-    public static function getModuleInfo() {
+class DashboardPanelPageList extends DashboardPanel
+{
+    public static function getModuleInfo()
+    {
         return array_merge(parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: PageList', __FILE__),
@@ -16,7 +19,8 @@ class DashboardPanelPageList extends DashboardPanel {
         );
     }
 
-    public function getContent() {
+    public function getContent()
+    {
         // Disable ajax flag so page list is always rendered as HTML
         $ajax = $this->config->ajax;
         $this->config->ajax = false;
@@ -40,14 +44,16 @@ class DashboardPanelPageList extends DashboardPanel {
         return $output;
     }
 
-    public function getClassNames() {
+    public function getClassNames()
+    {
         return [
             "edit-mode--{$this->editMode}",
             "view-mode--{$this->viewMode}",
         ];
     }
 
-    public function setup() {
+    public function setup()
+    {
         parent::setup();
         $this->parent = $this->getPageFromObjectOrSelectorOrID($this->data['parent'] ?? null);
         $this->parentID = $this->parent ? $this->parent->id : null;
