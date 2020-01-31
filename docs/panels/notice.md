@@ -17,17 +17,16 @@ Required parameters are marked with an asterisk `*`
 ## Example
 
 ```php
-/* Plain with actions */
-[
-  'message' => 'You have <b>15</b> new messages.',
-  'actions' => [
-    'See all' => '/inbox/',
-  ],
-]
-
-/* With status */
-[
-  'message' => 'Something went wrong.',
-  'status' => 'error',
-]
+$panels->add([
+  'panel' => 'notice',
+  'title' => 'Welcome',
+  'icon' => 'inbox',
+  'data' => [
+    'message' => 'You have <b>15</b> new messages.',
+    'status' => 'success',
+    'actions' => [
+      'See all' => '/inbox/'
+    ]
+  ]
+]);
 ```
