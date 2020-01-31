@@ -2,7 +2,11 @@
 
 ## [Unreleased]
 
+## [0.6.9] - 2020-01-31
+
+- Fix missing version number in module directory
 - Improve documentation of panel parameters
+- Code quality improvements
 
 ## [0.6.8] - 2020-01-20
 
@@ -153,8 +157,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/philippdaun/processwire-dashboard/compare/v0.6.8...HEAD
+[Unreleased]: https://github.com/philippdaun/processwire-dashboard/compare/v0.6.9...HEAD
 
+[0.6.9]: https://github.com/philippdaun/processwire-dashboard/releases/tag/v0.6.9
 [0.6.8]: https://github.com/philippdaun/processwire-dashboard/releases/tag/v0.6.8
 [0.6.7]: https://github.com/philippdaun/processwire-dashboard/releases/tag/v0.6.7
 [0.6.6]: https://github.com/philippdaun/processwire-dashboard/releases/tag/v0.6.6
