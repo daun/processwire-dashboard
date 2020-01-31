@@ -1,11 +1,14 @@
-<?php namespace ProcessWire;
+<?php
+
+namespace ProcessWire;
 
 // Include abstract panel base class
-require_once dirname(__DIR__) . '/Dashboard/DashboardPanel.class.php';
+require_once dirname(__DIR__).'/Dashboard/DashboardPanel.class.php';
 
-class DashboardPanelChart extends DashboardPanel {
-
-    public static function getModuleInfo() {
+class DashboardPanelChart extends DashboardPanel
+{
+    public static function getModuleInfo()
+    {
         return array_merge(parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: Chart', __FILE__),
@@ -16,11 +19,13 @@ class DashboardPanelChart extends DashboardPanel {
         );
     }
 
-    public function getIcon() {
+    public function getIcon()
+    {
         return 'pie-chart';
     }
 
-    public function getContent() {
+    public function getContent()
+    {
         return $this->view('panels/chart', [
             'theme'   => $this->theme,
             'default' => $this->defaultTheme,
@@ -29,7 +34,8 @@ class DashboardPanelChart extends DashboardPanel {
         ]);
     }
 
-    public function setup() {
+    public function setup()
+    {
         parent::setup();
         $this->theme = $this->data['theme'] ?? false;
         $this->defaultTheme = $this->getDefaultTheme();
@@ -38,34 +44,38 @@ class DashboardPanelChart extends DashboardPanel {
         $this->padding = $this->aspectRatioPadding($this->aspectRatio);
     }
 
-    public function getScripts() {
+    public function getScripts()
+    {
         return ['https://cdn.jsdelivr.net/npm/chart.js@2.9.3'];
     }
 
     /**
-     * Manipulate the chart data if necessary
-     *
+     * Manipulate the chart data if necessary.
      */
-    public function ___parseChartData($data) {
+    public function ___parseChartData($data)
+    {
         return $data;
     }
 
     /**
-     * Get the name of the default color theme
-     *
+     * Get the name of the default color theme.
      */
-    public function ___getDefaultTheme() {
+    public function ___getDefaultTheme()
+    {
         return 'processwire';
     }
 
     /**
-     * Calculate bottom padding for aspect ratio placeholder
-     *
+     * Calculate bottom padding for aspect ratio placeholder.
      */
-    protected function aspectRatioPadding($ratio) {
-        if ($ratio <= 0) return '';
+    protected function aspectRatioPadding($ratio)
+    {
+        if ($ratio <= 0) {
+            return '';
+        }
         $padding = 100 / $ratio;
         $padding = number_format($padding, 2, '.', '');
+
         return "padding-bottom: {$padding}%;";
     }
 }
