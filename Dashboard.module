@@ -8,6 +8,7 @@ namespace ProcessWire;
  *
  * @author Philipp Daun <post@philippdaun.net>
  * @license GPL-3.0
+ * @version 0.6.8
  */
 
 // Include abstract panel base class
@@ -25,7 +26,7 @@ class Dashboard extends Process implements Module
             'summary'     => __('Configurable dashboard page', __FILE__),
             'href'        => 'https://github.com/philippdaun/processwire-dashboard',
             'author'      => 'Philipp Daun',
-            'version'     => DASHBOARD_VERSION,
+            'version'     => '0.6.8',
             'icon'        => 'compass',
             'permission'  => 'dashboard-view',
             'permissions' => [
@@ -96,6 +97,7 @@ class Dashboard extends Process implements Module
      */
     public function ready()
     {
+        $this->version = self::getModuleInfo()['version'];
         $this->texts = (object) [
             'title'                 => $this->_('Dashboard'),
             'usernav'               => $this->_('Dashboard'),
@@ -244,7 +246,7 @@ class Dashboard extends Process implements Module
             'settings' => $this->settings,
             'panels'   => $this->renderPanels(),
             'texts'    => $this->texts,
-            'version'  => DASHBOARD_VERSION,
+            'version'  => $this->version,
         ]);
     }
 

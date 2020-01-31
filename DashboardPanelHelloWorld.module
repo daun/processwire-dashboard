@@ -14,7 +14,7 @@ class DashboardPanelHelloWorld extends DashboardPanel
                 'title'    => __('Dashboard Panel: Hello World', __FILE__),
                 'summary'  => __('An example dashboard panel', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => '1.0.0',
+                'version'  => '0.0.1',
             ]
         );
     }

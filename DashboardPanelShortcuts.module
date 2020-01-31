@@ -14,7 +14,7 @@ class DashboardPanelShortcuts extends DashboardPanel
                 'title'    => __('Dashboard Panel: Shortcuts', __FILE__),
                 'summary'  => __('Display a list of shortcuts to admin pages', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => DASHBOARD_VERSION,
+                'version'  => '0.6.8',
             ]
         );
     }
