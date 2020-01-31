@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "parcel src/*.js src/*.css --out-dir . --no-source-maps --no-hmr",
     "build": "parcel build src/*.js src/*.css --out-dir . --no-source-maps",
-    "bump": "bump package.json package-lock.json VERSION --commit \"Release v%s\" --tag \"v\"",
+    "bump": "bump package.json package-lock.json VERSION *.module --commit \"Release v%s\" --tag \"v\"",
     "docs": "docsify serve docs"
   },
   "author": "Philipp Daun",

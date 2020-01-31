@@ -19,12 +19,16 @@ Required parameters are marked with an asterisk `*`
 The following configuration will include `/site/templates/dashboard/example.php`.
 
 ```php
-[
-  'template' => 'dashboard/example.php',
-  'variables' => [
-    'text' => 'Lorem ipsum dolor ...',
-  ],
-]
+$panels->add([
+  'panel' => 'template',
+  'title' => 'Template file',
+  'data' => [
+    'template' => 'dashboard/example.php',
+    'variables' => [
+      'text' => 'Lorem ipsum dolor ...'
+    ]
+  ]
+]);
 ```
 
 The specified template file will be rendered like any other ProcessWire template.

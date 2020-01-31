@@ -16,9 +16,13 @@ Display a ProcessPageList widget.
 ## Example
 
 ```php
-[
-  'parent' => 'template=info',
-  'showRootPage' => true,
-  'editMode' => 'modal',
-]
+$panels->add([
+  'panel' => 'page-list',
+  'title' => 'Page list',
+  'data' => [
+    'parent' => 'template=info',
+    'showRootPage' => true,
+    'editMode' => 'modal'
+  ]
+]);
 ```

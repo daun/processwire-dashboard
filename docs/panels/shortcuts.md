@@ -22,17 +22,21 @@ See the example below on how to customize the icon, title, summary and URL for e
 ## Example
 
 ```php
-[
-  'shortcuts' => [
-    1020,                          // Page ID
-    $this->pages->get(1132),       // Page
-    'template=news-item',          // Selector
-    'Backups' => '/backup/',       // URL
-    'Updates' => 1020,             // Override title
-    [304, 'user'],                 // Override icon
-    [304, 'user', 'Lorem ipsum'],  // Set summary
-  ],
-  'fallbackIcon' => 'star-o',
-  'checkAccess' => false,
-]
+$panels->add([
+  'panel' => 'shortcuts',
+  'title' => 'Shortcuts',
+  'data' => [
+    'shortcuts' => [
+      1020,                          // Page ID
+      $this->pages->get(1132),       // Page
+      'template=news-item',          // Selector
+      'Backups' => '/backup/',       // URL
+      'Updates' => 1020,             // Override title
+      [304, 'user'],                 // Override icon
+      [304, 'user', 'Lorem ipsum'],  // Set summary
+    ],
+    'fallbackIcon' => 'star-o',
+    'checkAccess' => false
+  ]
+]);
 ```

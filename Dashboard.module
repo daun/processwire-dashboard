@@ -1,11 +1,14 @@
-<?php namespace ProcessWire;
+<?php
+
+namespace ProcessWire;
 
 /**
  * ProcessWire Dashboard
- * Module class
+ * Module class.
  *
  * @author Philipp Daun <post@philippdaun.net>
  * @license GPL-3.0
+ * @version 0.6.8
  */
 
 // Include abstract panel base class
@@ -14,22 +17,23 @@ require_once 'DashboardPanel.class.php';
 // Include panel instance helpers
 require_once 'DashboardPanelInstance.class.php';
 
-class Dashboard extends Process implements Module {
-
-    public static function getModuleInfo() {
+class Dashboard extends Process implements Module
+{
+    public static function getModuleInfo()
+    {
         return [
             'title'       => __('Dashboard', __FILE__),
             'summary'     => __('Configurable dashboard page', __FILE__),
             'href'        => 'https://github.com/philippdaun/processwire-dashboard',
             'author'      => 'Philipp Daun',
-            'version'     => DASHBOARD_VERSION,
+            'version'     => '0.6.8',
             'icon'        => 'compass',
             'permission'  => 'dashboard-view',
             'permissions' => [
                 'dashboard-view' => 'View dashboard',
             ],
             'page' => [
-                'name' => 'dashboard',
+                'name'  => 'dashboard',
                 'title' => __('Dashboard', __FILE__),
             ],
             'requires' => [
@@ -52,14 +56,12 @@ class Dashboard extends Process implements Module {
     }
 
     /**
-     * Prefix of all panel modules: DashboardPanelExample
-     *
+     * Prefix of all panel modules: DashboardPanelExample.
      */
     const panelModulePrefix = 'DashboardPanel';
 
     /**
-     * Supported panel sizes
-     *
+     * Supported panel sizes.
      */
     const panelSizes = [
         'mini',   // 1/4
@@ -70,45 +72,46 @@ class Dashboard extends Process implements Module {
     ];
 
     /**
-     * Default panel size (can be overridden)
-     *
+     * Default panel size (can be overridden).
      */
     const defaultPanelSize = 'normal';
 
     /**
-     * Fallback panel size (if default is configured wrong)
-     *
+     * Fallback panel size (if default is configured wrong).
      */
     const fallbackPanelSize = 'normal';
 
     /**
-     * Module initialization
+     * Module initialization.
      *
      * Overwrite the parent::init() method with an empty method to
      * disable auto-asset loading, which wo do manually in ready() once
      * we're sure we're on the dashboard page
      */
-    public function init() {}
+    public function init()
+    {
+    }
 
     /**
-     * Ready: define texts and view folders
-     *
+     * Ready: define texts and view folders.
      */
-    public function ready() {
+    public function ready()
+    {
+        $this->version = self::getModuleInfo()['version'];
         $this->texts = (object) [
-            'title' => $this->_('Dashboard'),
-            'usernav' => $this->_('Dashboard'),
-            'headline' => $this->_('Welcome, %s'),
+            'title'                 => $this->_('Dashboard'),
+            'usernav'               => $this->_('Dashboard'),
+            'headline'              => $this->_('Welcome, %s'),
             'headline_without_user' => $this->_('Welcome'),
-            'panel_not_found' => $this->_('Dashboard panel not found: %s'),
-            'empty_panel_notice' => $this->_('Your dashboard is empty'),
-            'setup_hint' => $this->sanitizer->entitiesMarkdown(
+            'panel_not_found'       => $this->_('Dashboard panel not found: %s'),
+            'empty_panel_notice'    => $this->_('Your dashboard is empty'),
+            'setup_hint'            => $this->sanitizer->entitiesMarkdown(
                 $this->_('Learn how to add and configure panels reading the [documentation](%s).')
             ),
-            'get_started' => $this->_('Get started'),
+            'get_started'     => $this->_('Get started'),
             'get_started_url' => 'https://philippdaun.github.io/processwire-dashboard/#/getting-started',
-            'docs_url' => 'https://philippdaun.github.io/processwire-dashboard/',
-            'repo_url' => 'https://github.com/philippdaun/processwire-dashboard',
+            'docs_url'        => 'https://philippdaun.github.io/processwire-dashboard/',
+            'repo_url'        => 'https://github.com/philippdaun/processwire-dashboard',
         ];
 
         if ($this->isAdmin()) {
@@ -126,12 +129,12 @@ class Dashboard extends Process implements Module {
         $this->panelsFlattened = new DashboardPanelArray();
 
         // After getting panels, also generate the flattened panel array
-        $this->addHookAfter("getPanels", function($event) {
+        $this->addHookAfter('getPanels', function ($event) {
             $this->panelsFlattened = $event->return->flatten();
         }, ['priority' => 999]);
 
         // Add classname to allow styling
-        $this->addHookAfter('AdminTheme::getExtraMarkup', function($event) {
+        $this->addHookAfter('AdminTheme::getExtraMarkup', function ($event) {
             $event->object->addBodyClass("$this");
         });
 
@@ -139,39 +142,36 @@ class Dashboard extends Process implements Module {
     }
 
     /**
-     * Check if we're in the admin
-     *
+     * Check if we're in the admin.
      */
-
-    protected function isAdmin() {
+    protected function isAdmin()
+    {
         return $this->page && $this->page->template == 'admin';
     }
 
     /**
-     * Check if we're on the dashboard page
-     *
+     * Check if we're on the dashboard page.
      */
-
-    protected function isDashboardProcess() {
+    protected function isDashboardProcess()
+    {
         return $this->page && $this->page->template == 'admin' && $this->page->process == $this;
     }
 
     /**
-     * Add the dashboard page to the user dropdown navigation
-     *
+     * Add the dashboard page to the user dropdown navigation.
      */
-
-    protected function addUserNavItem() {
-        $this->addHookAfter('AdminThemeFramework::getUserNavArray', function($event) {
+    protected function addUserNavItem()
+    {
+        $this->addHookAfter('AdminThemeFramework::getUserNavArray', function ($event) {
             $navArray = $event->return;
 
             $page = $this->getDashboardPageInNav() ?: $this->getDashboardPage();
             if ($page && $page->viewable) {
                 $icon = $this->modules->getModuleInfoProperty($this, 'icon');
                 array_unshift($navArray, [
-                    'url' => $page->url,
+                    'url'   => $page->url,
                     'title' => $this->texts->usernav,
-                    'icon' => $icon,
+                    'icon'  => $icon,
                 ]);
             }
 
@@ -180,32 +180,32 @@ class Dashboard extends Process implements Module {
     }
 
     /**
-     * Get the first admin page with this module assigned as process
-     *
+     * Get the first admin page with this module assigned as process.
      */
-
-    protected function getDashboardPage() {
+    protected function getDashboardPage()
+    {
         $admin = $this->pages->get(2);
         $children = $admin->children('include=hidden, check_access=0');
+
         return $admin->and($children)->get("process={$this}");
     }
 
     /**
-     * Get the first visible dashboard page in the navigation
-     *
+     * Get the first visible dashboard page in the navigation.
      */
-
-    protected function getDashboardPageInNav() {
+    protected function getDashboardPageInNav()
+    {
         $admin = $this->pages->get(2);
         $pages = $admin->children('check_access=0');
+
         return $pages->get("process={$this}");
     }
 
     /**
-     * Execute the main view and render the dashboard
-     *
+     * Execute the main view and render the dashboard.
      */
-    public function ___execute() {
+    public function ___execute()
+    {
         // Redirect admin homepage to process page if in navigation
         if ($this->page->id === 2) {
             $page = $this->getDashboardPageInNav();
@@ -224,6 +224,7 @@ class Dashboard extends Process implements Module {
         if ($this->config->ajax) {
             $key = $this->input->post->key;
             $panel = $this->input->post->panel;
+
             return $this->renderInstanceByKey($key, $panel);
         }
 
@@ -233,7 +234,7 @@ class Dashboard extends Process implements Module {
         } else {
             $this->headline($this->texts->title);
             // Add custom body class to hide empty headline
-            $this->addHookAfter('AdminTheme::getExtraMarkup', function($event) {
+            $this->addHookAfter('AdminTheme::getExtraMarkup', function ($event) {
                 $event->object->addBodyClass('DashboardNoHeadline');
             });
         }
@@ -245,24 +246,24 @@ class Dashboard extends Process implements Module {
             'settings' => $this->settings,
             'panels'   => $this->renderPanels(),
             'texts'    => $this->texts,
-            'version'  => DASHBOARD_VERSION,
+            'version'  => $this->version,
         ]);
     }
 
     /**
      * Get the unique key of a panel among all (nested) panels
-     * by checking the array of flattened panels
-     *
+     * by checking the array of flattened panels.
      */
-    public function getPanelKey($panel) {
+    public function getPanelKey($panel)
+    {
         return $this->panelsFlattened->getItemKey($panel);
     }
 
     /**
-     * Render all installed dashboard panel modules
-     *
+     * Render all installed dashboard panel modules.
      */
-    private function renderPanels() {
+    private function renderPanels()
+    {
         $output = array_map(function ($instance) {
             return $this->renderInstance($instance);
         }, $this->panels->getArray());
@@ -271,23 +272,24 @@ class Dashboard extends Process implements Module {
     }
 
     /**
-     * Render a single instance
-     *
+     * Render a single instance.
      */
-    private function renderInstance($instance) {
+    private function renderInstance($instance)
+    {
         if ($instance instanceof DashboardPanelGroup) {
             return $this->renderGroup($instance);
         } elseif ($instance instanceof DashboardPanelInstance) {
             return $this->renderPanel($instance);
         }
+
         return false;
     }
 
     /**
-     * Render a single instance, referenced by key
-     *
+     * Render a single instance, referenced by key.
      */
-    private function renderInstanceByKey($key, $panel = false) {
+    private function renderInstanceByKey($key, $panel = false)
+    {
         if (!$key && $key !== 0 && $key !== '0') {
             throw new \Exception('Missing parameter: key');
         }
@@ -308,14 +310,15 @@ class Dashboard extends Process implements Module {
     }
 
     /**
-     * Render a single panel
-     *
+     * Render a single panel.
      */
-    private function renderPanel($instance) {
+    private function renderPanel($instance)
+    {
         $className = $this->getPanelClassName($instance['panel'] ?? '');
         $module = $this->modules->$className;
         if ($this->isValidPanel($module)) {
             $key = $this->getPanelKey($instance);
+
             return $module->render($instance, $key);
         } elseif ($this->config->debug) {
             $error = sprintf($this->texts->panel_not_found, $className);
@@ -324,10 +327,10 @@ class Dashboard extends Process implements Module {
     }
 
     /**
-     * Render a group of panels
-     *
+     * Render a group of panels.
      */
-    private function renderGroup($instance) {
+    private function renderGroup($instance)
+    {
         $size = $this->sanitizePanelSize($instance['size'] ?? false);
         $icon = $this->renderIcon($instance['icon'] ?? false);
         $title = $instance->title;
@@ -352,74 +355,82 @@ class Dashboard extends Process implements Module {
     }
 
     /**
-     * Check if a given panel is valid
-     *
+     * Check if a given panel is valid.
      */
-    private function isValidPanel($panel) {
+    private function isValidPanel($panel)
+    {
         return is_object($panel) && $panel instanceof DashboardPanel;
     }
 
     /**
      * Return fully qualified panel class name from short name
-     * hello-world -> DashboardPanelHelloWorld
-     *
+     * hello-world -> DashboardPanelHelloWorld.
      */
-    private function getPanelClassName($name) {
+    private function getPanelClassName($name)
+    {
         $panelName = $this->sanitizer()->pascalCase($name);
-        return self::panelModulePrefix . $panelName;
+
+        return self::panelModulePrefix.$panelName;
     }
 
     /**
-     * Sanitize panel size to one of allowed values
-     *
+     * Sanitize panel size to one of allowed values.
      */
-    public function sanitizePanelSize($input) {
+    public function sanitizePanelSize($input)
+    {
         $size = $this->sanitizer->option($input, self::panelSizes);
         if (!$size) {
             $default = $this->settings->defaultPanelSize;
             $size = $this->sanitizer->option($default, self::panelSizes);
         }
+
         return $size ?: self::fallbackPanelSize;
     }
 
     /**
-     * Hook to add and configure visible dashboard panels
+     * Hook to add and configure visible dashboard panels.
      *
      * @return WireArray
      */
-    protected function ___getPanels() {
+    protected function ___getPanels()
+    {
         return $this->panels;
     }
 
     /**
-     * Hook to set and add dashboard settings
+     * Hook to set and add dashboard settings.
      *
      * @return WireData
      */
-    protected function ___getSettings() {
-        $settings = new WireData;
+    protected function ___getSettings()
+    {
+        $settings = new WireData();
         $settings->displayIcons = false;
         $settings->defaultPanelSize = self::defaultPanelSize;
+
         return $settings;
     }
 
     /**
-     * Hook to set main headline
+     * Hook to set main headline.
      *
      * @return string
      */
-    protected function ___getHeadline() {
+    protected function ___getHeadline()
+    {
         $userLabel = $this->renderUserLabel();
         $text = $userLabel ? $this->texts->headline : $this->texts->headline_without_user;
+
         return sprintf($text, $userLabel);
     }
 
     /**
-     * Render user label
+     * Render user label.
      *
      * @return string
      */
-    protected function renderUserLabel() {
+    protected function renderUserLabel()
+    {
         // Get user label from AdminThemeUiKit config
         $userLabel = $this->modules->getConfig('AdminThemeUikit', 'userLabel') ?: '{title|name}';
         $user = $this->user;
@@ -427,7 +438,7 @@ class Dashboard extends Process implements Module {
         if (strpos($userLabel, '{') !== false) {
             if (strpos($userLabel, '{Name}') !== false) {
                 $userLabel = str_replace('{Name}', ucfirst($user->name), $userLabel);
-            } else if(strpos($userLabel, '{name}') !== false) {
+            } elseif (strpos($userLabel, '{name}') !== false) {
                 $userLabel = str_replace('{name}', $user->name, $userLabel);
             }
             if (strpos($userLabel, '{') !== false) {
@@ -441,28 +452,30 @@ class Dashboard extends Process implements Module {
     }
 
     /**
-     * Render icon as markup
+     * Render icon as markup.
      *
      * @param string $icon
+     *
      * @return string Icon markup
      */
-    public function renderIcon($icon) {
+    public function renderIcon($icon)
+    {
         return $icon ? wireIconMarkup($icon, 'fw') : '';
     }
 
     /**
-     * Render view with supplied data
-     *
+     * Render view with supplied data.
      */
-    public function view(string $view, array $data) {
-        return $this->files->render($this->viewFolder . $view, $data);
+    public function view(string $view, array $data)
+    {
+        return $this->files->render($this->viewFolder.$view, $data);
     }
 
     /**
-     * Install: set admin page process
-     *
+     * Install: set admin page process.
      */
-    public function ___install() {
+    public function ___install()
+    {
         try {
             parent::___install();
             if ($this->installOnHomepage) {
@@ -477,10 +490,10 @@ class Dashboard extends Process implements Module {
     }
 
     /**
-     * Uninstall: restore admin page process
-     *
+     * Uninstall: restore admin page process.
      */
-    public function ___uninstall() {
+    public function ___uninstall()
+    {
         try {
             parent::___uninstall();
             if ($this->installOnHomepage) {

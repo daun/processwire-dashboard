@@ -24,15 +24,19 @@ Required parameters are marked with an asterisk `*`
 ## Example
 
 ```php
-[
-  'collection' => 'template=news-item, limit=10',
-  'sortable' => true,
-  'columns' => [
-      'title' => 'Title',
-      'url' => 'URL',
-      'modified' => 'Modified',
-  ],
-]
+$panels->add([
+  'panel' => 'collection',
+  'title' => 'Pages',
+  'data' => [
+    'collection' => 'template=info, limit=10',
+    'sortable' => true,
+    'columns' => [
+        'title' => 'Title',
+        'url' => 'URL',
+        'modified' => 'Modified'
+    ]
+  ]
+]);
 ```
 
 ## Complex markup

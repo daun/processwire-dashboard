@@ -1,36 +1,42 @@
-<?php namespace ProcessWire;
+<?php
 
-use \NumberFormatter;
+namespace ProcessWire;
+
+use NumberFormatter;
 
 // Include abstract panel base class
-require_once dirname(__DIR__) . '/Dashboard/DashboardPanel.class.php';
+require_once dirname(__DIR__).'/Dashboard/DashboardPanel.class.php';
 
-class DashboardPanelNumber extends DashboardPanel {
-
-    public static function getModuleInfo() {
+class DashboardPanelNumber extends DashboardPanel
+{
+    public static function getModuleInfo()
+    {
         return array_merge(parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: Number', __FILE__),
                 'summary'  => __('Display a single number with trend indicator', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => DASHBOARD_VERSION,
+                'version'  => '0.6.8',
             ]
         );
     }
 
-    public function getIcon() {
+    public function getIcon()
+    {
         return 'bar-chart';
     }
 
-    public function getContent() {
+    public function getContent()
+    {
         return $this->view('panels/number', [
             'number' => $this->number,
             'detail' => $this->detail,
-            'trend' => $this->data['trend'] ?? null,
+            'trend'  => $this->data['trend'] ?? null,
         ]);
     }
 
-    public function setup() {
+    public function setup()
+    {
         parent::setup();
         $this->locale = $this->data['locale'] ?? setlocale(LC_ALL, 0);
         $this->detail = $this->data['detail'] ?? '';
@@ -40,7 +46,8 @@ class DashboardPanelNumber extends DashboardPanel {
         }
     }
 
-    private function formatNumber($number) {
+    private function formatNumber($number)
+    {
         $formatted = $number;
 
         try {
@@ -58,35 +65,38 @@ class DashboardPanelNumber extends DashboardPanel {
         return $formatted;
     }
 
-    private function getNumberOfDecimals($value) {
+    private function getNumberOfDecimals($value)
+    {
         if ((int) $value == $value) {
             return 0;
         } elseif (!is_numeric($value)) {
             return 0;
         }
         $str = rtrim(number_format($value, 14 - log10($value)), '0');
+
         return strlen($str) - strrpos($str, '.') - 1;
     }
 
-    private function setTemporaryLocale() {
+    private function setTemporaryLocale()
+    {
         if ($this->locale) {
             $this->originalLocales = explode(';', setlocale(LC_ALL, 0));
             setlocale(LC_ALL, $this->locale);
         }
     }
 
-    private function restoreLocales() {
+    private function restoreLocales()
+    {
         if ($this->locale && $this->originalLocales) {
             foreach ($this->originalLocales as $localeSetting) {
                 if (strpos($localeSetting, '=') !== false) {
-                  list($category, $locale) = explode('=', $localeSetting);
-                }
-                else {
-                  $category = LC_ALL;
-                  $locale = $localeSetting;
+                    list($category, $locale) = explode('=', $localeSetting);
+                } else {
+                    $category = LC_ALL;
+                    $locale = $localeSetting;
                 }
                 setlocale($category, $locale);
-              }
+            }
         }
     }
 }

@@ -1,24 +1,28 @@
-<?php namespace ProcessWire;
+<?php
+
+namespace ProcessWire;
 
 // Include abstract panel base class
-require_once dirname(__DIR__) . '/Dashboard/DashboardPanel.class.php';
+require_once dirname(__DIR__).'/Dashboard/DashboardPanel.class.php';
 
-class DashboardPanelNotice extends DashboardPanel {
-
-    public static function getModuleInfo() {
+class DashboardPanelNotice extends DashboardPanel
+{
+    public static function getModuleInfo()
+    {
         return array_merge(parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: Notice', __FILE__),
                 'summary'  => __('Display a notice with icon', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => DASHBOARD_VERSION,
+                'version'  => '0.6.8',
             ]
         );
     }
 
-    public function getContent() {
+    public function getContent()
+    {
         $icon = wireIconMarkup($this->icon, 'fw');
-        $actions = join('', array_map(function($url, $label) {
+        $actions = implode('', array_map(function ($url, $label) {
             if ($url && $label) {
                 return "<a href='{$url}'>{$label}</a> ";
             }
@@ -30,13 +34,15 @@ class DashboardPanelNotice extends DashboardPanel {
         }
     }
 
-    public function getClassNames() {
+    public function getClassNames()
+    {
         return [
             "notice-status--{$this->status}",
         ];
     }
 
-    public function setup() {
+    public function setup()
+    {
         parent::setup();
         $this->title = $this->options['title'] ?? '';
         $this->icon = $this->options['icon'] ?? '';

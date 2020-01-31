@@ -18,9 +18,13 @@ Required parameters are marked with an asterisk `*`
 ## Example
 
 ```php
-[
-  'number' => 484,
-  'detail' => 'up 5% from last week',
-  'trend' => 'up',
-]
+$panels->add([
+  'panel' => 'number',
+  'title' => 'Number',
+  'data' => [
+    'number' => 484,
+    'detail' => 'up 5% from last week',
+    'trend' => 'up'
+  ]
+]);
 ```
