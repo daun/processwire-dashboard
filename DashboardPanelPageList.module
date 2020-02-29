@@ -47,7 +47,7 @@ class DashboardPanelPageList extends DashboardPanel
     public function getAttributes()
     {
         return [
-            'data-parent' => $this->parentID,
+            'data-parent'    => $this->parentID,
             'data-show-root' => $this->showRootPage,
             'data-edit-mode' => $this->editMode,
             'data-view-mode' => $this->viewMode,
