@@ -1,13 +1,9 @@
-/* global $ */
+/* global $, ProcessWire */
 
 const selectors = {
-  pageList: '.PageListContainerPage',
+  pageList: '.PageListContainerPage, .PageListContainerRoot',
   editLink: '.PageListActionEdit a, .PageListActionNew a',
   viewLink: '.PageListActionView a',
-  isEditModeBlank: '.edit-mode--blank',
-  isEditModeModal: '.edit-mode--modal',
-  isViewModeBlank: '.view-mode--blank',
-  isViewModeModal: '.view-mode--modal',
 };
 
 function makeLinksOpenInNewTab($container, selector) {
@@ -26,27 +22,45 @@ function makeLinksOpenInModal($container, selector) {
   });
 }
 
-function initPanel($panel) {
+function setupEvents($panel) {
   const $pagelist = $panel.find(selectors.pageList);
+  const editMode = $panel.data('edit-mode');
+  const viewMode = $panel.data('view-mode');
 
   // Edit mode
-  if ($panel.is(selectors.isEditModeBlank)) {
+  if (editMode === 'blank') {
     makeLinksOpenInNewTab($pagelist, selectors.editLink);
   }
-  if ($panel.is(selectors.isEditModeModal)) {
+  if (editMode === 'modal') {
     makeLinksOpenInModal($pagelist, selectors.editLink);
   }
   // View mode
-  if ($panel.is(selectors.isViewModeBlank)) {
+  if (viewMode === 'blank') {
     makeLinksOpenInNewTab($pagelist, selectors.viewLink);
   }
-  if ($panel.is(selectors.isViewModeModal)) {
+  if (viewMode === 'modal') {
     makeLinksOpenInModal($pagelist, selectors.viewLink);
   }
 
   $pagelist.on('pw-modal-closed', selectors.editLink, () => {
     $panel.trigger('reload', { animate: true });
   });
+}
+
+function initPanel($panel) {
+  // Get options from panel element
+  const $pagelist = $panel.find(selectors.pageList);
+  const parent = parseInt($panel.data('parent'), 10);
+  const showRoot = $panel.data('show-root');
+  // Defer to ProcessWire PageList component
+  $pagelist.ProcessPageList({
+    rootPageID: parent,
+    showRootPage: showRoot,
+  });
+  // Register events after (hopefully) pagelist is loaded
+  setTimeout(() => {
+    setupEvents($panel);
+  }, 1000);
 }
 
 $(document).on('dashboard:panel(page-list)', (event, { $element }) => {
