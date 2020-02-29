@@ -4,10 +4,6 @@ const selectors = {
   pageList: '.PageListContainerPage, .PageListContainerRoot',
   editLink: '.PageListActionEdit a, .PageListActionNew a',
   viewLink: '.PageListActionView a',
-  isEditModeBlank: '.edit-mode--blank',
-  isEditModeModal: '.edit-mode--modal',
-  isViewModeBlank: '.view-mode--blank',
-  isViewModeModal: '.view-mode--modal',
 };
 
 function makeLinksOpenInNewTab($container, selector) {
@@ -28,19 +24,21 @@ function makeLinksOpenInModal($container, selector) {
 
 function setupEvents($panel) {
   const $pagelist = $panel.find(selectors.pageList);
+  const editMode = $panel.data('edit-mode');
+  const viewMode = $panel.data('view-mode');
 
   // Edit mode
-  if ($panel.is(selectors.isEditModeBlank)) {
+  if (editMode === 'blank') {
     makeLinksOpenInNewTab($pagelist, selectors.editLink);
   }
-  if ($panel.is(selectors.isEditModeModal)) {
+  if (editMode === 'modal') {
     makeLinksOpenInModal($pagelist, selectors.editLink);
   }
   // View mode
-  if ($panel.is(selectors.isViewModeBlank)) {
+  if (viewMode === 'blank') {
     makeLinksOpenInNewTab($pagelist, selectors.viewLink);
   }
-  if ($panel.is(selectors.isViewModeModal)) {
+  if (viewMode === 'modal') {
     makeLinksOpenInModal($pagelist, selectors.viewLink);
   }
 

@@ -44,14 +44,6 @@ class DashboardPanelPageList extends DashboardPanel
         return $output;
     }
 
-    public function getClassNames()
-    {
-        return [
-            "edit-mode--{$this->editMode}",
-            "view-mode--{$this->viewMode}",
-        ];
-    }
-
     public function getAttributes()
     {
         return [
