@@ -32,11 +32,11 @@ class DashboardPanelPageList extends DashboardPanel
         $output = $module->execute();
 
         // Modify markup
+        // Remove script tag (we'll initialize the PageList component manually via JS)
         $unique_key = rand(1, 99999);
         $container_id = "PageListContainer__{$unique_key}";
         $output = str_replace("id='PageListContainer'", "id='{$container_id}'", $output);
         $output = preg_replace('/<script>.*?<\/script>/', '', $output);
-        $output .= "<script>$('#{$container_id}').ProcessPageList(ProcessWire.config.ProcessPageList);</script>";
 
         // Restore ajax flag
         $this->config->ajax = $ajax;
@@ -49,6 +49,16 @@ class DashboardPanelPageList extends DashboardPanel
         return [
             "edit-mode--{$this->editMode}",
             "view-mode--{$this->viewMode}",
+        ];
+    }
+
+    public function getAttributes()
+    {
+        return [
+            'data-parent' => $this->parentID,
+            'data-show-root' => $this->showRootPage,
+            'data-edit-mode' => $this->editMode,
+            'data-view-mode' => $this->viewMode,
         ];
     }
 

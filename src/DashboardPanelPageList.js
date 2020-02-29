@@ -1,7 +1,7 @@
-/* global $ */
+/* global $, ProcessWire */
 
 const selectors = {
-  pageList: '.PageListContainerPage',
+  pageList: '.PageListContainerPage, .PageListContainerRoot',
   editLink: '.PageListActionEdit a, .PageListActionNew a',
   viewLink: '.PageListActionView a',
   isEditModeBlank: '.edit-mode--blank',
@@ -26,7 +26,7 @@ function makeLinksOpenInModal($container, selector) {
   });
 }
 
-function initPanel($panel) {
+function setupEvents($panel) {
   const $pagelist = $panel.find(selectors.pageList);
 
   // Edit mode
@@ -47,6 +47,22 @@ function initPanel($panel) {
   $pagelist.on('pw-modal-closed', selectors.editLink, () => {
     $panel.trigger('reload', { animate: true });
   });
+}
+
+function initPanel($panel) {
+  // Get options from panel element
+  const $pagelist = $panel.find(selectors.pageList);
+  const parent = parseInt($panel.data('parent'), 10);
+  const showRoot = $panel.data('show-root');
+  // Defer to ProcessWire PageList component
+  $pagelist.ProcessPageList({
+    rootPageID: parent,
+    showRootPage: showRoot,
+  });
+  // Register events after (hopefully) pagelist is loaded
+  setTimeout(() => {
+    setupEvents($panel);
+  }, 1000);
 }
 
 $(document).on('dashboard:panel(page-list)', (event, { $element }) => {
