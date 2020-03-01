@@ -14,7 +14,7 @@ class DashboardPanelTemplate extends DashboardPanel
                 'title'    => __('Dashboard Panel: Template', __FILE__),
                 'summary'  => __('Display the output of any file in the templates folder', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => '0.6.10',
+                'version'  => '0.6.11',
             ]
         );
     }
