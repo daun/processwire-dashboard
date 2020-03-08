@@ -64,7 +64,21 @@ const colorThemePlugin = {
       });
       break;
 
-    case 'doughnut':
+    case 'line':
+      chart.data.datasets.forEach((dataset, index) => {
+        if (!dataset.borderColor) {
+          dataset.borderColor = color(theme, index);
+          if (!dataset.backgroundColor) {
+            dataset.pointHoverBackgroundColor = dataset.borderColor;
+          }
+          if (!dataset.pointHoverBackgroundColor) {
+            dataset.pointHoverBackgroundColor = dataset.borderColor;
+          }
+        }
+      });
+      break;
+
+    case 'pies':
       chart.data.datasets.forEach((dataset) => {
         if (!dataset.backgroundColor) {
           const colorArray = dataset.data.map((_, index) => color(theme, index));
@@ -76,16 +90,14 @@ const colorThemePlugin = {
       });
       break;
 
-    case 'line':
-      chart.data.datasets.forEach((dataset, index) => {
+    case 'doughnut':
+      chart.data.datasets.forEach((dataset) => {
+        if (!dataset.backgroundColor) {
+          const colorArray = dataset.data.map((_, index) => color(theme, index));
+          dataset.backgroundColor = colorArray;
+        }
         if (!dataset.borderColor) {
-          dataset.borderColor = color(theme, index);
-          if (!dataset.backgroundColor) {
-            dataset.pointHoverBackgroundColor = dataset.borderColor;
-          }
-          if (!dataset.pointHoverBackgroundColor) {
-            dataset.pointHoverBackgroundColor = dataset.borderColor;
-          }
+          dataset.borderColor = 'white';
         }
       });
       break;

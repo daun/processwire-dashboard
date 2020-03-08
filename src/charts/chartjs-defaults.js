@@ -1,5 +1,8 @@
 /* global Chart */
 
+import get from 'lodash/get'
+import set from 'lodash/set'
+
 export default function setGlobalChartJSDefaults() {
   // Layout
   Chart.defaults.global.animation.duration = 0;
@@ -18,6 +21,7 @@ export default function setGlobalChartJSDefaults() {
   Chart.defaults.global.legend.labels.fontColor = 'rgb(110, 110, 110)';
   Chart.defaults.global.legend.labels.usePointStyle = true;
   Chart.defaults.global.legend.labels.boxWidth = 4;
+  Chart.defaults.global.legend.labels.boxWidthByChartType = { doughnut: 4, pie: 8 };
 
   // Tooltips
   Chart.defaults.global.tooltips.titleFontColor = 'rgb(53, 75, 96)';
@@ -47,4 +51,14 @@ export default function setGlobalChartJSDefaults() {
   Chart.defaults.global.elements.point.hoverRadius = 4;
   Chart.defaults.global.elements.point.borderWidth = 2;
   Chart.defaults.global.elements.point.hoverBorderWidth = 2;
+}
+
+export function applyDefaultsToChartConfig (config) {
+  const type = config.type;
+  const labelWidth = get(config, 'options.legend.labels.boxWidth')
+  if (!labelWidth) {
+    const defaultLabelWidth = Chart.defaults.global.legend.labels.boxWidth
+    const chartLabelWidth = Chart.defaults.global.legend.labels.boxWidthByChartType[type] || defaultLabelWidth
+    set(config, 'options.legend.labels.boxWidth', chartLabelWidth)
+  }
 }

@@ -1,6 +1,6 @@
 /* global Chart, $ */
 
-import setChartJSDefaults from './charts/chartjs-defaults';
+import setChartJSDefaults, { applyDefaultsToChartConfig } from './charts/chartjs-defaults';
 import { registerColorThemePlugin, setDefaultColorTheme } from './charts/color-themes';
 
 function initChart($canvas) {
@@ -11,6 +11,7 @@ function initChart($canvas) {
   const theme = $canvas.data('theme');
   const defaultTheme = $canvas.data('default-theme');
   setDefaultColorTheme(defaultTheme);
+  applyDefaultsToChartConfig(config);
   config.theme = theme;
 
   const chart = new Chart($canvas, config);
@@ -24,6 +25,7 @@ function initChart($canvas) {
 function updateChart($canvas, $update) {
   const chart = $canvas.data('chart-instance') || initChart($canvas);
   const config = $update.data('chart');
+  applyDefaultsToChartConfig(config);
 
   chart.config.data = config.data;
   chart.options = config.options;
