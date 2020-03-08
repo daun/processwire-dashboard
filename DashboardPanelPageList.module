@@ -38,6 +38,12 @@ class DashboardPanelPageList extends DashboardPanel
         $output = str_replace("id='PageListContainer'", "id='{$container_id}'", $output);
         $output = preg_replace('/<script>.*?<\/script>/', '', $output);
 
+        // Add back a dummy div with CSRF tokens: ProcessWire's PageList.js expects
+        // a #PageListContainer div with the tokens as data attributes
+        $tokenName = $this->session->CSRF->getTokenName();
+        $tokenValue = $this->session->CSRF->getTokenValue();
+        $output .= "<div id='PageListContainer' data-token-name='$tokenName' data-token-value='$tokenValue' hidden></div>";
+
         // Restore ajax flag
         $this->config->ajax = $ajax;
 
