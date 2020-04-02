@@ -9,7 +9,7 @@ namespace ProcessWire;
  * @author Philipp Daun <post@philippdaun.net>
  * @license GPL-3.0
  *
- * @version 0.6.13
+ * @version 0.6.14
  */
 
 // Include abstract panel base class
@@ -27,7 +27,7 @@ class Dashboard extends Process implements Module
             'summary'     => __('Configurable dashboard page', __FILE__),
             'href'        => 'https://github.com/philippdaun/processwire-dashboard',
             'author'      => 'Philipp Daun',
-            'version'     => '0.6.13',
+            'version'     => '0.6.14',
             'icon'        => 'compass',
             'permission'  => 'dashboard-view',
             'permissions' => [
