@@ -14,7 +14,7 @@
 * [Requirements](requirements.md)
 * [License](license.md)
 * **Links**
-* [![GitHub](https://icongram.jgog.in/simple/github.svg?color=808080&size=16)GitHub](https://github.com/philippdaun/processwire-dashboard)
+* [![GitHub](https://icongram.jgog.in/simple/github.svg?color=808080&size=16)GitHub](https://github.com/daun/processwire-dashboard)
 * [![Module directory](https://icongram.jgog.in/fontawesome/book.svg?color=808080&size=16)Module directory](https://modules.processwire.com/modules/dashboard/)
 * [![Support forum](https://icongram.jgog.in/fontawesome/commenting.svg?color=808080&size=16)Support forum](https://processwire.com/talk/topic/22847-processwire-dashboard/)
-* [![Releases](https://icongram.jgog.in/fontawesome/history.svg?color=808080&size=16)Releases](https://github.com/philippdaun/processwire-dashboard/releases)
+* [![Releases](https://icongram.jgog.in/fontawesome/history.svg?color=808080&size=16)Releases](https://github.com/daun/processwire-dashboard/releases)

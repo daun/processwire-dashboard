@@ -25,7 +25,7 @@ class Dashboard extends Process implements Module
         return [
             'title'       => __('Dashboard', __FILE__),
             'summary'     => __('Configurable dashboard page', __FILE__),
-            'href'        => 'https://github.com/philippdaun/processwire-dashboard',
+            'href'        => 'https://github.com/daun/processwire-dashboard',
             'author'      => 'Philipp Daun',
             'version'     => '0.6.14',
             'icon'        => 'compass',
@@ -110,9 +110,9 @@ class Dashboard extends Process implements Module
                 $this->_('Learn how to add and configure panels reading the [documentation](%s).')
             ),
             'get_started'     => $this->_('Get started'),
-            'get_started_url' => 'https://philippdaun.github.io/processwire-dashboard/#/getting-started',
-            'docs_url'        => 'https://philippdaun.github.io/processwire-dashboard/',
-            'repo_url'        => 'https://github.com/philippdaun/processwire-dashboard',
+            'get_started_url' => 'https://daun.github.io/processwire-dashboard/#/getting-started',
+            'docs_url'        => 'https://daun.github.io/processwire-dashboard/',
+            'repo_url'        => 'https://github.com/daun/processwire-dashboard',
         ];
 
         if ($this->isAdmin()) {

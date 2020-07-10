@@ -5,7 +5,7 @@ While the easiest way to create custom panels is simply [rendering a template fi
 
 To create custom panels, simply extend the `DashboardPanel` base class.
 
-See [DashboardPanelHelloWorld](https://github.com/philippdaun/processwire-dashboard/blob/master/DashboardPanelHelloWorld.module) for an example implementation.
+See [DashboardPanelHelloWorld](https://github.com/daun/processwire-dashboard/blob/master/DashboardPanelHelloWorld.module) for an example implementation.
 
 ## Naming
 
@@ -83,7 +83,7 @@ $(document).on('dashboard:panel(hello-world)', (event, { $element }) => {
 });
 ```
 
-See [DashboardPanelHelloWorld.js](https://github.com/philippdaun/processwire-dashboard/blob/master/src/DashboardPanelHelloWorld.js) for an example implementation.
+See [DashboardPanelHelloWorld.js](https://github.com/daun/processwire-dashboard/blob/master/src/DashboardPanelHelloWorld.js) for an example implementation.
 
 ## Reload panels
 

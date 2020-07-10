@@ -1,22 +1,22 @@
 # ProcessWire Dashboard
 
-[![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/philippdaun/processwire-dashboard?color=97aab4&label=version)](https://github.com/philippdaun/processwire-dashboard/releases) 
+[![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/daun/processwire-dashboard?color=97aab4&label=version)](https://github.com/daun/processwire-dashboard/releases) 
 [![ProcessWire version](https://img.shields.io/badge/ProcessWire-%3E%3D%203.0.148-97aab4)](https://processwire.com/download/core/) 
-[![GitHub License](https://img.shields.io/github/license/philippdaun/processwire-dashboard?color=97aab4)](./LICENSE) 
-[![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/philippdaun/processwire-dashboard?label=updated)](https://github.com/philippdaun/processwire-dashboard/releases)
+[![GitHub License](https://img.shields.io/github/license/daun/processwire-dashboard?color=97aab4)](./LICENSE) 
+[![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/daun/processwire-dashboard?label=updated)](https://github.com/daun/processwire-dashboard/releases)
 
 Display a configurable dashboard in ProcessWire's admin interface. Includes a set of predefined panel types, but can be easily extended to display any content you want.
 
-[Documentation](https://philippdaun.github.io/processwire-dashboard/) •
-[Releases](https://github.com/philippdaun/processwire-dashboard/releases) •
+[Documentation](https://daun.github.io/processwire-dashboard/) •
+[Releases](https://github.com/daun/processwire-dashboard/releases) •
 [Module directory](https://modules.processwire.com/modules/dashboard/) •
 [Support forum](https://processwire.com/talk/topic/22847-processwire-dashboard/)
 
-![Dashboard](https://github.com/philippdaun/processwire-dashboard/raw/master/docs/images/dashboard.png)
+![Dashboard](https://github.com/daun/processwire-dashboard/raw/master/docs/images/dashboard.png)
 
 ## Getting Started
 
-Check out the [documentation](https://philippdaun.github.io/processwire-dashboard/) to get started.
+Check out the [documentation](https://daun.github.io/processwire-dashboard/) to get started.
 
 ## Features
 
@@ -34,9 +34,9 @@ Check out the [documentation](https://philippdaun.github.io/processwire-dashboar
 
 ## Support
 
-- Create a [GitHub issue](https://github.com/philippdaun/processwire-dashboard/issues) for bug reports and feature requests
+- Create a [GitHub issue](https://github.com/daun/processwire-dashboard/issues) for bug reports and feature requests
 - Visit the [ProcessWire support forum thread](https://processwire.com/talk/topic/22847-processwire-dashboard/) to ask questions
-- Add a [star on GitHub](https://github.com/philippdaun/processwire-dashboard) to support the project
+- Add a [star on GitHub](https://github.com/daun/processwire-dashboard) to support the project
 
 ## Contributing
 
@@ -44,4 +44,4 @@ Pull requests are welcome. Please read the [Contributing Guidelines](CONTRIBUTIN
 
 ## License
 
-Licensed under [GPL-3.0](https://github.com/philippdaun/processwire-dashboard/blob/master/LICENSE)
+Licensed under [GPL-3.0](https://github.com/daun/processwire-dashboard/blob/master/LICENSE)
