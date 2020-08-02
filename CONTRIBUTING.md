@@ -2,7 +2,7 @@
 
 ## Bug reports and feature submissions
 
-To submit an issue or request a feature, please do so on [Github](https://github.com/philippdaun/processwire-dashboard/issues).
+To submit an issue or request a feature, please do so on [Github](https://github.com/daun/processwire-dashboard/issues).
 
 If you file a bug report, your issue should contain a title and a clear description of the issue. You should also include as much relevant information as possible and a code sample that demonstrates the issue. The goal of a bug report is to make it easy for yourself - and others - to replicate the bug and develop a fix.
 

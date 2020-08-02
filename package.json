@@ -1,6 +1,6 @@
 {
   "name": "processwire-dashboard",
-  "version": "0.6.13",
+  "version": "0.6.14",
   "description": "Configurable dashboard for ProcessWire's admin interface",
   "main": "\"\"",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "autoprefixer": "^9.7.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "postcss-custom-properties": "^9.0.2",
     "postcss-nested": "^4.2.1",
     "postcss-preset-env": "^6.7.0"
