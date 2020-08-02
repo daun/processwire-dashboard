@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.7.0] - 2020-08-02
+
+- Set sane table header defaults in collection panels
+- Add option to hide shortcut summaries
+- Fix undefined indexes when destructuring shortcuts
+
 ## [0.6.9] - 2020-01-31
 
 - Fix missing version number in module directory
@@ -157,8 +163,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v0.6.9...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v0.7.0...HEAD
 
+[0.7.0]: https://github.com/daun/processwire-dashboard/releases/tag/v0.7.0
 [0.6.9]: https://github.com/daun/processwire-dashboard/releases/tag/v0.6.9
 [0.6.8]: https://github.com/daun/processwire-dashboard/releases/tag/v0.6.8
 [0.6.7]: https://github.com/daun/processwire-dashboard/releases/tag/v0.6.7
