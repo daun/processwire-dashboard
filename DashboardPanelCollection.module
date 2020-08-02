@@ -31,76 +31,27 @@ class DashboardPanelCollection extends DashboardPanel
         return sprintf($this->_n('%d Page', '%d Pages', $count), $count);
     }
 
+    /**
+     * Render the main content
+     */
     public function getContent()
     {
-        $datetime = new WireDateTime();
-
         if ($this->actions !== false) {
             $this->columns['actions__'] = ''; // $this->_('Actions');
         }
 
-        $columnNames = array_keys($this->columns);
-        $columnHeadlines = array_values($this->columns);
+        $columns = $this->parseColumnDefinitions();
 
-        $classNames = array_map(function ($column) {
-            return 'DashboardTableColumn__'.$this->sanitizer()->snakeCase($column);
-        }, $columnNames);
-
-        $headers = array_map(function ($column, $class) {
-            if (strpos($column, 'fa-') === 0) {
-                return $this->renderIcon($column);
-            }
-
-            return [$column, $class];
-        }, $columnHeadlines, $classNames);
-
-        $rows = array_map(function ($page) use ($columnNames, $classNames, $datetime) {
-            $row = array_map(function ($markup, $class) use ($datetime, $page) {
-                $field = $this->fields->get($markup);
-                $fieldtype = $field ? "$field->type" : null;
-                $content = null;
-
-                // Special case: action links
-                if ($markup === 'actions__') {
-                    $content = $this->renderPageActions($page);
-                }
-                // Special case: page icon
-                elseif ($markup === 'page_icon') {
-                    $content = $this->renderIcon($page->getIcon());
-                }
-                // Special case: system timestamps
-                elseif (in_array($markup, ['modified', 'created'])) {
-                    $content = $datetime->date($this->dateFormat, $page->$markup);
-                }
-                // Special case: image fields
-                elseif ($fieldtype == 'FieldtypeImage') {
-                    $class .= ' is-image-column';
-                    $images = $page->get($markup)->slice(0, $this->maxImageNum);
-                    $content = $this->renderImageThumbnails($images);
-                }
-                // Special case: color fields
-                elseif ($fieldtype == 'FieldtypeColorPicker') {
-                    $class .= ' is-color-column';
-                    $color = $page->getFormatted($markup);
-                    $content = "<span style='background-color:{$color}'></span>";
-                }
-                // Special case: timestamp fields
-                // disabled for now (formatted datetime values work just as well)
-                elseif (false && $fieldtype == 'FieldtypeDatetime') {
-                    $content = $datetime->date($this->dateFormat, $page->getUnformatted($markup));
-                }
-                // All others
-                if ($content === null) {
-                    $content = $page->getText($markup, false, true); // $oneLine, $entities
-                }
-
-                return [$content, $class];
-            }, $columnNames, $classNames);
-
-            return $row;
+        $rows = array_map(function ($page) use ($columns) {
+            return array_map(function ($column) use ($page) {
+                return $this->renderCellContent($page, $column);
+            }, $columns);
         }, $this->collection->getArray());
 
         if ($this->showHeaders) {
+            $headers = array_map(function ($column) {
+                return [$column->label, $column->class];
+            }, $columns);
             array_unshift($rows, $headers);
         }
 
@@ -109,6 +60,118 @@ class DashboardPanelCollection extends DashboardPanel
             'sortable' => $this->sortable,
             'class'    => $this->actions !== false ? 'has-actions' : 'has-no-actions',
         ]);
+    }
+
+    /**
+     * Parse column definitions and extract fieldname, column label and CSS class
+     */
+    public function parseColumnDefinitions()
+    {
+        $labelField = $this->getLabelFieldname();
+
+        return array_map(function ($key, $value) use ($labelField) {
+            // Extract column and label
+            $column = $value;
+            $label = null;
+            if (is_string($key)) {
+                $column = $key;
+                $label = $value;
+            }
+
+            // Construct CSS class
+            $class = 'DashboardTableColumn__'.$this->sanitizer()->snakeCase($column);
+
+            // Special case: page icon column: no title by default
+            if ($column === 'page_icon' && $label === null) {
+                $label = '';
+            }
+
+            // Get label from field/template context
+            if ($label === null) {
+                $field = $this->fields->get($column);
+                if ($field) {
+                    $label = $field->getLabel();
+                    if ($this->template && $this->template->hasField($column)) {
+                        $context = $this->template->fields->getFieldContext($column);
+                        $label = $context->{$labelField} ?? $label;
+                    }
+                }
+            }
+
+            // Special case: icon as column header
+            if (strpos($label, 'fa-') === 0) {
+                $label = $this->renderIcon($label);
+            }
+
+            return (object) [
+                'column' => $column,
+                'label' => $label,
+                'class' => $class,
+            ];
+        }, array_keys($this->columns), array_values($this->columns));
+    }
+
+    /**
+     * Generate the content of a single row for a given page
+     */
+    public function renderCellContent($page, $column)
+    {
+        $this->message("$column->column: $column->class");
+
+        $markup = $column->column;
+        $class = $column->class;
+
+        $field = $this->fields->get($markup);
+        $fieldtype = $field ? "$field->type" : null;
+        $content = null;
+
+        // Special case: action links
+        if ($markup === 'actions__') {
+            $content = $this->renderPageActions($page);
+        }
+        // Special case: page icon
+        elseif ($markup === 'page_icon') {
+            $content = $this->renderIcon($page->getIcon());
+        }
+        // Special case: system timestamps
+        elseif (in_array($markup, ['modified', 'created'])) {
+            $content = $this->datetime->date($this->dateFormat, $page->$markup);
+        }
+        // Special case: image fields
+        elseif ($fieldtype == 'FieldtypeImage') {
+            $class .= ' is-image-column';
+            $images = $page->get($markup)->slice(0, $this->maxImageNum);
+            $content = $this->renderImageThumbnails($images);
+        }
+        // Special case: color fields
+        elseif ($fieldtype == 'FieldtypeColorPicker') {
+            $class .= ' is-color-column';
+            $color = $page->getFormatted($markup);
+            $content = "<span style='background-color:{$color}'></span>";
+        }
+        // Special case: timestamp fields
+        // disabled for now (formatted datetime values work just as well)
+        elseif (false && $fieldtype == 'FieldtypeDatetime') {
+            $content = $this->datetime->date($this->dateFormat, $page->getUnformatted($markup));
+        }
+        // All others
+        if ($content === null) {
+            $content = $page->getText($markup, false, true); // $oneLine, $entities
+        }
+
+        return [$content, $class];
+    }
+
+    /**
+     * Define which field to use for getting a field's title per context
+     * "label" vs. multi-lang e.g. "label1108"
+     */
+    public function getLabelFieldname()
+    {
+        if ($this->languages && !$this->user->language->isDefault) {
+            return "label{$this->user->language->id}";
+        }
+        return "label";
     }
 
     public function getFooter()
