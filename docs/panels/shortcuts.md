@@ -13,6 +13,7 @@ Required parameters are marked with an asterisk `*`
 |---|---|---|---|
 |**`shortcuts *`**|`array`||Shortcuts to display: Page objects, page IDs, selectors and URLs|
 |`display`|`string`|`grid`|How to display the shortcuts: `grid` or `list`|
+|`summaries`|`bool`|`true`|Whether to display summaries|
 |`fallbackIcon`|`string`|`bookmark-o`|Icon to use if page doesn't have one|
 |`icon`|`string`|none|Icon to uniformly use for **all** pages|
 |`checkAccess`|`bool`|`true`|Only show pages the user has access to|

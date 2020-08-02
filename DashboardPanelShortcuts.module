@@ -95,7 +95,7 @@ class DashboardPanelShortcuts extends DashboardPanel
 
             $icon = $this->renderPageIcon($icon ?: $pageIcon);
             $title = $this->sanitizer->entities1($title);
-            $summary = $this->sanitizer->entities1($summary);
+            $summary = $this->summaries ? $this->sanitizer->entities1($summary) : '';
             $linkClass = $summary && $this->display === 'grid' ? 'tooltip' : '';
 
             return
@@ -188,6 +188,7 @@ class DashboardPanelShortcuts extends DashboardPanel
         $this->display = $this->sanitizer->option($this->data['display'] ?? '', self::displayOptions) ?: self::defaultDisplayOption;
         $this->fallbackIcon = $this->data['fallbackIcon'] ?? 'bookmark-o';
         $this->icon = $this->data['icon'] ?? null;
+        $this->summaries = $this->data['summaries'] ?? true;
         $this->checkAccess = $this->data['checkAccess'] ?? true;
     }
 }
