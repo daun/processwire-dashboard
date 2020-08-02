@@ -31,12 +31,38 @@ $panels->add([
     'collection' => 'template=info, limit=10',
     'sortable' => true,
     'columns' => [
-        'title' => 'Title',
-        'url' => 'URL',
-        'modified' => 'Modified'
+      'title',
+      'url' => 'URL',
+      'modified' => 'Modified'
     ]
   ]
 ]);
+```
+
+## Column headers
+
+By default, the field label will be the column header. To override a default header, use the array key as column name and the value as column header.
+
+```php
+'columns' => [
+  'title' => 'El título'
+]
+```
+
+To display no header for that column, pass an empty string.
+
+```php
+'columns' => [
+  'title' => ''
+]
+```
+
+To display an icon as header, pass a FontAwesome icon code (including the `fa-` prefix).
+
+```php
+'columns' => [
+  'thumbnail' => 'fa-eye'
+]
 ```
 
 ## Complex markup
@@ -47,7 +73,7 @@ Columns support dot syntax and curly brackets to access sub-fields:
 'columns' => [
   'category.title' => 'Category',
   'createdUser.name' => 'Created by',
-  'On {location.street} in {location.city}' => 'Location',
+  'On {location.street} in {location.city}' => 'Location'
 ]
 ```
 
@@ -58,9 +84,9 @@ Pass the name of any image field as the column key to display thumbnails. Only t
 ```php
 [
   'columns' => [
-      'images' => 'Thumbnails',
+      'images'
   ],
-  'maxImageNum' => 4,
+  'maxImageNum' => 4
 ]
 ```
 
@@ -71,16 +97,6 @@ Add the column `page_icon` to display page icons in their own column.
 ```php
 'columns' => [
   'page_icon' => ''
-]
-```
-
-## Icon as table header
-
-To display an icon as table header, pass the FontAwesome icon code as column title (including the `fa-` prefix).
-
-```php
-'columns' => [
-  'thumbnail' => 'fa-eye'
 ]
 ```
 
