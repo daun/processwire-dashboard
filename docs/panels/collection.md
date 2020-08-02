@@ -41,7 +41,16 @@ $panels->add([
 
 ## Column headers
 
-By default, the field label will be the column header. To override a default header, use the array key as column name and the value as column header.
+By default, the panel will guess the column header from the field label. If your
+`title` field is called `Title`, this will be used as column header.
+
+```php
+'columns' => [
+  'title'
+]
+```
+
+To override a default header, use the array key as column name and the value as column header.
 
 ```php
 'columns' => [
