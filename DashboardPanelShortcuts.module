@@ -58,7 +58,10 @@ class DashboardPanelShortcuts extends DashboardPanel
             // Passed array? Extract to shortcut, icon and summary
             // e.g. [1020, 'user', 'Edit your profile']
             if (is_array($shortcut)) {
-                list($shortcut, $icon, $summary) = $shortcut;
+                // Avoiding list() construct since indices can be undefined
+                $summary = $shortcut[2] ?? null;
+                $icon = $shortcut[1] ?? null;
+                $shortcut = $shortcut[0] ?? null;
             }
 
             // Get URL from shortcut if page/id/selector given,
