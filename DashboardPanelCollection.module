@@ -116,8 +116,6 @@ class DashboardPanelCollection extends DashboardPanel
      */
     public function renderCellContent($page, $column)
     {
-        $this->message("$column->column: $column->class");
-
         $markup = $column->column;
         $class = $column->class;
 
