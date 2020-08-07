@@ -1,4 +1,4 @@
-/* global $, ProcessWire */
+/* global $ */
 
 const selectors = {
   pageList: '.PageListContainerPage, .PageListContainerRoot',
@@ -6,45 +6,37 @@ const selectors = {
   viewLink: '.PageListActionView a',
 };
 
-function makeLinksOpenInNewTab($container, selector) {
+function setLinkMode($container, selector, mode) {
   $container.on('mouseenter', selector, (event) => {
-    $(event.target).attr('target', '_blank');
-  });
-}
-
-function makeLinksOpenInModal($container, selector) {
-  $container.on('click', '.pw-modal-longclick', function handleModalClick(event) {
-    if ($(this).is(selector)) {
-      $(this).trigger('longclick');
-      event.preventDefault();
-      event.stopPropagation();
+    if (mode === 'blank') {
+      $(event.target).attr('target', '_blank');
+    }
+    if (mode === 'modal') {
+      $(event.target).addClass('pw-modal');
+      $(event.target).addClass('pw-modal-large');
+      $(event.target).removeClass('pw-modal-longclick');
     }
   });
 }
-
 function setupEvents($panel) {
   const $pagelist = $panel.find(selectors.pageList);
   const editMode = $panel.data('edit-mode');
   const viewMode = $panel.data('view-mode');
 
-  // Edit mode
-  if (editMode === 'blank') {
-    makeLinksOpenInNewTab($pagelist, selectors.editLink);
-  }
-  if (editMode === 'modal') {
-    makeLinksOpenInModal($pagelist, selectors.editLink);
-  }
-  // View mode
-  if (viewMode === 'blank') {
-    makeLinksOpenInNewTab($pagelist, selectors.viewLink);
-  }
-  if (viewMode === 'modal') {
-    makeLinksOpenInModal($pagelist, selectors.viewLink);
+  if ($pagelist.data('has-events')) {
+    return;
   }
 
+  // Set link modes for editing and viewing
+  setLinkMode($pagelist, selectors.editLink, editMode);
+  setLinkMode($pagelist, selectors.viewLink, viewMode);
+
+  // Reload page list when panel is closed
   $pagelist.on('pw-modal-closed', selectors.editLink, () => {
     $panel.trigger('reload', { animate: true });
   });
+
+  $pagelist.data('has-events', true);
 }
 
 function initPanel($panel) {
@@ -52,11 +44,13 @@ function initPanel($panel) {
   const $pagelist = $panel.find(selectors.pageList);
   const parent = parseInt($panel.data('parent'), 10);
   const showRoot = $panel.data('show-root');
+
   // Defer to ProcessWire PageList component
   $pagelist.ProcessPageList({
     rootPageID: parent,
     showRootPage: showRoot,
   });
+
   // Register events after (hopefully) pagelist is loaded
   setTimeout(() => {
     setupEvents($panel);
