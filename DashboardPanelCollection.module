@@ -14,7 +14,7 @@ class DashboardPanelCollection extends DashboardPanel
                 'title'    => __('Dashboard Panel: Collection', __FILE__),
                 'summary'  => __('Display a collection of pages in a table', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => '0.7.1',
+                'version'  => '0.7.2',
             ]
         );
     }
