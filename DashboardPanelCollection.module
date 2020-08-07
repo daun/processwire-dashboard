@@ -89,7 +89,7 @@ class DashboardPanelCollection extends DashboardPanel
             // Get label from field/template context
             if ($label === null) {
                 $field = $this->fields->get($column);
-                if ($field) {
+                if ($field instanceof Field) {
                     $label = $field->getLabel();
                     if ($this->template && $this->template->hasField($column)) {
                         $context = $this->template->fields->getFieldContext($column);
