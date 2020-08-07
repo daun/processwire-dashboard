@@ -216,7 +216,7 @@ body.Dashboard {
 /* Cards */
 
 .Dashboard__panel {
-  overflow: hidden;
+  min-width: 0;
 
   .uk-card-title {
     font-size: 1rem;

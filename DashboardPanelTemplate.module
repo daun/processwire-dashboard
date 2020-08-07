@@ -9,7 +9,8 @@ class DashboardPanelTemplate extends DashboardPanel
 {
     public static function getModuleInfo()
     {
-        return array_merge(parent::getModuleInfo(),
+        return array_merge(
+            parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: Template', __FILE__),
                 'summary'  => __('Display the output of any file in the templates folder', __FILE__),

@@ -9,7 +9,8 @@ class DashboardPanelShortcuts extends DashboardPanel
 {
     public static function getModuleInfo()
     {
-        return array_merge(parent::getModuleInfo(),
+        return array_merge(
+            parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: Shortcuts', __FILE__),
                 'summary'  => __('Display a list of shortcuts to admin pages', __FILE__),

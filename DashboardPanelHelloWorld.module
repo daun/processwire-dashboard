@@ -9,7 +9,8 @@ class DashboardPanelHelloWorld extends DashboardPanel
 {
     public static function getModuleInfo()
     {
-        return array_merge(parent::getModuleInfo(),
+        return array_merge(
+            parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: Hello World', __FILE__),
                 'summary'  => __('An example dashboard panel', __FILE__),

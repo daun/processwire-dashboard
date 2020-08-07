@@ -9,7 +9,8 @@ class DashboardPanelChart extends DashboardPanel
 {
     public static function getModuleInfo()
     {
-        return array_merge(parent::getModuleInfo(),
+        return array_merge(
+            parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: Chart', __FILE__),
                 'summary'  => __('Display a customizable chart from any data source', __FILE__),
