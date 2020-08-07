@@ -9,7 +9,8 @@ class DashboardPanelCollection extends DashboardPanel
 {
     public static function getModuleInfo()
     {
-        return array_merge(parent::getModuleInfo(),
+        return array_merge(
+            parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: Collection', __FILE__),
                 'summary'  => __('Display a collection of pages in a table', __FILE__),
@@ -32,7 +33,7 @@ class DashboardPanelCollection extends DashboardPanel
     }
 
     /**
-     * Render the main content
+     * Render the main content.
      */
     public function getContent()
     {
@@ -63,7 +64,7 @@ class DashboardPanelCollection extends DashboardPanel
     }
 
     /**
-     * Parse column definitions and extract fieldname, column label and CSS class
+     * Parse column definitions and extract fieldname, column label and CSS class.
      */
     public function parseColumnDefinitions()
     {
@@ -105,14 +106,14 @@ class DashboardPanelCollection extends DashboardPanel
 
             return (object) [
                 'column' => $column,
-                'label' => $label,
-                'class' => $class,
+                'label'  => $label,
+                'class'  => $class,
             ];
         }, array_keys($this->columns), array_values($this->columns));
     }
 
     /**
-     * Generate the content of a single row for a given page
+     * Generate the content of a single row for a given page.
      */
     public function renderCellContent($page, $column)
     {
@@ -162,14 +163,15 @@ class DashboardPanelCollection extends DashboardPanel
 
     /**
      * Define which field to use for getting a field's title per context
-     * "label" vs. multi-lang e.g. "label1108"
+     * "label" vs. multi-lang e.g. "label1108".
      */
     public function getLabelFieldname()
     {
         if ($this->languages && !$this->user->language->isDefault) {
             return "label{$this->user->language->id}";
         }
-        return "label";
+
+        return 'label';
     }
 
     public function getFooter()

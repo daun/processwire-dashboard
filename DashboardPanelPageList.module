@@ -9,7 +9,8 @@ class DashboardPanelPageList extends DashboardPanel
 {
     public static function getModuleInfo()
     {
-        return array_merge(parent::getModuleInfo(),
+        return array_merge(
+            parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: PageList', __FILE__),
                 'summary'  => __('Display a ProcessPageList widget for any parent', __FILE__),

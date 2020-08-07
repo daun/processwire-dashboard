@@ -11,7 +11,8 @@ class DashboardPanelNumber extends DashboardPanel
 {
     public static function getModuleInfo()
     {
-        return array_merge(parent::getModuleInfo(),
+        return array_merge(
+            parent::getModuleInfo(),
             [
                 'title'    => __('Dashboard Panel: Number', __FILE__),
                 'summary'  => __('Display a single number with trend indicator', __FILE__),
