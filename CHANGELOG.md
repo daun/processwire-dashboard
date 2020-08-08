@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 
+## [0.7.3] - 2020-08-07
+
+- PageList panel: allow adding new pages in modal
+- Fix clipped drop shadow of panels nested in groups
+
+## [0.7.2] - 2020-08-07
+
+- Fix error when using markup strings in collection field names
+
+## [0.7.1] - 2020-08-05
+
+- Remove unintended session message in collections panel
+
 ## [0.7.0] - 2020-08-02
 
 - Set sane table header defaults in collection panels
@@ -163,8 +176,11 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v0.7.3...HEAD
 
+[0.7.3]: https://github.com/daun/processwire-dashboard/releases/tag/v0.7.3
+[0.7.2]: https://github.com/daun/processwire-dashboard/releases/tag/v0.7.2
+[0.7.1]: https://github.com/daun/processwire-dashboard/releases/tag/v0.7.1
 [0.7.0]: https://github.com/daun/processwire-dashboard/releases/tag/v0.7.0
 [0.6.9]: https://github.com/daun/processwire-dashboard/releases/tag/v0.6.9
 [0.6.8]: https://github.com/daun/processwire-dashboard/releases/tag/v0.6.8
