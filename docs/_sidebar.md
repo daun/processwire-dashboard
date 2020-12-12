@@ -8,6 +8,7 @@
   * [PageList](panels/page-list.md)
   * [Shortcuts](panels/shortcuts.md)
   * [Template](panels/template.md)
+  * [Add New Page](panels/add-new.md)
   * [Panel groups](panels/groups.md)
   * [Custom panels](panels/custom.md)
 * [Configuration](configuration.md)
