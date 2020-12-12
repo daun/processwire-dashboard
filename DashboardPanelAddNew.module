@@ -111,18 +111,6 @@ class DashboardPanelAddNew extends DashboardPanel
                         {$icon}
                         <span class='title'>{$label}</span>
                     </a>
-                </li>".
-                "<li>
-                    <a href='{$url}'>
-                        {$icon}
-                        <span class='title'>{$label}</span>
-                    </a>
-                </li>".
-                "<li>
-                    <a href='{$url}'>
-                        {$icon}
-                        <span class='title'>{$label}</span>
-                    </a>
                 </li>"
             ;
         }, $actions);
