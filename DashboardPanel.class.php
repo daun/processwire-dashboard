@@ -161,7 +161,7 @@ abstract class DashboardPanel extends Wire implements Module
      *
      * @return array Array of file names or URLs
      */
-    public function getStyles()
+    public function getStylesheets()
     {
         return [];
     }
@@ -172,6 +172,16 @@ abstract class DashboardPanel extends Wire implements Module
      * @return array Array of file names or URLs
      */
     public function getScripts()
+    {
+        return [];
+    }
+
+    /**
+     * Get the default style options of this panel.
+     *
+     * @return array Array of style options (['attr' => 'value'])
+     */
+    public function getStyleOptions()
     {
         return [];
     }
@@ -202,7 +212,7 @@ abstract class DashboardPanel extends Wire implements Module
         $this->class = "$this";
         $this->data = $options['dataArray'] ?? [];
         $this->size = $this->dashboard->sanitizePanelSize($options['size'] ?? false);
-        $this->style = $options['style'] ?? [];
+        $this->style = $options['style'] ?? null;
         $this->align = $options['align'] ?? '';
 
         // Setup panel, abort if negative return
@@ -210,6 +220,9 @@ abstract class DashboardPanel extends Wire implements Module
         if ($status === false) {
             return '';
         }
+
+        // Update style with default options after setup
+        $this->style = $this->style ?? $this->getStyleOptions() ?? [];
 
         // Include scripts and stylesheets
         $this->includeFiles();
@@ -480,7 +493,7 @@ abstract class DashboardPanel extends Wire implements Module
         $templateUrl = $this->config->urls->templates;
 
         // Stylesheets
-        $styles = (array) $this->getStyles();
+        $styles = (array) $this->getStylesheets();
         $styles[] = "{$this}.css";
         foreach ($styles as $file) {
             if (stripos($file, '://') !== false) {
