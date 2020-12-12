@@ -1,6 +1,10 @@
-<?php
+<?php namespace Daun\Dashboard;
 
-namespace ProcessWire;
+use ProcessWire\Module;
+use ProcessWire\Process;
+use ProcessWire\WireData;
+use function ProcessWire\__;
+use function ProcessWire\wireIconMarkup;
 
 /**
  * ProcessWire Dashboard
@@ -39,9 +43,10 @@ class Dashboard extends Process implements Module
             ],
             'requires' => [
                 'PHP>=7.0',
-                'ProcessWire>=3.0.123',
+                'ProcessWire>=3.0.165',
             ],
             'installs' => [
+                'DashboardPanelAddNew',
                 'DashboardPanelChart',
                 'DashboardPanelCollection',
                 'DashboardPanelHelloWorld',

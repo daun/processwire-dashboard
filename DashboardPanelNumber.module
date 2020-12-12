@@ -1,8 +1,7 @@
-<?php
-
-namespace ProcessWire;
+<?php namespace Daun\Dashboard;
 
 use NumberFormatter;
+use function ProcessWire\__;
 
 // Include abstract panel base class
 require_once dirname(__DIR__).'/Dashboard/DashboardPanel.class.php';
