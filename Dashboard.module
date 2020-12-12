@@ -46,6 +46,7 @@ class Dashboard extends Process implements Module
                 'ProcessWire>=3.0.123',
             ],
             'installs' => [
+                'DashboardPanelAddNew',
                 'DashboardPanelChart',
                 'DashboardPanelCollection',
                 'DashboardPanelHelloWorld',
