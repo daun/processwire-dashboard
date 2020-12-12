@@ -43,7 +43,7 @@ class Dashboard extends Process implements Module
             ],
             'requires' => [
                 'PHP>=7.0',
-                'ProcessWire>=3.0.123',
+                'ProcessWire>=3.0.165',
             ],
             'installs' => [
                 'DashboardPanelAddNew',
