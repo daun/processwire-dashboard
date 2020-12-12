@@ -1,6 +1,10 @@
-<?php
+<?php namespace Daun\Dashboard;
 
-namespace ProcessWire;
+use ProcessWire\Module;
+use ProcessWire\Page;
+use ProcessWire\Selectors;
+use ProcessWire\Wire;
+use function ProcessWire\__;
 
 /**
  * ProcessWire Dashboard

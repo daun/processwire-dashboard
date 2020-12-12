@@ -1,6 +1,10 @@
-<?php
+<?php namespace Daun\Dashboard;
 
-namespace ProcessWire;
+use ProcessWire\AdminThemeFramework;
+use ProcessWire\Page;
+use ProcessWire\Selectors;
+use function ProcessWire\__;
+use function ProcessWire\wireIconMarkup;
 
 // Include abstract panel base class
 require_once dirname(__DIR__).'/Dashboard/DashboardPanel.class.php';

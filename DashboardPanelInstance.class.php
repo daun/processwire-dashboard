@@ -1,6 +1,7 @@
-<?php
+<?php namespace Daun\Dashboard;
 
-namespace ProcessWire;
+use ProcessWire\WireArray;
+use ProcessWire\WireData;
 
 if (!function_exists('array_key_first')) {
     function array_key_first(array $arr)
