@@ -1,7 +1,7 @@
 # ProcessWire Dashboard
 
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/daun/processwire-dashboard?color=97aab4&label=version)](https://github.com/daun/processwire-dashboard/releases) 
-[![ProcessWire version](https://img.shields.io/badge/ProcessWire-%3E%3D%203.0.148-97aab4)](https://processwire.com/download/core/) 
+[![ProcessWire version](https://img.shields.io/badge/ProcessWire-%3E%3D%203.0.165-97aab4)](https://processwire.com/download/core/) 
 [![GitHub License](https://img.shields.io/github/license/daun/processwire-dashboard?color=97aab4)](./LICENSE) 
 [![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/daun/processwire-dashboard?label=updated)](https://github.com/daun/processwire-dashboard/releases)
 
