@@ -1,0 +1,178 @@
+<?php namespace Daun\Dashboard;
+
+use ProcessWire\AdminThemeFramework;
+use ProcessWire\InputfieldSubmit;
+use ProcessWire\ProcessPageAdd;
+use function ProcessWire\__;
+use function ProcessWire\wireIconMarkup;
+
+// Include abstract panel base class
+require_once dirname(__DIR__).'/Dashboard/DashboardPanel.class.php';
+
+class DashboardPanelAddNew extends DashboardPanel
+{
+    public static function getModuleInfo()
+    {
+        return array_merge(
+            parent::getModuleInfo(),
+            [
+                'title'    => __('Dashboard Panel: Add New Page', __FILE__),
+                'summary'  => __('Allow adding new pages from the dashboard', __FILE__),
+                'author'   => 'Philipp Daun',
+                'version'  => '0.7.3',
+            ]
+        );
+    }
+
+    const displayOptions = [
+        'list',
+        'dropdown',
+    ];
+
+    const defaultDisplayOption = 'list';
+
+    public function getIcon()
+    {
+        return 'plus';
+    }
+
+    public function getTitle()
+    {
+        if ($this->doesRenderTitle()) {
+            return $this->getTitleString();
+        } else {
+            return '';
+        }
+    }
+
+    protected function doesRenderTitle()
+    {
+        if ($this->display === 'dropdown') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    protected function getTitleString()
+    {
+        /** @var AdminThemeFramework $theme */
+        $theme = $this->wire('adminTheme');
+        $label = $theme->getAddNewLabel();
+
+        return $label ?? $this->_('Add New');
+    }
+
+    public function getClassNames()
+    {
+        return ["{$this}--{$this->display}"];
+    }
+
+    public function getStyleOptions()
+    {
+        if (!$this->doesRenderTitle()) {
+            return [
+                'minimal' => true,
+                'padding' => false,
+            ];
+        } else {
+            return [];
+        }
+    }
+
+    public function getContent()
+    {
+        $actions = $this->getAvailablePageActions();
+
+        if (!count($actions)) {
+            return;
+        }
+
+        switch ($this->display) {
+            case 'dropdown':
+                return $this->renderActionDropdown($actions);
+                break;
+            case 'list':
+            default:
+                return $this->renderActionList($actions);
+                break;
+        }
+    }
+
+    protected function renderActionList($actions)
+    {
+        $links = array_map(function ($item) {
+            $icon = wireIconMarkup($item['icon'], 'fw');
+            $url = $item['url'];
+            $label = $item['label'];
+            return
+                "<li>
+                    <a href='{$url}'>
+                        {$icon}
+                        <span class='title'>{$label}</span>
+                    </a>
+                </li>".
+                "<li>
+                    <a href='{$url}'>
+                        {$icon}
+                        <span class='title'>{$label}</span>
+                    </a>
+                </li>".
+                "<li>
+                    <a href='{$url}'>
+                        {$icon}
+                        <span class='title'>{$label}</span>
+                    </a>
+                </li>"
+            ;
+        }, $actions);
+
+        $output = implode('', $links);
+        $output = "<ul>{$output}</ul>";
+
+        return $output;
+    }
+
+    protected function renderActionDropdown($actions)
+    {
+        /** @var InputfieldSubmit $button */
+        $button = $this->modules->get('InputfieldSubmit');
+        $button->html = $this->getTitleString();
+        $button->setSecondary();
+
+        foreach ($actions as $item) {
+            $button->addActionLink($item['url'], $item['label'], $item['icon']);
+        }
+
+        return $button->render();
+    }
+
+    protected function getAvailablePageActions()
+    {
+        try {
+            /** @var ProcessPageAdd $module */
+            $module = $this->modules->getModule('ProcessPageAdd', ['noInit' => true]);
+            $data = $module->executeNavJSON(['getArray' => true]);
+            $actions = [];
+
+            foreach($data['list'] as $item) {
+            if (strpos($item['url'], 'bookmarks/') === 0) continue;
+            $item['url'] = $data['url'] . $item['url'];
+            $item['icon'] = $item['icon'] ?? $data['icon'];
+            $actions[] = $item;
+            }
+        } catch (\Throwable $th) {
+            $actions = [];
+        }
+
+        return $actions;
+    }
+
+    public function setup()
+    {
+        parent::setup();
+        $this->display = $this->sanitizer->option($this->data['display'] ?? '', self::displayOptions) ?: self::defaultDisplayOption;
+        $this->fallbackIcon = $this->data['fallbackIcon'] ?? 'bookmark-o';
+        $this->icon = $this->data['icon'] ?? null;
+    }
+}
