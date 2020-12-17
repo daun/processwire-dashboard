@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.0.0] - 2020-12-13
+
+- **Require minimum PW version 3.0.165**
+- Add new panel type: Add New Page
+- Move module into private namespace
+
 ## [0.7.3] - 2020-08-07
 
 - PageList panel: allow adding new pages in modal
@@ -176,8 +182,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v0.7.3...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.0.0...HEAD
 
+[1.0.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.0
 [0.7.3]: https://github.com/daun/processwire-dashboard/releases/tag/v0.7.3
 [0.7.2]: https://github.com/daun/processwire-dashboard/releases/tag/v0.7.2
 [0.7.1]: https://github.com/daun/processwire-dashboard/releases/tag/v0.7.1
