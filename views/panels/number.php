@@ -1,4 +1,4 @@
-<div class="DashboardPanelNumber__content" data-trend="<?= htmlspecialchars($trend) ?>">
+<div class="DashboardPanelNumber__content" data-trend="<?= isset($trend) ? htmlspecialchars($trend) : '' ?>">
 
     <?php if ($number && $detail) { ?>
         <dl>
