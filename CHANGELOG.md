@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2020-12-20
+
+- Fix outdated module version
+
+## [1.0.1] - 2020-12-17
+
+- Fix notice for missing trend parameter
+
 ## [1.0.0] - 2020-12-13
 
 - **Require minimum PW version 3.0.165**
@@ -182,8 +190,10 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.0.2...HEAD
 
+[1.0.2]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.2
+[1.0.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.1
 [1.0.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.0
 [0.7.3]: https://github.com/daun/processwire-dashboard/releases/tag/v0.7.3
 [0.7.2]: https://github.com/daun/processwire-dashboard/releases/tag/v0.7.2
