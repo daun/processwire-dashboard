@@ -129,7 +129,7 @@ class Dashboard extends Process implements Module
         }
 
         $this->installOnHomepage = false;
-        $this->viewFolder = __DIR__.'/views/';
+        $this->viewFolder = $this->config->paths->siteModules . $this . '/views/';
 
         $this->panels = new DashboardPanelArray();
         $this->panelsFlattened = new DashboardPanelArray();
