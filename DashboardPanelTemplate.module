@@ -53,7 +53,7 @@ class DashboardPanelTemplate extends DashboardPanel
         return [$this->replaceFileExtension($this->templateFile, 'js')];
     }
 
-    public function getStyles()
+    public function getStylesheets()
     {
         return [$this->replaceFileExtension($this->templateFile, 'css')];
     }

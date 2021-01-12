@@ -71,7 +71,7 @@ class DashboardPanelHelloWorld extends DashboardPanel
     /**
      * Get a list of the panel's stylesheets.
      */
-    public function getStyles()
+    public function getStylesheets()
     {
         return ['https://cdnjs.cloudflare.com/something.min.css'];
     }
