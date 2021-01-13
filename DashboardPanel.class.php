@@ -86,7 +86,7 @@ abstract class DashboardPanel extends Wire implements Module
     public function __construct()
     {
         $this->dashboard = $this->modules->Dashboard;
-        $this->viewFolder = __DIR__.'/views/';
+        $this->viewFolder = $this->config->paths->{$this} . 'views';
     }
 
     /**
@@ -529,7 +529,8 @@ abstract class DashboardPanel extends Wire implements Module
      */
     final protected function view($view, $variables)
     {
-        return $this->files->render($this->viewFolder.$view, $variables);
+        $filename = $this->viewFolder. DIRECTORY_SEPARATOR . $view;
+        return $this->files->render($filename, $variables);
     }
 
     /**

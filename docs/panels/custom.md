@@ -25,7 +25,7 @@ Every panel module **must** implement the `getContent()` method that returns the
 - `getFooter()`: returns the rendered markup for the panel footer (string)
 - `getClassNames()`: returns additional class names for the panel div (array)
 - `getAttributes()`: returns HTML attributes for the panel card (array of `attr => value`)
-- `getStyles()`: returns styles to load (array of filenames or URLs)
+- `getStylesheets()`: returns stylesheets to load (array of filenames or URLs)
 - `getScripts()`: returns scripts to load (array of filenames or URLs)
 - `getInterval()`: returns the interval at which the panel is reloaded via AJAX (integer, milliseconds)
 

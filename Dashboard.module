@@ -129,7 +129,7 @@ class Dashboard extends Process implements Module
         }
 
         $this->installOnHomepage = false;
-        $this->viewFolder = __DIR__.'/views/';
+        $this->viewFolder = $this->config->paths->{$this} . 'views';
 
         $this->panels = new DashboardPanelArray();
         $this->panelsFlattened = new DashboardPanelArray();
@@ -474,7 +474,8 @@ class Dashboard extends Process implements Module
      */
     public function view(string $view, array $data)
     {
-        return $this->files->render($this->viewFolder.$view, $data);
+        $filename = $this->viewFolder. DIRECTORY_SEPARATOR . $view;
+        return $this->files->render($filename, $data);
     }
 
     /**

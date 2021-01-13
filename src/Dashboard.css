@@ -218,6 +218,10 @@ body.Dashboard {
 .Dashboard__panel {
   min-width: 0;
 
+  &:not(.Dashboard__group) {
+    overflow: hidden;
+  }
+
   .uk-card-title {
     font-size: 1rem;
     font-weight: bold;

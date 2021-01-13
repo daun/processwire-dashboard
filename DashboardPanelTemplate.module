@@ -53,7 +53,7 @@ class DashboardPanelTemplate extends DashboardPanel
         return [$this->replaceFileExtension($this->templateFile, 'js')];
     }
 
-    public function getStyles()
+    public function getStylesheets()
     {
         return [$this->replaceFileExtension($this->templateFile, 'css')];
     }
@@ -66,17 +66,17 @@ class DashboardPanelTemplate extends DashboardPanel
     public function setup()
     {
         parent::setup();
-        $this->templateFile = ltrim($this->data['template'] ?? '', '/\\');
+        $this->templateFile = ltrim($this->data['template'] ?? '', DIRECTORY_SEPARATOR);
         $this->templatePath = $this->templateFile ? $this->config->paths->templates.$this->templateFile : null;
         $this->variables = $this->data['variables'] ?? [];
     }
 
-    protected function replaceFileExtension($filename, $new_extension)
+    protected function replaceFileExtension($path, $new_extension)
     {
-        $info = pathinfo($filename);
-        $dirname = $info['dirname'] ?? '';
+        $dirname = pathinfo($path, PATHINFO_DIRNAME);
+        $filename = pathinfo($path, PATHINFO_FILENAME);
         $dir = $dirname ? $dirname.DIRECTORY_SEPARATOR : '';
 
-        return $dir.$info['filename'].'.'.$new_extension;
+        return $dir . $filename . '.' . $new_extension;
     }
 }
