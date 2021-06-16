@@ -21,9 +21,9 @@
     min-width: 0px;
   }
   .fa {
-    font-size: 1.25em !important;
     margin-right: .5em;
-    color: #97aab4;
+    font-size: var(--dashboard-fontsize-icon) !important;
+    color: var(--dashboard-color-icon);
   }
   a:hover .fa {
     color: inherit;
@@ -32,7 +32,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #97aab4;
+    color: var(--dashboard-color-text-light);
     padding-left: 1em;
     display: none;
   }
@@ -56,11 +56,11 @@
     padding: 0;
   }
   a {
-    padding: 10px 20px;
-    border-bottom: 1px solid #e5e5e5;
+    padding: var(--dashboard-card-padding-list-y) var(--dashboard-card-padding-content-x);
+    border-bottom: 1px solid var(--dashboard-color-separator);
     white-space: nowrap;
     &:hover {
-      background: #fafbfc;
+      background: var(--dashboard-color-list-hover-bg);
     }
   }
   .title {
