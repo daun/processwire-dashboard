@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2021-01-13
+
+- Improve compatibility on multisite installations
+- Fix overflowing panel content
+- Fix stylesheets not getting picked up
+
 ## [1.0.2] - 2020-12-20
 
 - Fix outdated module version
