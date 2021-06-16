@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- Use CSS variables to allow style customization
 - Update to parcel v2 for asset bundling
 
 ## [1.0.3] - 2021-01-13
