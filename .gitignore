@@ -12,6 +12,7 @@ config.rb
 
 # Pre- and post-processing
 .cache
+.parcel-cache
 .sass-cache
 *.scssc
 *.sassc

@@ -1,7 +1,6 @@
 {
   "plugins": {
     "postcss-nested": true,
-    "postcss-custom-properties": true,
     "postcss-preset-env": true,
     "autoprefixer": true
   }
