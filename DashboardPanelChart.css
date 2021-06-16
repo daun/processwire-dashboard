@@ -1,1 +1,1 @@
-.DashboardPanelChart__canvas{display:none}.DashboardPanelChart__placeholder{position:relative;padding-bottom:40%;height:0;overflow:hidden}.DashboardPanelChart__canvas[style]+.DashboardPanelChart__placeholder{display:none}
+.DashboardPanelChart__canvas{display:none}.DashboardPanelChart__placeholder{height:0;overflow:hidden;padding-bottom:40%;position:relative}.DashboardPanelChart__canvas[style]+.DashboardPanelChart__placeholder{display:none}
