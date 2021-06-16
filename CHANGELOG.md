@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Update to parcel v2 for asset bundling
+
 ## [1.0.3] - 2021-01-13
 
 - Improve compatibility on multisite installations
@@ -196,8 +198,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.0.3...HEAD
 
+[1.0.3]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.3
 [1.0.2]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.2
 [1.0.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.1
 [1.0.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.0
