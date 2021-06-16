@@ -1,5 +1,43 @@
+/* Variables */
+
+:root {
+  /* Grid setup */
+  --dashboard-grid-cols: 12;
+  --dashboard-grid-gap: 25px;
+
+  /* Grid sizes */
+  --dashboard-grid-size-mini: 3;
+  --dashboard-grid-size-small: 4;
+  --dashboard-grid-size-normal: 6;
+  --dashboard-grid-size-large: 8;
+
+  /* Colors */
+  --dashboard-color-body-bg: #f0f3f7;
+  --dashboard-color-panel-bg: #fff;
+  --dashboard-color-separator: #e5e5e5;
+  --dashboard-color-text-light: #97aab4;
+  --dashboard-color-icon: #97aab4;
+  --dashboard-color-button-bg: #f0f3f7;
+  --dashboard-color-button-text: #354b60;
+  --dashboard-color-button-hover-bg: #6c8dae;
+  --dashboard-color-button-hover-text: #fff;
+  --dashboard-color-th-bg: #fafbfc;
+  --dashboard-color-list-hover-bg: #fafbfc;
+
+  --dashboard-fontsize-icon: 1.25em;
+
+  /* Panels */
+  --dashboard-card-shadow: 0 5px 15px rgba(0,0,0,.08);
+  --dashboard-card-border-radius: 4px;
+  --dashboard-card-padding-content-x: 20px;
+  --dashboard-card-padding-content-y: 20px;
+  --dashboard-card-padding-header-x: 20px;
+  --dashboard-card-padding-header-y: 13px;
+  --dashboard-card-padding-list-y: 10px;
+}
+
 body.Dashboard {
-  background-color: #f0f3f7;
+  background-color: var(--dashboard-color-body-bg);
   min-height: 100vh;
 }
 
@@ -12,7 +50,7 @@ body.Dashboard {
 .AdminThemeReno.Dashboard,
 .AdminThemeDefault.Dashboard {
   #main, #breadcrumbs, #headline, #content, #footer {
-    background-color: #f0f3f7;
+    background-color: var(--dashboard-color-body-bg);
   }
 }
 
@@ -36,16 +74,16 @@ body.Dashboard {
 /* Add UiKit base styles for other admin themes */
 
 .uk-card {
-  background: rgb(255, 255, 255);
-  box-shadow: 0 5px 15px rgba(0,0,0,.08);
+  background: var(--dashboard-color-panel-bg);
+  box-shadow: var(--dashboard-card-shadow);
   transition: box-shadow .1s ease-in-out;
   position: relative;
   box-sizing: border-box;
-  border-radius: 4px;
+  border-radius: var(--dashboard-card-border-radius);
 }
 
 .uk-card-header {
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid var(--dashboard-color-separator);
 }
 
 .uk-card-title {
@@ -55,16 +93,15 @@ body.Dashboard {
 
 .uk-card-small .uk-card-body,
 .uk-card-small.uk-card-body {
-  padding: 20px 20px;
-
+  padding: var(--dashboard-card-padding-content-y) var(--dashboard-card-padding-content-x);
 }
 
 .uk-card-small .uk-card-header {
-  padding: 13px 20px;
+  padding: var(--dashboard-card-padding-header-y) var(--dashboard-card-padding-header-x);
 }
 
 .uk-card-small .uk-card-footer {
-  padding: 13px 20px;
+  padding: var(--dashboard-card-padding-header-y) var(--dashboard-card-padding-header-x);
 }
 
 /* Dashboard without headline */
@@ -116,7 +153,7 @@ body.Dashboard {
 
   .fa {
     font-size: 4em;
-    color: #97aab4;
+    color: var(--dashboard-color-icon);
   }
 }
 
@@ -124,31 +161,31 @@ body.Dashboard {
 
 .Dashboard__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-gap: 25px;
+  grid-template-columns: repeat(var(--dashboard-grid-cols), 1fr);
+  grid-gap: var(--dashboard-grid-gap);
   align-items: stretch;
 }
 
 .Dashboard__panel {
-  grid-column: span 12;
+  grid-column: span var(--dashboard-grid-cols);
   display: flex;
   flex-direction: column;
 
   /* Reponsive sizes */
 
   @media (min-width: 768px) {
-    grid-column: span 6;
+    grid-column: span var(--dashboard-grid-size-normal);
     &[data-size='mini'] {
-      grid-column: span 3;
+      grid-column: span var(--dashboard-grid-size-mini);
     }
     &[data-size='small'] {
-      grid-column: span 4;
+      grid-column: span var(--dashboard-grid-size-small);
     }
     &[data-size='large'] {
-      grid-column: span 8;
+      grid-column: span var(--dashboard-grid-size-large);
     }
     &[data-size='full'] {
-      grid-column: span 12;
+      grid-column: span var(--dashboard-grid-cols);
     }
   }
 
@@ -279,11 +316,11 @@ body.Dashboard {
 
 .AdminThemeUikit {
   .DashboardButton--light .ui-button {
-    background: #f0f3f7;
-    color: #354b60;
+    background: var(--dashboard-color-button-bg);
+    color: var(--dashboard-color-button-text);
     &.ui-state-hover {
-      background: #6c8dae;
-      color: #fff;
+      background: var(--dashboard-color-button-hover-bg);
+      color: var(--dashboard-color-button-hover-text);
     }
   }
 }
@@ -302,7 +339,7 @@ body.Dashboard {
   .AdminDataTable {
     .AdminThemeUikit & {
       th {
-        background-color: #fafbfc;
+        background-color: var(--dashboard-color-th-bg);
       }
       th, td {
         &:first-child {

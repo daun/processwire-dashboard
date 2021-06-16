@@ -1,3 +1,9 @@
+/* Variables */
+
+:root {
+  --dashboard-panel-chart-ratio: 2.5;
+}
+
 /* Hide canvas on load. Chart.js will add display: block via JS */
 
 .DashboardPanelChart__canvas {
@@ -8,7 +14,7 @@
 
 .DashboardPanelChart__placeholder {
   position: relative;
-  padding-bottom: 40%; /* default ratio 2.5 */
+  padding-bottom: calc(100% / var(--dashboard-panel-chart-ratio));
   height: 0;
   overflow: hidden;
   /* Hide when canvas is visible */
