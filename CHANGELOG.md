@@ -4,6 +4,7 @@
 
 - Use CSS variables to allow style customization
 - Update to parcel v2 for asset bundling
+- Fix error when parsing server locale for number formatting
 
 ## [1.0.3] - 2021-01-13
 

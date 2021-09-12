@@ -91,6 +91,7 @@ class DashboardPanelNumber extends DashboardPanel
             foreach ($this->originalLocales as $localeSetting) {
                 if (strpos($localeSetting, '=') !== false) {
                     list($category, $locale) = explode('=', $localeSetting);
+                    $category = (int) $category;
                 } else {
                     $category = LC_ALL;
                     $locale = $localeSetting;
