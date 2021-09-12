@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2021-09-12
+
 - Use CSS variables to allow style customization
 - Update to parcel v2 for asset bundling
 - Fix error when parsing server locale for number formatting
@@ -200,8 +202,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.1.0...HEAD
 
+[1.1.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.1.0
 [1.0.3]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.3
 [1.0.2]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.2
 [1.0.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.1
