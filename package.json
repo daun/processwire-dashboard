@@ -2,10 +2,9 @@
   "name": "processwire-dashboard",
   "version": "1.0.3",
   "description": "Configurable dashboard for ProcessWire's admin interface",
-  "main": "\"\"",
   "scripts": {
-    "dev": "parcel src/*.js src/*.css --out-dir . --no-source-maps --no-hmr",
-    "build": "parcel build src/*.js src/*.css --out-dir . --no-source-maps",
+    "dev": "parcel src/*.js src/*.css --dist-dir . --no-source-maps --no-hmr",
+    "build": "parcel build src/*.js src/*.css --dist-dir . --no-source-maps",
     "bump": "bump package.json package-lock.json VERSION *.module --commit \"Release v%s\" --tag \"v\"",
     "docs": "docsify serve docs"
   },
@@ -13,14 +12,16 @@
   "license": "GPL-3.0",
   "private": true,
   "devDependencies": {
-    "@babel/core": "^7.11.1",
-    "cssnano": "^4.1.10"
+    "@babel/core": "^7.14.6",
+    "autoprefixer": "^10.2.6",
+    "cssnano": "^5.0.6",
+    "parcel": "^2.0.0-nightly.722",
+    "postcss": "^8.3.4",
+    "postcss-nested": "^5.0.5",
+    "postcss-preset-env": "^6.7.0"
   },
   "dependencies": {
-    "autoprefixer": "^9.8.6",
-    "lodash": "^4.17.19",
-    "postcss-custom-properties": "^9.1.1",
-    "postcss-nested": "^4.2.3",
-    "postcss-preset-env": "^6.7.0"
+    "lodash": "^4.17.21",
+    "version-bump-prompt": "^6.1.0"
   }
 }

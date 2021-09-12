@@ -1,7 +1,15 @@
+/* Variables */
+
+:root {
+  --dashboard-panel-collection-img-radius: 4px;
+  --dashboard-panel-collection-img-height: 30px;
+  --dashboard-panel-collection-color-radius: 50%;
+}
+
 .DashboardPanelCollection {
   .uk-card-footer {
     font-size: .85em;
-    color: #97aab4;
+    color: var(--dashboard-color-text-light);
     > div {
       display: flex;
       justify-content: space-between;
@@ -34,7 +42,7 @@
   a .fa {
     opacity: 1;
     cursor: inherit;
-    color: #97aab4;
+    color: var(--dashboard-color-icon);
   }
 }
 
@@ -53,8 +61,8 @@
     vertical-align: middle;
   }
   img {
-    border-radius: 4px;
-    max-height: 30px;
+    border-radius: var(--dashboard-panel-collection-img-radius);
+    max-height: var(--dashboard-panel-collection-img-height);
     width: auto;
   }
 }
@@ -67,6 +75,6 @@
     display: inline-block;
     width: 1em;
     height: 1em;
-    border-radius: 50%;
+    border-radius: var(--dashboard-panel-collection-color-radius);
   }
 }

@@ -85,7 +85,7 @@ class DashboardPanelAddNew extends DashboardPanel
         $actions = $this->getAvailablePageActions();
 
         if (!count($actions)) {
-            return;
+            return '';
         }
 
         switch ($this->display) {
@@ -144,10 +144,10 @@ class DashboardPanelAddNew extends DashboardPanel
             $actions = [];
 
             foreach($data['list'] as $item) {
-            if (strpos($item['url'], 'bookmarks/') === 0) continue;
-            $item['url'] = $data['url'] . $item['url'];
-            $item['icon'] = $item['icon'] ?? $data['icon'];
-            $actions[] = $item;
+                if (strpos($item['url'], 'bookmarks/') === 0) continue;
+                $item['url'] = $data['url'] . $item['url'];
+                $item['icon'] = $item['icon'] ?? $data['icon'];
+                $actions[] = $item;
             }
         } catch (\Throwable $th) {
             $actions = [];
