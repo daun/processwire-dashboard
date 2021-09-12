@@ -16,7 +16,7 @@ class DashboardPanelNotice extends DashboardPanel
                 'title'    => __('Dashboard Panel: Notice', __FILE__),
                 'summary'  => __('Display a notice with icon', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => '1.0.3',
+                'version'  => '1.1.0',
             ]
         );
     }
