@@ -250,7 +250,7 @@ class Dashboard extends Process implements Module
         return $this->view('dashboard', [
             'module'   => "$this",
             'settings' => $this->settings,
-            'panels'   => $this->renderPanels(),
+            'panels'   => $this->renderPanels($this->panels),
             'texts'    => $this->texts,
             'version'  => $this->version,
         ]);
@@ -268,13 +268,22 @@ class Dashboard extends Process implements Module
     /**
      * Render all installed dashboard panel modules.
      */
-    private function renderPanels()
+    private function renderPanels($panels)
     {
-        $output = array_map(function ($instance) {
-            return $this->renderInstance($instance);
-        }, $this->panels->getArray());
+        $tabPanels = $panels->find('type=tab');
+        $preparedTabs = array_map(function ($tab) {
+            return $this->prepareTab($tab);
+        }, $tabPanels->getArray());
 
-        return array_filter($output);
+        $nonTabPanels = $panels->find('type!=tab');
+        $renderedPanels = array_map(function ($instance) {
+            return $this->renderInstance($instance);
+        }, $nonTabPanels->getArray());
+
+        return $this->view('panels', [
+            'tabs'   => array_filter($preparedTabs),
+            'panels' => array_filter($renderedPanels),
+        ]);
     }
 
     /**
@@ -324,7 +333,6 @@ class Dashboard extends Process implements Module
         $module = $this->modules->$className;
         if ($this->isValidPanel($module)) {
             $key = $this->getPanelKey($instance);
-
             return $module->render($instance, $key);
         } elseif ($this->config->debug) {
             $error = sprintf($this->texts->panel_not_found, $className);
@@ -335,7 +343,7 @@ class Dashboard extends Process implements Module
     /**
      * Render a group of panels.
      */
-    private function renderGroup($instance)
+    private function renderGroup($instance, $view = null)
     {
         $size = $this->sanitizePanelSize($instance['size'] ?? false);
         $icon = $this->renderIcon($instance['icon'] ?? false);
@@ -343,10 +351,8 @@ class Dashboard extends Process implements Module
         $margin = $instance->margin ?? false;
         $align = $instance->align ?? '';
 
-        // For each child, find the module and return its output
-        $panels = array_map(function ($instance) {
-            return $this->renderInstance($instance);
-        }, $instance->panels->getArray());
+        // Render child panels
+        $panels = $this->renderPanels($instance->panels);
 
         // Render view
         return $this->view('group', [
@@ -358,6 +364,18 @@ class Dashboard extends Process implements Module
             'align'    => $align,
             'panels'   => $panels,
         ]);
+    }
+
+    /**
+     * Prepare tab group for display: add anchor and render panels.
+     */
+    private function prepareTab($tab)
+    {
+        $id = $tab->title ?: bin2hex(random_bytes(12));
+        $tab->anchor = $this->wire()->sanitizer->pageName($id);
+        $tab->panels = $this->renderPanels($tab->panels);
+
+        return $tab;
     }
 
     /**
