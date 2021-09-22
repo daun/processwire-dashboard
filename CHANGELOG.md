@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Add tab groups
+
 ## [1.1.0] - 2021-09-12
 
 - Use CSS variables to allow style customization
