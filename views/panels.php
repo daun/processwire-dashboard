@@ -1,9 +1,9 @@
 <?php if (count($tabs)) { ?>
 
-    <div class="Dashboard__tabs">
-        <ul class="Dashboard__tabs__header">
+    <div class="Dashboard__tabs" data-dashboard-tabs data-cloak>
+        <ul class="Dashboard__tabs__list">
             <?php foreach ($tabs as $tab) { ?>
-                <li><a href="#<?= $tab->anchor ?>"><?= $tab->title ?></a></li>
+                <li><a href="#<?= $tab->anchor ?>" data-dashboard-tab><?= $tab->title ?></a></li>
             <?php } ?>
         </ul>
         <?php foreach ($tabs as $tab) { ?>

@@ -6,15 +6,22 @@ class Dashboard {
   constructor() {
     this.selectors = {
       panel: '[data-dashboard-panel]',
+      tabs: '[data-dashboard-tabs]',
+      tabLink: '[data-dashboard-tab]',
     };
   }
 
   init() {
     this.url = document.location.pathname;
     this.$panels = $(this.selectors.panel);
+    this.$tabs = $(this.selectors.tabs);
 
     this.$panels.each((_, panel) => {
       this.setupPanel($(panel));
+    });
+
+    this.$tabs.each((_, tabs) => {
+      this.setupTabs($(tabs));
     });
 
     this.setupReloadEvents();
@@ -53,6 +60,30 @@ class Dashboard {
 
     const prevented = generalEvent.isDefaultPrevented() || namespacedEvent.isDefaultPrevented();
     return !prevented;
+  }
+
+  setupTabs($tabs) {
+    const $links = $tabs.find(this.selectors.tabLink);
+
+    const toggleActive = (link, state) => {
+      const contentId = $(link).attr('href');
+      $(link).attr('aria-current', state ? 'true' : 'false')
+      $(contentId).attr('aria-hidden', state ? 'false' : 'true')
+    }
+
+    const setActiveLink = (activeLink) => {
+      $links.each((_, inactiveLink) => toggleActive(inactiveLink, false));
+      toggleActive(activeLink, true);
+    }
+
+    setActiveLink($links.eq(0));
+
+    $links.on('click', (event) => {
+      event.preventDefault();
+      setActiveLink(event.target);
+    });
+
+    $tabs.attr('data-cloak', null);
   }
 
   setupPanel($panel, isReload = false) {

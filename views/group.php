@@ -12,9 +12,7 @@
     <?php } ?>
 
     <?php if ($panels) { ?>
-        <div class="Dashboard__group__content">
-            <?= $panels ?>
-        </div>
+        <?= $panels ?>
     <?php } ?>
 
 </div>
