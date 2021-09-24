@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.1.1] - 2021-09-24
+
+- Verify ajax requests to avoid errors with Tracy debug bar
+
 ## [1.1.0] - 2021-09-12
 
 - Use CSS variables to allow style customization
@@ -202,8 +206,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.1.1...HEAD
 
+[1.1.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.1.1
 [1.1.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.1.0
 [1.0.3]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.3
 [1.0.2]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.2
