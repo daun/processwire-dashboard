@@ -71,6 +71,7 @@ class DashboardPanelShortcuts extends DashboardPanel
 
             // Get URL from shortcut if page/id/selector given,
             // otherwise treat shortcut as URL string
+
             if (is_object($shortcut) && $shortcut instanceof Page) {
                 $page = $shortcut;
             } elseif (is_int($shortcut)) {
@@ -81,6 +82,9 @@ class DashboardPanelShortcuts extends DashboardPanel
                 } else {
                     $url = $shortcut;
                 }
+            } elseif (is_array($shortcut)) {
+                $title = $shortcut[0];
+                $url = $shortcut[1];
             }
 
             if ($page) {
@@ -92,10 +96,12 @@ class DashboardPanelShortcuts extends DashboardPanel
                 $summary = $summary ?: $info->summary;
                 $pageIcon = $info->icon;
                 $url = $page->url;
-            } elseif ($url) {
-                $title = $key;
-            } else {
-                return;
+            } elseif (empty($title)) {
+                if ($url) {
+                    $title = $key;
+                } else {
+                    return;
+                }
             }
 
             $icon = $this->renderPageIcon($icon ?: $pageIcon);
