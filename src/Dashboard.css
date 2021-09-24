@@ -233,6 +233,7 @@ body.Dashboard {
   a {
     color: var(--dashboard-color-text-light);
     text-decoration: none;
+    transition: color .2s ease-in-out;
   }
   li a[aria-current='true'],
   a:hover {
