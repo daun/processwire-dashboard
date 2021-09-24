@@ -227,10 +227,9 @@ class Dashboard extends Process implements Module
         $this->panels = $this->getPanels();
 
         // Ajax request? Render requested panel directly
-        if ($this->config->ajax) {
+        if ($this->config->ajax && $this->input->post->dashboard) {
             $key = $this->input->post->key;
             $panel = $this->input->post->panel;
-
             return $this->renderInstanceByKey($key, $panel);
         }
 

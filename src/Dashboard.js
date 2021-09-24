@@ -89,6 +89,7 @@ class Dashboard {
     const key = parseInt($panel.data('key'), 10);
     const panel = $panel.data('panel');
     const request = {
+      dashboard: 1,
       key,
       panel,
     };
