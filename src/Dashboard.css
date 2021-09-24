@@ -305,6 +305,7 @@ body.Dashboard {
   &[data-style-minimal='true'] {
     background: transparent;
     box-shadow: none;
+    border-radius: 0;
     .uk-card-header,
     .uk-card-footer {
       border: none;

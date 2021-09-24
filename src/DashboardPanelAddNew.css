@@ -2,7 +2,17 @@
 
 /* Dropdown view */
 
-.DashboardPanelAddNew--dropdown {}
+.DashboardPanelAddNew--dropdown {
+  .DashboardPanelAddNewDropdown {
+    display: flex;
+    button:first-of-type {
+      flex-grow: 1;
+    }
+    button:last-of-type {
+      margin-right: 0 !important;
+    }
+  }
+}
 
 /* List view */
 

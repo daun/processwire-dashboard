@@ -132,7 +132,7 @@ class DashboardPanelAddNew extends DashboardPanel
             $button->addActionLink($item['url'], $item['label'], $item['icon']);
         }
 
-        return $button->render();
+        return "<div class='DashboardPanelAddNewDropdown'>{$button->render()}</div>";
     }
 
     protected function getAvailablePageActions()
