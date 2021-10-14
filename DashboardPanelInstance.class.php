@@ -64,6 +64,16 @@ class DashboardPanelGroup extends DashboardPanelInstance
 }
 
 /**
+ * Dashboard panel tab.
+ *
+ * Wire-derived object that holds
+ * the configuration of a tab of panel instances
+ */
+class DashboardPanelTab extends DashboardPanelGroup
+{
+}
+
+/**
  * Dashboard panel array class.
  *
  * WireArray that holds a collection of panel instances
@@ -151,6 +161,26 @@ class DashboardPanelArray extends WireArray
         $group->setArray($config);
 
         return $group;
+    }
+
+    /**
+     * Create a tab and return it.
+     *
+     * @param array $config
+     *
+     * @return DashboardPanelTab
+     */
+    public function createTab($config)
+    {
+        if (!is_array($config)) {
+            return;
+        }
+        $config['type'] = 'tab';
+        $config['panels'] = new self();
+        $tab = new DashboardPanelTab();
+        $tab->setArray($config);
+
+        return $tab;
     }
 
     /**

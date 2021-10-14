@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.2.0] - 2021-10-14
+
+- Allowing grouping panels in tabs
+
 ## [1.1.1] - 2021-09-24
 
 - Verify ajax requests to avoid errors with Tracy debug bar
@@ -206,8 +210,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.2.0...HEAD
 
+[1.2.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.2.0
 [1.1.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.1.1
 [1.1.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.1.0
 [1.0.3]: https://github.com/daun/processwire-dashboard/releases/tag/v1.0.3

@@ -2,11 +2,9 @@
     class="Dashboard"
     data-icons="<?= $settings->displayIcons ? 'true' : 'false' ?>"
 >
-    <?php if (count($panels)) { ?>
-        <div class='Dashboard__grid'>
-            <?php foreach ($panels as $markup) { ?>
-                <?= $markup ?>
-            <?php } ?>
+    <?php if ($panels) { ?>
+        <div class="Dashboard__panels">
+            <?= $panels ?>
         </div>
         <div class="Dashboard__info">
             <p>
@@ -20,7 +18,7 @@
             </p>
         </div>
     <?php } else { ?>
-        <div class='Dashboard__getStarted'>
+        <div class="Dashboard__getStarted">
             <p><i class="fa fa-magic"></i></p>
             <p><?= $texts->empty_panel_notice ?></p>
             <p><?= sprintf($texts->setup_hint, $texts->docs_url) ?></p>
