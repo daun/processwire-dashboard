@@ -4,7 +4,8 @@
 
 ## [1.2.0] - 2021-10-14
 
-- Allowing grouping panels in tabs
+- Allow grouping panels in tabs
+- Make add-new button fill available width
 
 ## [1.1.1] - 2021-09-24
 
