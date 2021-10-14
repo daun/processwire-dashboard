@@ -50,9 +50,9 @@ foreach ($charts as $panel) {
 }
 ```
 
-## Nesting panels
+## Grouping panels
 
-See the section [panel groups](/panels/groups.md) for information about grouping and nesting panels.
+Panels can be displayed and nested in sections as well as grouped in tabs. See the sections about [tabs](/panels/tabs.md) and [groups](/panels/groups.md) for more information.
 
 ## Configuring panels
 

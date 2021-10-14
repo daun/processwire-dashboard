@@ -11,12 +11,8 @@
         </h2>
     <?php } ?>
 
-    <?php if (count($panels)) { ?>
-        <div class="Dashboard__grid Dashboard__group__content">
-            <?php foreach ($panels as $markup) { ?>
-                <?= $markup ?>
-            <?php } ?>
-        </div>
+    <?php if ($panels) { ?>
+        <?= $panels ?>
     <?php } ?>
 
 </div>
