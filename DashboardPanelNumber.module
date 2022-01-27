@@ -40,7 +40,7 @@ class DashboardPanelNumber extends DashboardPanel
         parent::setup();
         $this->locale = $this->data['locale'] ?? setlocale(LC_ALL, 0);
         $this->detail = $this->data['detail'] ?? '';
-        $this->number = $this->data['number'] ?? null;
+        $this->number = is_numeric($this->data['number']) ? $this->data['number'] : null;
         if (is_int($this->number) || is_float($this->number)) {
             $this->number = $this->formatNumber($this->number);
         }
