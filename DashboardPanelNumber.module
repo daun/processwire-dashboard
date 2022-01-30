@@ -31,7 +31,7 @@ class DashboardPanelNumber extends DashboardPanel
         return $this->view('panels/number', [
             'number' => $this->number,
             'detail' => $this->detail,
-            'trend'  => $this->data['trend'] ?? null,
+            'trend' => $this->trend,
         ]);
     }
 
@@ -41,6 +41,7 @@ class DashboardPanelNumber extends DashboardPanel
         $this->locale = $this->data['locale'] ?? setlocale(LC_ALL, 0);
         $this->detail = $this->data['detail'] ?? '';
         $this->number = $this->data['number'] ?? null;
+        $this->trend = $this->data['trend'] ?? null;
         if (is_int($this->number) || is_float($this->number)) {
             $this->number = $this->formatNumber($this->number);
         }
