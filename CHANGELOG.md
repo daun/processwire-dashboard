@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.2.1] - 2022-01-30
+
+- Display details in empty number panels
+
 ## [1.2.0] - 2021-10-14
 
 - Allow grouping panels in tabs
@@ -211,8 +215,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.2.1...HEAD
 
+[1.2.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.2.1
 [1.2.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.2.0
 [1.1.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.1.1
 [1.1.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.1.0
