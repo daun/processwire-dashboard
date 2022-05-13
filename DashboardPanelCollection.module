@@ -40,6 +40,10 @@ class DashboardPanelCollection extends DashboardPanel
      */
     public function getContent()
     {
+        if (!$this->collection->count) {
+            return $this->emptyMessage;
+        }
+
         if ($this->actions !== false) {
             $this->columns['actions__'] = ''; // $this->_('Actions');
         }
@@ -282,6 +286,7 @@ class DashboardPanelCollection extends DashboardPanel
         $this->sortable = $this->data['sortable'] ?? false;
         $this->showHeaders = $this->data['headers'] ?? true;
         $this->dateFormat = $this->data['dateFormat'] ?? 'relative';
+        $this->emptyMessage = $this->data['emptyMessage'] ?? '';
         $this->maxImageNum = $this->data['maxImageNum'] ?? 1;
         $this->parent = $this->getPageFromObjectOrSelectorOrID($this->data['parent'] ?? null);
         $this->template = $this->templates->get($this->data['template'] ?? null);
