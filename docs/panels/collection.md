@@ -11,9 +11,9 @@ Required parameters are marked with an asterisk `*`
 |Parameter|Type|Default|Description|
 |---|---|---|---|
 |**`collection *`**|`PageArray`, `string`||Collection of pages to show (or selector string)|
-|`columns`|`array`|`title` & `url`|Columns to display|
+|`columns`|`array`|`title`, `url`|Columns to display|
 |`sortable`|`bool`|`false`|Make table columns sortable?|
-|`actions`|`array`, `bool`|`edit` & `view`|Actions to allow (`false` to disable)|
+|`actions`|`array`, `bool`|`view`, `edit`|Actions to allow: `view`, `edit`, `trash` (`false` to disable)|
 |`editMode`|`string`|`blank`|How to open edit links (`none` for same window, `blank` for new tab or `modal`)|
 |`viewMode`|`string`|`blank`|How to open view links (same options as `editMode`)|
 |`pagination`|`bool`|`true`|Display pagination info if collection has a `limit` set?|
