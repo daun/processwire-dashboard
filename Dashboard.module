@@ -248,10 +248,13 @@ class Dashboard extends Process implements Module
             });
         }
 
+        $intro = $this->getIntro();
+
         // Render main view
         return $this->view('dashboard', [
             'module'   => "$this",
             'settings' => $this->settings,
+            'intro'    => $intro,
             'panels'   => $this->renderPanels($this->panels),
             'texts'    => $this->texts,
             'version'  => $this->version,
@@ -458,6 +461,16 @@ class Dashboard extends Process implements Module
     protected function ___getBrowserTitle()
     {
         return $this->texts->title;
+    }
+
+    /**
+     * Hook to set intro text.
+     *
+     * @return string
+     */
+    protected function ___getIntro()
+    {
+        return '';
     }
 
     /**

@@ -2,6 +2,12 @@
     class="Dashboard"
     data-icons="<?= $settings->displayIcons ? 'true' : 'false' ?>"
 >
+    <?php if ($intro) { ?>
+        <div class="Dashboard__intro">
+            <?= $intro ?><br><br>
+        </div>
+    <?php } ?>
+
     <?php if ($panels) { ?>
         <div class="Dashboard__panels">
             <?= $panels ?>
