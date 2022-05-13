@@ -406,6 +406,18 @@ class DashboardPanelCollection extends DashboardPanel
                     'disabled' => !$page->viewable,
                 ];
             }
+            if ($action === 'trash') {
+                $links['trash'] = [
+                    'href' => '#',
+                    'label' => $this->_('Trash'),
+                    'icon' => 'trash-can',
+                    // 'disabled' => $page->isTrash() || !$page->trashable,
+                    'attributes' => [
+                        'data-action'  => "[trash][{$page}]",
+                        'data-action-value'  => "1",
+                    ],
+                ];
+            }
         }
 
         return $links;
