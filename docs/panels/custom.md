@@ -97,6 +97,20 @@ $panel.trigger('reload');
 $panel.trigger('reload', { animate: true });
 ```
 
+### Post params
+
+To pass data from JS to the PHP panels class, pass a `params` option that will be sent as POST data.
+
+```js
+/* Send data from JS */
+$panel.trigger('reload', { params: { page: 4 } });
+```
+
+```php
+/* Access data from PHP */
+$page = $_POST['page'] ?? 1;
+```
+
 ## Markup helpers
 
 The panel class has a few helpers to render common markup categories.
