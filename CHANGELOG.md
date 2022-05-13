@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [1.3.0] - 2022-05-13
+
+- Allow setting browser title separately from headline
+- Display optional empty-result placeholder in collection panel
+- Add ability to trash pages from collection panel
+- Allow custom order of actions in collection panel
+- Open external links in shortcut panel in new tab
+- Allow passing post params when reloading panels
+
 ## [1.2.1] - 2022-01-30
 
 - Display details in empty number panels
@@ -215,8 +224,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.3.0...HEAD
 
+[1.3.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.3.0
 [1.2.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.2.1
 [1.2.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.2.0
 [1.1.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.1.1
