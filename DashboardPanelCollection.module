@@ -44,13 +44,13 @@ class DashboardPanelCollection extends DashboardPanel
             $this->columns['actions__'] = ''; // $this->_('Actions');
         }
 
+        $pages = $this->collection->getArray();
         $columns = $this->parseColumnDefinitions();
-
         $rows = array_map(function ($page) use ($columns) {
             return array_map(function ($column) use ($page) {
                 return $this->renderCellContent($page, $column);
             }, $columns);
-        }, $this->collection->getArray());
+        }, $pages);
 
         if ($this->showHeaders) {
             $headers = array_map(function ($column) {
