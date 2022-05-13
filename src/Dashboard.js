@@ -94,8 +94,8 @@ class Dashboard {
   }
 
   setupReloadEvents() {
-    $(document).on('reload', this.selectors.panel, (event, { animate } = {}) => {
-      this.reloadPanel($(event.target), animate);
+    $(document).on('reload', this.selectors.panel, (event, { animate, params } = {}) => {
+      this.reloadPanel($(event.target), { animate, params });
     });
   }
 
@@ -114,7 +114,7 @@ class Dashboard {
     });
   }
 
-  reloadPanel($panel, animate = false) {
+  reloadPanel($panel, { animate = false, params = null } = {}) {
     if (!$panel.length) return;
 
     const key = parseInt($panel.data('key'), 10);
@@ -123,6 +123,7 @@ class Dashboard {
       dashboard: 1,
       key,
       panel,
+      ...(params || {})
     };
 
     $.post(this.url, request, null, 'text')
