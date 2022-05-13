@@ -200,6 +200,70 @@ class DashboardPanelCollection extends DashboardPanel
         return $footer ? "<div>{$footer}</div>" : '';
     }
 
+    protected function executeAjaxActions()
+    {
+        if (!$this->config->ajax) return;
+
+        $actions = $_POST['actions'] ?? null;
+        if (!$actions) return;
+
+        $changed = false;
+
+        foreach ($actions as $action => $pages) {
+            foreach ($pages as $pageId => $value) {
+                $page = $this->pages->get($pageId);
+                if (!$page->id) {
+                    continue;
+                }
+                try {
+                    switch ($action) {
+                    case 'publish':
+                        $publish = !!$value;
+                        $published = !$page->isUnpublished();
+                        if ($page->publishable() && $publish && !$published) {
+                            $page->removeStatus(Page::statusUnpublished);
+                            $page->save('status');
+                            $changed = true;
+                        }
+                        if (!$publish && $published) {
+                            $page->addStatus(Page::statusUnpublished);
+                            $page->save('status');
+                            $changed = true;
+                        }
+                        break;
+                    case 'trash':
+                        $trash = !!$value;
+                        $trashed = $page->isTrash();
+                        if ($trash && !$trashed) { // $page->trashable()
+                            $this->pages->trash($page);
+                            $changed = true;
+                        }
+                        if (!$trash && $trashed) { // $page->restorable()
+                            $this->pages->restore($page);
+                            $changed = true;
+                        }
+                        break;
+                    }
+                } catch (\Throwable $th) {
+                    echo $th->getMessage();
+                    die();
+                    throw $th;
+                }
+            }
+        }
+
+        // Update collection after changes
+        // e.g. when pages trashed
+        if ($changed) {
+            if ($this->collection instanceof PageArray) {
+                $selectors = $this->collection->getSelectors();
+                if ($selectors) {
+                    $this->collection = $this->pages->find($selectors, ['cache' => false]);
+                }
+            }
+        }
+    }
+
     public function setup()
     {
         parent::setup();
@@ -235,6 +299,10 @@ class DashboardPanelCollection extends DashboardPanel
 
         if (is_array($this->actions) && !count($this->actions)) {
             $this->actions = false;
+        }
+
+        if ($this->config->ajax) {
+            $this->executeAjaxActions();
         }
 
         return true;
