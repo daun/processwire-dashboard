@@ -18,6 +18,7 @@ Required parameters are marked with an asterisk `*`
 |`viewMode`|`string`|`blank`|How to open view links (same options as `editMode`)|
 |`pagination`|`bool`|`true`|Display pagination info if collection has a `limit` set?|
 |`headers`|`bool`|`true`|Display table headers?|
+|`'emptyMessage'`|`string`|—|Placeholder to show if the collection is empty, i.e. no pages were found|
 |`dateFormat`|`string`|`relative`|Format to use for DateTime columns|
 |`maxImageNum`|`int`|`1`|Number of thumbnails to show for image columns|
 
