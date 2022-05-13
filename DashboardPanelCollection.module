@@ -277,7 +277,7 @@ class DashboardPanelCollection extends DashboardPanel
             'title' => $this->_('Title'),
             'url'   => $this->_('URL'),
         ];
-        $this->actions = $this->data['actions'] ?? null;
+        $this->actions = $this->data['actions'] ?? ['view', 'edit'];
         $this->pagination = $this->data['pagination'] ?? true;
         $this->sortable = $this->data['sortable'] ?? false;
         $this->showHeaders = $this->data['headers'] ?? true;
@@ -380,33 +380,35 @@ class DashboardPanelCollection extends DashboardPanel
      */
     protected function getPageActions(Page $page)
     {
-        $actions = [];
         if ($this->actions === false) {
-            return $actions;
+            return [];
         }
 
-        if ($this->actions === null || in_array('edit', $this->actions)) {
-            $actions['edit'] = [
-                'href'     => $page->editUrl,
-                'label'    => $this->_('Edit'),
-                'icon'     => 'pencil',
-                'mode'     => $this->editMode,
-                'reload'   => true,
-                'disabled' => !$page->editable,
-            ];
+        $links = [];
+
+        foreach ($this->actions as $action) {
+            if ($action === 'edit') {
+                $links['edit'] = [
+                    'href'     => $page->editUrl,
+                    'label'    => $this->_('Edit'),
+                    'icon'     => 'pen-to-square',
+                    'mode'     => $this->editMode,
+                    'reload'   => true,
+                    'disabled' => !$page->editable,
+                ];
+            }
+            if ($action === 'view') {
+                $links['view'] = [
+                    'href'     => $page->url,
+                    'label'    => $this->_('View'),
+                    'icon'     => 'eye',
+                    'mode'     => $this->viewMode,
+                    'disabled' => !$page->viewable,
+                ];
+            }
         }
 
-        if ($this->actions === null || in_array('view', $this->actions)) {
-            $actions['view'] = [
-                'href'     => $page->url,
-                'label'    => $this->_('View'),
-                'icon'     => 'eye',
-                'mode'     => $this->viewMode,
-                'disabled' => !$page->viewable,
-            ];
-        }
-
-        return $actions;
+        return $links;
     }
 
     /**
@@ -423,6 +425,7 @@ class DashboardPanelCollection extends DashboardPanel
             $attr = (array) ($action['attributes'] ?? []);
             $mode = $action['mode'] ?? false;
             $class = $action['class'] ?? '';
+
             if (self::windowModeModal === $mode) {
                 $this->includeModalScripts();
                 $class .= 'pw-modal pw-modal-large';
@@ -433,6 +436,7 @@ class DashboardPanelCollection extends DashboardPanel
                     $attr['data-reload-on-close'] = true;
                 }
             }
+
             if (self::windowModeBlank === $mode) {
                 $attr['target'] = '_blank';
             }
