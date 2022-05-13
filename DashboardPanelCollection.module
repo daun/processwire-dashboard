@@ -139,6 +139,10 @@ class DashboardPanelCollection extends DashboardPanel
         elseif ($markup === 'page_icon') {
             $content = $this->renderIcon($page->getIcon());
         }
+        // Special case: published status toggle
+        elseif (in_array($markup, ['published'])) {
+            $content = $this->renderPublishToggle($page);
+        }
         // Special case: system timestamps
         elseif (in_array($markup, ['modified', 'created'])) {
             $content = $this->datetime->date($this->dateFormat, $page->$markup);
@@ -493,5 +497,25 @@ class DashboardPanelCollection extends DashboardPanel
         }, $images->getArray());
 
         return implode(' ', $thumbnails);
+    }
+
+    /**
+     * Render publish toggle.
+     */
+    protected function renderPublishToggle(Page $page)
+    {
+        $labelDraft = $this->_('Draft');
+        $labelPublished = $this->_('Published');
+
+        $published = !$page->hasStatus(Page::statusUnpublished);
+        $checked = $published ? 'checked' : '';
+        $tooltip = $published ? $labelPublished : $labelDraft;
+
+        return "
+            <label class='uk-switch tooltip' for='page-publish-{$page}' title='{$tooltip}'>
+                <input type='checkbox' id='page-publish-{$page}' name='actions[publish][{$page}]' value='1' {$checked}>
+                <div class='uk-switch-slider'></div>
+            </label>
+        ";
     }
 }
