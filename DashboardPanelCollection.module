@@ -40,17 +40,21 @@ class DashboardPanelCollection extends DashboardPanel
      */
     public function getContent()
     {
+        if (!$this->collection->count) {
+            return $this->emptyMessage;
+        }
+
         if ($this->actions !== false) {
             $this->columns['actions__'] = ''; // $this->_('Actions');
         }
 
+        $pages = $this->collection->getArray();
         $columns = $this->parseColumnDefinitions();
-
         $rows = array_map(function ($page) use ($columns) {
             return array_map(function ($column) use ($page) {
                 return $this->renderCellContent($page, $column);
             }, $columns);
-        }, $this->collection->getArray());
+        }, $pages);
 
         if ($this->showHeaders) {
             $headers = array_map(function ($column) {
@@ -200,6 +204,70 @@ class DashboardPanelCollection extends DashboardPanel
         return $footer ? "<div>{$footer}</div>" : '';
     }
 
+    protected function executeAjaxActions()
+    {
+        if (!$this->config->ajax) return;
+
+        $actions = $_POST['actions'] ?? null;
+        if (!$actions) return;
+
+        $changed = false;
+
+        foreach ($actions as $action => $pages) {
+            foreach ($pages as $pageId => $value) {
+                $page = $this->pages->get($pageId);
+                if (!$page->id) {
+                    continue;
+                }
+                try {
+                    switch ($action) {
+                    case 'publish':
+                        $publish = !!$value;
+                        $published = !$page->isUnpublished();
+                        if ($page->publishable() && $publish && !$published) {
+                            $page->removeStatus(Page::statusUnpublished);
+                            $page->save('status');
+                            $changed = true;
+                        }
+                        if (!$publish && $published) {
+                            $page->addStatus(Page::statusUnpublished);
+                            $page->save('status');
+                            $changed = true;
+                        }
+                        break;
+                    case 'trash':
+                        $trash = !!$value;
+                        $trashed = $page->isTrash();
+                        if ($trash && !$trashed) { // $page->trashable()
+                            $this->pages->trash($page);
+                            $changed = true;
+                        }
+                        if (!$trash && $trashed) { // $page->restorable()
+                            $this->pages->restore($page);
+                            $changed = true;
+                        }
+                        break;
+                    }
+                } catch (\Throwable $th) {
+                    echo $th->getMessage();
+                    die();
+                    throw $th;
+                }
+            }
+        }
+
+        // Update collection after changes
+        // e.g. when pages trashed
+        if ($changed) {
+            if ($this->collection instanceof PageArray) {
+                $selectors = $this->collection->getSelectors();
+                if ($selectors) {
+                    $this->collection = $this->pages->find($selectors, ['cache' => false]);
+                }
+            }
+        }
+    }
+
     public function setup()
     {
         parent::setup();
@@ -213,11 +281,12 @@ class DashboardPanelCollection extends DashboardPanel
             'title' => $this->_('Title'),
             'url'   => $this->_('URL'),
         ];
-        $this->actions = $this->data['actions'] ?? null;
+        $this->actions = $this->data['actions'] ?? ['view', 'edit'];
         $this->pagination = $this->data['pagination'] ?? true;
         $this->sortable = $this->data['sortable'] ?? false;
         $this->showHeaders = $this->data['headers'] ?? true;
         $this->dateFormat = $this->data['dateFormat'] ?? 'relative';
+        $this->emptyMessage = $this->data['emptyMessage'] ?? '';
         $this->maxImageNum = $this->data['maxImageNum'] ?? 1;
         $this->parent = $this->getPageFromObjectOrSelectorOrID($this->data['parent'] ?? null);
         $this->template = $this->templates->get($this->data['template'] ?? null);
@@ -235,6 +304,10 @@ class DashboardPanelCollection extends DashboardPanel
 
         if (is_array($this->actions) && !count($this->actions)) {
             $this->actions = false;
+        }
+
+        if ($this->config->ajax) {
+            $this->executeAjaxActions();
         }
 
         return true;
@@ -312,33 +385,47 @@ class DashboardPanelCollection extends DashboardPanel
      */
     protected function getPageActions(Page $page)
     {
-        $actions = [];
         if ($this->actions === false) {
-            return $actions;
+            return [];
         }
 
-        if ($this->actions === null || in_array('edit', $this->actions)) {
-            $actions['edit'] = [
-                'href'     => $page->editUrl,
-                'label'    => $this->_('Edit'),
-                'icon'     => 'pencil',
-                'mode'     => $this->editMode,
-                'reload'   => true,
-                'disabled' => !$page->editable,
-            ];
+        $links = [];
+
+        foreach ($this->actions as $action) {
+            if ($action === 'edit') {
+                $links['edit'] = [
+                    'href'     => $page->editUrl,
+                    'label'    => $this->_('Edit'),
+                    'icon'     => 'pen-to-square',
+                    'mode'     => $this->editMode,
+                    'reload'   => true,
+                    'disabled' => !$page->editable,
+                ];
+            }
+            if ($action === 'view') {
+                $links['view'] = [
+                    'href'     => $page->url,
+                    'label'    => $this->_('View'),
+                    'icon'     => 'eye',
+                    'mode'     => $this->viewMode,
+                    'disabled' => !$page->viewable,
+                ];
+            }
+            if ($action === 'trash') {
+                $links['trash'] = [
+                    'href' => '#',
+                    'label' => $this->_('Trash'),
+                    'icon' => 'trash-can',
+                    // 'disabled' => $page->isTrash() || !$page->trashable,
+                    'attributes' => [
+                        'data-action'  => "[trash][{$page}]",
+                        'data-action-value'  => "1",
+                    ],
+                ];
+            }
         }
 
-        if ($this->actions === null || in_array('view', $this->actions)) {
-            $actions['view'] = [
-                'href'     => $page->url,
-                'label'    => $this->_('View'),
-                'icon'     => 'eye',
-                'mode'     => $this->viewMode,
-                'disabled' => !$page->viewable,
-            ];
-        }
-
-        return $actions;
+        return $links;
     }
 
     /**
@@ -355,6 +442,7 @@ class DashboardPanelCollection extends DashboardPanel
             $attr = (array) ($action['attributes'] ?? []);
             $mode = $action['mode'] ?? false;
             $class = $action['class'] ?? '';
+
             if (self::windowModeModal === $mode) {
                 $this->includeModalScripts();
                 $class .= 'pw-modal pw-modal-large';
@@ -365,6 +453,7 @@ class DashboardPanelCollection extends DashboardPanel
                     $attr['data-reload-on-close'] = true;
                 }
             }
+
             if (self::windowModeBlank === $mode) {
                 $attr['target'] = '_blank';
             }

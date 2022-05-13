@@ -105,7 +105,7 @@ class Dashboard extends Process implements Module
     {
         $this->version = self::getModuleInfo()['version'];
         $this->texts = (object) [
-            'title'                 => $this->_('Dashboard'),
+            'title'                 => $this->_x('Dashboard', 'title'),
             'usernav'               => $this->_('Dashboard'),
             'headline'              => $this->_('Welcome, %s'),
             'headline_without_user' => $this->_('Welcome'),
@@ -233,17 +233,20 @@ class Dashboard extends Process implements Module
             return $this->renderInstanceByKey($key, $panel);
         }
 
-        // Set headline and browser title
+        // Set browser title
+        $title = $this->getBrowserTitle();
+        $this->browserTitle($title);
+
+        // Set headline
         if ($headline = $this->getHeadline()) {
             $this->headline($headline);
         } else {
-            $this->headline($this->texts->title);
+            $this->headline($title);
             // Add custom body class to hide empty headline
             $this->addHookAfter('AdminTheme::getExtraMarkup', function ($event) {
                 $event->object->addBodyClass('DashboardNoHeadline');
             });
         }
-        $this->browserTitle($this->texts->title);
 
         // Render main view
         return $this->view('dashboard', [
@@ -445,6 +448,16 @@ class Dashboard extends Process implements Module
         $text = $userLabel ? $this->texts->headline : $this->texts->headline_without_user;
 
         return sprintf($text, $userLabel);
+    }
+
+    /**
+     * Hook to set browser title.
+     *
+     * @return string
+     */
+    protected function ___getBrowserTitle()
+    {
+        return $this->texts->title;
     }
 
     /**

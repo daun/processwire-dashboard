@@ -32,17 +32,25 @@
   .tablesorter-header-inner {
     display: none;
   }
+  a,
   .fa {
-    opacity: .4;
+    display: inline-block;
+  }
+  > :not(:first-child) {
+    margin-left: .25em;
+  }
+  .fa {
     cursor: not-allowed;
+    color: var(--dashboard-color-icon);
+    opacity: .4;
   }
   a {
-    color: inherit;
+    /* color: inherit; */
   }
   a .fa {
     opacity: 1;
     cursor: inherit;
-    color: var(--dashboard-color-icon);
+    /* color: var(--dashboard-color-icon); */
   }
 }
 

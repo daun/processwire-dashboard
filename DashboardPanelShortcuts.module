@@ -102,10 +102,12 @@ class DashboardPanelShortcuts extends DashboardPanel
             $title = $this->sanitizer->entities1($title);
             $summary = $this->summaries ? $this->sanitizer->entities1($summary) : '';
             $linkClass = $summary && $this->display === 'grid' ? 'tooltip' : '';
+            $isAdminLink = strpos($url, $this->config->urls->admin) === 0;
+            $target = !$isAdminLink ? '_blank' : '';
 
             return
                 "<li>
-                    <a href='{$url}' class='{$linkClass}' title='{$summary}'>
+                    <a href='{$url}' class='{$linkClass}' title='{$summary}' target='{$target}'>
                         <span>
                             {$icon}
                             <span class='title'>{$title}</span>
