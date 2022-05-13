@@ -283,6 +283,7 @@ abstract class DashboardPanel extends Wire implements Module
      */
     protected function renderTable($rows, $options = [])
     {
+        /** @var \ProcessWire\MarkupAdminDataTable $table */
         $table = $this->modules->get('MarkupAdminDataTable');
 
         $table->setSortable($options['sortable'] ?? false);
