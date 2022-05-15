@@ -8,9 +8,9 @@ Display a chart using [Chart.js](https://www.chartjs.org/).
 
 Required parameters are marked with an asterisk `*`
 
-|Parameter|Type|Default|Description|
-|---|---|---|---|
-|**`chart *`**|`array`|`[]`|Chart.js configuration options|
+|   Parameter   |  Type   | Default |          Description           |
+| ------------- | ------- | ------- | ------------------------------ |
+| **`chart *`** | `array` | `[]`    | Chart.js configuration options |
 
 ## Example
 

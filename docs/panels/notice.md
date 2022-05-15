@@ -8,11 +8,11 @@ Display a notice with icon and actions. If set, the panel's title will be displa
 
 Required parameters are marked with an asterisk `*`
 
-|Parameter|Type|Default|Description|
-|---|---|---|---|
-|**`message *`**|`string`||Notice to display|
-|`status`|`string`|`notice`|Status of the notice: `notice`, `success`, `warning` or `error`|
-|`actions`|`array`|`[]`|Additional links to display (array of format `['Label' => 'url']`)|
+|    Parameter    |   Type   | Default  |                            Description                             |
+| --------------- | -------- | -------- | ------------------------------------------------------------------ |
+| **`message *`** | `string` |          | Notice to display                                                  |
+| `status`        | `string` | `notice` | Status of the notice: `notice`, `success`, `warning` or `error`    |
+| `actions`       | `array`  | `[]`     | Additional links to display (array of format `['Label' => 'url']`) |
 
 ## Example
 

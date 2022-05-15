@@ -11,9 +11,9 @@ The list of templates is derived from ProcessWire's core Add-New-Page dropdown.
 
 Required parameters are marked with an asterisk `*`
 
-|Parameter|Type|Default|Description|
-|---|---|---|---|
-|`display`|`string`|`list`|How to display the links: `list` or `dropdown`|
+| Parameter |   Type   | Default |                  Description                   |
+| --------- | -------- | ------- | ---------------------------------------------- |
+| `display` | `string` | `list`  | How to display the links: `list` or `dropdown` |
 
 ## Example
 

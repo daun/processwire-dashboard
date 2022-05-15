@@ -25,11 +25,11 @@ foreach (getNotifications() as $message) {
 
 ## Options
 
-|Parameter|Type|Default|Description|
-|---|---|---|---|
-|`title`|`string`||Heading displayed above the group|
-|`margin`|`bool`|`false`|Add extra margin below the group|
-|`align`|`string`|`fill`|Control vertical alignment of the panels inside the group: `top`, `bottom`, `center`, `distribute` (add space between) or `fill` (stretch to fill space)|
+| Parameter |   Type   | Default |                                                                       Description                                                                        |
+| --------- | -------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`   | `string` |         | Heading displayed above the group                                                                                                                        |
+| `margin`  | `bool`   | `false` | Add extra margin below the group                                                                                                                         |
+| `align`   | `string` | `fill`  | Control vertical alignment of the panels inside the group: `top`, `bottom`, `center`, `distribute` (add space between) or `fill` (stretch to fill space) |
 
 ## Example configuration
 
