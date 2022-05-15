@@ -188,17 +188,13 @@ class DashboardPanelCollection extends DashboardPanel
         // Buttons (add new)
         $buttons = $this->renderFooterButtons();
         if ($buttons) {
-            $footer .= "<div>{$buttons}</div>";
+            $footer .= "<div class='DashboardFooterButtons'>{$buttons}</div>";
         }
 
         // Pagination
-        if ($this->pagination && $this->collection->hasPagination()) {
-            $pagination = sprintf(
-                $this->_('Showing %d of %d'),
-                $this->collection->count,
-                $this->collection->getTotal()
-            );
-            $footer .= "<div>{$pagination}</div>";
+        if ($this->supportsPagination()) {
+            $pagination = $this->renderPaginationPager($this->collection);
+            $footer .= "<div class='DashboardFooterPagination'>{$pagination}</div>";
         }
 
         return $footer ? "<div>{$footer}</div>" : '';
@@ -256,15 +252,9 @@ class DashboardPanelCollection extends DashboardPanel
             }
         }
 
-        // Update collection after changes
-        // e.g. when pages trashed
+        // Update collection after changes, e.g. when pages trashed
         if ($changed) {
-            if ($this->collection instanceof PageArray) {
-                $selectors = $this->collection->getSelectors();
-                if ($selectors) {
-                    $this->collection = $this->pages->find($selectors, ['cache' => false]);
-                }
-            }
+            $this->refetchCollection();
         }
     }
 
@@ -308,9 +298,78 @@ class DashboardPanelCollection extends DashboardPanel
 
         if ($this->config->ajax) {
             $this->executeAjaxActions();
+            $this->refetchCollectionForPagination();
         }
 
         return true;
+    }
+
+    protected function supportsPagination()
+    {
+        return (
+            $this->pagination &&
+            $this->collection instanceof PageArray &&
+            $this->collection->hasPagination() &&
+            $this->collection->getSelectors()
+        );
+    }
+
+    protected function refetchCollection()
+    {
+        if (!($this->collection instanceof PageArray)) {
+            return;
+        }
+
+        /** @var \ProcessWire\Selectors $selectors */
+        $selectors = $this->collection->getSelectors();
+        if (!$selectors) {
+            return;
+        }
+
+        $this->collection = $this->pages->find($selectors, ['cache' => false]);
+    }
+
+    protected function refetchCollectionForPagination()
+    {
+        if (!$this->config->ajax) return;
+        if (!$this->supportsPagination()) return;
+
+        $this->wire()->input->setPageNum($_POST['page'] ?? 1);
+        $this->refetchCollection();
+    }
+
+    protected function renderPaginationSummary(PageArray $items)
+    {
+        return sprintf(
+            $this->_('Showing %d of %d'),
+            $items->count,
+            $items->getTotal()
+        );
+    }
+
+    protected function renderPaginationPager(PageArray $items)
+    {
+        /** @var \ProcessWire\MarkupPagerNav $pager */
+        $pager = $this->wire()->modules->get('MarkupPagerNav');
+
+        $summary = $items->getPaginationString();
+        $pagination = $pager->render($items, [
+            'numPageLinks' => 3,
+            'listClass' => 'uk-pagination',
+            'listMarkup' => "<ul class='uk-pagination DashboardPagination'>{out}</ul>",
+            'linkMarkup' => "<a href='{url}' data-pagination>{out}</a>",
+            'currentItemClass' => 'uk-active',
+            'separatorItemLabel' => '<span>&hellip;</span>',
+            'separatorItemClass' => 'DashboardPaginationSeparator',
+            'currentLinkMarkup' => "<a href='{url}' data-pagination>{out}</a>",
+            'nextItemLabel' => '<i class="fa fa-angle-right"></i>',
+            'previousItemLabel' => '<i class="fa fa-angle-left"></i>',
+            'nextItemClass' => '',
+            'previousItemClass' => '',
+            'lastItemClass' => '',
+        ]);
+
+        return "<div>{$summary}</div> {$pagination}";
     }
 
     /**

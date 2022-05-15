@@ -19,6 +19,7 @@
   --dashboard-color-text-light: #97aab4;
   --dashboard-color-icon: #97aab4;
   --dashboard-color-button-bg: #f0f3f7;
+  --dashboard-color-button-border: #d7dadf;
   --dashboard-color-button-text: #354b60;
   --dashboard-color-button-hover-bg: #6c8dae;
   --dashboard-color-button-hover-text: #fff;
@@ -408,5 +409,61 @@ body.Dashboard {
         }
       }
     }
+  }
+}
+
+/* Pagination */
+
+.DashboardPagination {
+  margin: 0;
+  > * > * {
+    background: var(--dashboard-color-button-bg);
+    color: var(--dashboard-color-button-text);
+    border-color: var(--dashboard-color-button-border);
+    transition: background 200ms, color 200ms, border 200ms;
+  }
+   > * > :hover,
+   > * > :focus {
+    background: var(--dashboard-color-button-hover-bg);
+    color: var(--dashboard-color-button-hover-text);
+    border-color: var(--dashboard-color-button-hover-bg);
+  }
+  > .uk-active > *,
+  > .uk-active > * > * {
+    background: var(--dashboard-color-button-hover-bg);
+    color: var(--dashboard-color-button-hover-text);
+    border-color: var(--dashboard-color-button-hover-bg);
+  }
+}
+
+.DashboardPaginationSeparator {
+  pointer-events: none;
+}
+
+.DashboardFooterButtons {
+  margin: -.5em;
+  display: flex;
+  flex-wrap: wrap;
+  > * {
+    display: inline-block;
+    margin: .5em;
+  }
+  .ui-button {
+    margin-right: 0;
+  }
+}
+
+.DashboardFooterPagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: flex-end;
+  margin-bottom: -.5em;
+  margin-right: -1em;
+  margin-left: auto;
+  padding-left: 1em;
+  > * {
+    margin-bottom: .5em;
+    margin-right: 1em;
   }
 }
