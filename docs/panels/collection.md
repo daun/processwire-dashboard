@@ -16,9 +16,9 @@ Required parameters are marked with an asterisk `*`
 |`actions`|`array`, `bool`|`view`, `edit`|Actions to allow: `view`, `edit`, `trash` (`false` to disable)|
 |`editMode`|`string`|`blank`|How to open edit links (`none` for same window, `blank` for new tab or `modal`)|
 |`viewMode`|`string`|`blank`|How to open view links (same options as `editMode`)|
-|`pagination`|`bool`|`true`|Display pagination info if collection has a `limit` set?|
+|`pagination`|`bool`|`true`|Display pagination links if collection has a `limit` set?|
 |`headers`|`bool`|`true`|Display table headers?|
-|`'emptyMessage'`|`string`|—|Placeholder to show if the collection is empty, i.e. no pages were found|
+|`emptyMessage`|`string`|—|Placeholder to show if the collection is empty, i.e. no pages were found|
 |`dateFormat`|`string`|`relative`|Format to use for DateTime columns|
 |`maxImageNum`|`int`|`1`|Number of thumbnails to show for image columns|
 
