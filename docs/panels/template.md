@@ -9,10 +9,10 @@ Display the output of any file in your template folder. The file will receive al
 
 Required parameters are marked with an asterisk `*`
 
-|Parameter|Type|Default|Description|
-|---|---|---|---|
-|**`template *`**|`string`||Template file name, relative to `/site/templates/` and including extension|
-|`variables`|`array`|`[]`|Data to pass into the template|
+|    Parameter     |   Type   | Default |                                Description                                 |
+| ---------------- | -------- | ------- | -------------------------------------------------------------------------- |
+| **`template *`** | `string` |         | Template file name, relative to `/site/templates/` and including extension |
+| `variables`      | `array`  | `[]`    | Data to pass into the template                                             |
 
 ## Example
 

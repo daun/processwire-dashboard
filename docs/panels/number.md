@@ -8,12 +8,12 @@ Display a large number with trend indicator.
 
 Required parameters are marked with an asterisk `*`
 
-|Parameter|Type|Default|Description|
-|---|---|---|---|
-|**`number *`**|`int`, `float`, `string`||The number to display|
-|`detail`|`string`||Additional information to display below|
-|`trend`|`string`||Trend to indicate with green/red arrows: `up` or `down`|
-|`locale`|`string`|server locale|Locale to use for formatting integers or floats|
+|   Parameter    |           Type           |    Default    |                       Description                       |
+| -------------- | ------------------------ | ------------- | ------------------------------------------------------- |
+| **`number *`** | `int`, `float`, `string` |               | The number to display                                   |
+| `detail`       | `string`                 |               | Additional information to display below                 |
+| `trend`        | `string`                 |               | Trend to indicate with green/red arrows: `up` or `down` |
+| `locale`       | `string`                 | server locale | Locale to use for formatting integers or floats         |
 
 ## Example
 

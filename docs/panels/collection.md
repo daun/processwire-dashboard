@@ -8,19 +8,19 @@ Display a collection of pages in a table. Supply either a PageArray or a selecto
 
 Required parameters are marked with an asterisk `*`
 
-|Parameter|Type|Default|Description|
-|---|---|---|---|
-|**`collection *`**|`PageArray`, `string`||Collection of pages to show (or selector string)|
-|`columns`|`array`|`title`, `url`|Columns to display|
-|`sortable`|`bool`|`false`|Make table columns sortable?|
-|`actions`|`array`, `bool`|`view`, `edit`|Actions to allow: `view`, `edit`, `trash` (`false` to disable)|
-|`editMode`|`string`|`blank`|How to open edit links (`none` for same window, `blank` for new tab or `modal`)|
-|`viewMode`|`string`|`blank`|How to open view links (same options as `editMode`)|
-|`pagination`|`bool`|`true`|Display pagination info if collection has a `limit` set?|
-|`headers`|`bool`|`true`|Display table headers?|
-|`'emptyMessage'`|`string`|—|Placeholder to show if the collection is empty, i.e. no pages were found|
-|`dateFormat`|`string`|`relative`|Format to use for DateTime columns|
-|`maxImageNum`|`int`|`1`|Number of thumbnails to show for image columns|
+|     Parameter      |         Type          |    Default     |                                   Description                                   |
+| ------------------ | --------------------- | -------------- | ------------------------------------------------------------------------------- |
+| **`collection *`** | `PageArray`, `string` |                | Collection of pages to show (or selector string)                                |
+| `columns`          | `array`               | `title`, `url` | Columns to display                                                              |
+| `sortable`         | `bool`                | `false`        | Make table columns sortable?                                                    |
+| `actions`          | `array`, `bool`       | `view`, `edit` | Actions to allow: `view`, `edit`, `trash` (`false` to disable)                  |
+| `editMode`         | `string`              | `blank`        | How to open edit links (`none` for same window, `blank` for new tab or `modal`) |
+| `viewMode`         | `string`              | `blank`        | How to open view links (same options as `editMode`)                             |
+| `pagination`       | `bool`                | `true`         | Display pagination links if collection has a `limit` set?                       |
+| `headers`          | `bool`                | `true`         | Display table headers?                                                          |
+| `emptyMessage`     | `string`              | —              | Placeholder to show if the collection is empty, i.e. no pages were found        |
+| `dateFormat`       | `string`              | `relative`     | Format to use for DateTime columns                                              |
+| `maxImageNum`      | `int`                 | `1`            | Number of thumbnails to show for image columns                                  |
 
 ## Example
 

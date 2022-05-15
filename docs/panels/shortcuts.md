@@ -9,14 +9,14 @@ Display a list of shortcuts as links with icons. In list view, the page summary 
 
 Required parameters are marked with an asterisk `*`
 
-|Parameter|Type|Default|Description|
-|---|---|---|---|
-|**`shortcuts *`**|`array`||Shortcuts to display: Page objects, page IDs, selectors and URLs|
-|`display`|`string`|`grid`|How to display the shortcuts: `grid` or `list`|
-|`summaries`|`bool`|`true`|Whether to display summaries|
-|`fallbackIcon`|`string`|`bookmark-o`|Icon to use if page doesn't have one|
-|`icon`|`string`|none|Icon to uniformly use for **all** pages|
-|`checkAccess`|`bool`|`true`|Only show pages the user has access to|
+|     Parameter     |   Type   |   Default    |                           Description                            |
+| ----------------- | -------- | ------------ | ---------------------------------------------------------------- |
+| **`shortcuts *`** | `array`  |              | Shortcuts to display: Page objects, page IDs, selectors and URLs |
+| `display`         | `string` | `grid`       | How to display the shortcuts: `grid` or `list`                   |
+| `summaries`       | `bool`   | `true`       | Whether to display summaries                                     |
+| `fallbackIcon`    | `string` | `bookmark-o` | Icon to use if page doesn't have one                             |
+| `icon`            | `string` | none         | Icon to uniformly use for **all** pages                          |
+| `checkAccess`     | `bool`   | `true`       | Only show pages the user has access to                           |
 
 See the example below on how to customize the icon, title, summary and URL for each shortcut.
 

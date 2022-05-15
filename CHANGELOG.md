@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.4.0] - 2022-05-15
+
+- Display pagination links in collection panel
+
 ## [1.3.0] - 2022-05-13
 
 - Allow setting browser title separately from headline
@@ -224,8 +228,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.4.0...HEAD
 
+[1.4.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.4.0
 [1.3.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.3.0
 [1.2.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.2.1
 [1.2.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.2.0

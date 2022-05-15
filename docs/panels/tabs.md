@@ -19,6 +19,6 @@ $panels->add($tab);
 
 Required parameters are marked with an asterisk `*`
 
-|Parameter|Type|Default|Description|
-|---|---|---|---|
-|**`title *`**|`string`||Clickable tab label|
+|   Parameter   |   Type   | Default |     Description     |
+| ------------- | -------- | ------- | ------------------- |
+| **`title *`** | `string` |         | Clickable tab label |
