@@ -490,13 +490,33 @@ class Dashboard extends Process implements Module
     /**
      * Render icon as markup.
      *
-     * @param string $icon
+     * @param string|array $icons Icon or icon array, in order of preference
      *
      * @return string Icon markup
      */
-    public function renderIcon($icon)
+    public function renderIcon($icons)
     {
-        return $icon ? wireIconMarkup($icon, 'fw') : '';
+        $class = '';
+
+        if (empty($icons)) {
+            $icons = [];
+        } elseif (is_string($icons)) {
+            $icons = [$icons];
+        }
+        if (is_array($icons)) {
+            $classes = array_map(function ($icon) {
+                if (strpos($icon, 'icon-') === 0) {
+                    $icon = str_replace('icon-', 'fa-', $icon);
+                }
+                if (strpos($icon, 'fa-') !== 0) {
+                    $icon = "fa-{$icon}";
+                }
+                return $icon;
+            }, $icons);
+            $class = implode(' ', $classes);
+        }
+
+        return "<i class='fa fa-fw {$class}'></i>";
     }
 
     /**
