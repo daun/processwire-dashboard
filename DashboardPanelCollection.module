@@ -455,7 +455,7 @@ class DashboardPanelCollection extends DashboardPanel
                 $links['edit'] = [
                     'href'     => $page->editUrl,
                     'label'    => $this->_('Edit'),
-                    'icon'     => 'pen-to-square',
+                    'icon'     => ['pen', 'pen-to-square'],
                     'mode'     => $this->editMode,
                     'reload'   => true,
                     'disabled' => !$page->editable,
@@ -474,7 +474,7 @@ class DashboardPanelCollection extends DashboardPanel
                 $links['trash'] = [
                     'href' => '#',
                     'label' => $this->_('Trash'),
-                    'icon' => 'trash-can',
+                    'icon' => ['trash', 'trash-can'],
                     // 'disabled' => $page->isTrash() || !$page->trashable,
                     'attributes' => [
                         'data-action'  => "[trash][{$page}]",
