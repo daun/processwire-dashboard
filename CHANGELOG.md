@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.4.2] - 2022-05-20
+
+- Fix invisible icons by checking for supported icons
+
 ## [1.4.1] - 2022-05-18
 
 - Fix invisible icons in collection panel
@@ -232,8 +236,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.4.1...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.4.2...HEAD
 
+[1.4.2]: https://github.com/daun/processwire-dashboard/releases/tag/v1.4.2
 [1.4.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.4.1
 [1.4.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.4.0
 [1.3.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.3.0
