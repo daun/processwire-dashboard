@@ -16,7 +16,7 @@ class DashboardPanelNumber extends DashboardPanel
                 'title'    => __('Dashboard Panel: Number', __FILE__),
                 'summary'  => __('Display a single number with trend indicator', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => '1.3.0',
+                'version'  => '1.4.2',
             ]
         );
     }
