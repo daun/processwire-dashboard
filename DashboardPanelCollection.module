@@ -455,7 +455,7 @@ class DashboardPanelCollection extends DashboardPanel
                 $links['edit'] = [
                     'href'     => $page->editUrl,
                     'label'    => $this->_('Edit'),
-                    'icon'     => ['pen', 'pen-to-square'],
+                    'icon'     => ['pencil', 'pen-to-square'],
                     'mode'     => $this->editMode,
                     'reload'   => true,
                     'disabled' => !$page->editable,

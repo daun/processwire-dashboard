@@ -88,6 +88,11 @@ class Dashboard extends Process implements Module
     const fallbackPanelSize = 'normal';
 
     /**
+     * Cached output of InputfieldIcon to check for supported icon names.
+     */
+    static protected $iconField = null;
+
+    /**
      * Module initialization.
      *
      * Overwrite the parent::init() method with an empty method to
@@ -499,10 +504,11 @@ class Dashboard extends Process implements Module
         $class = '';
 
         if (empty($icons)) {
-            $icons = [];
+            return '';
         } elseif (is_string($icons)) {
             $icons = [$icons];
         }
+
         if (is_array($icons)) {
             $classes = array_map(function ($icon) {
                 if (strpos($icon, 'icon-') === 0) {
@@ -513,10 +519,21 @@ class Dashboard extends Process implements Module
                 }
                 return $icon;
             }, $icons);
-            $class = implode(' ', $classes);
+            $class = array_reduce($classes, function ($selectedClass, $classToCheck) {
+                return $this->hasIcon($classToCheck) ? $classToCheck : $selectedClass;
+            }, reset($classes));
         }
 
         return "<i class='fa fa-fw {$class}'></i>";
+    }
+
+    protected function hasIcon($icon)
+    {
+        if (!static::$iconField) {
+            $module = $this->wire()->modules('InputfieldIcon');
+            static::$iconField = $module ? $module->render() : '';
+        }
+        return preg_match("/\b{$icon}\b/", static::$iconField);
     }
 
     /**
