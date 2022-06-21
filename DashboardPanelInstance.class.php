@@ -81,6 +81,17 @@ class DashboardPanelTab extends DashboardPanelGroup
 class DashboardPanelArray extends WireArray
 {
     protected $duplicateChecking = false;
+    protected $frozen = false;
+
+    public function freeze()
+    {
+        $this->frozen = true;
+    }
+
+    public function frozen()
+    {
+       return $this->frozen;
+    }
 
     public function makeBlankItem()
     {
