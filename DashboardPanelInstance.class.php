@@ -120,17 +120,34 @@ class DashboardPanelArray extends WireArray
         // keys, so numerical keys indicate an array of configs
         if (is_array($config) && is_int(array_key_first($config))) {
             return $this->import($config);
+        } else {
+            return parent::add($this->createInstance($config));
         }
-        $instance = $this->createInstance($config);
-
-        return parent::add($instance);
     }
 
     public function set($key, $value)
     {
-        $instance = $this->createInstance($value);
+        return parent::set($key, $this->createInstance($value));
+    }
 
-        return parent::set($key, $instance);
+    public function prepend($item)
+    {
+        return parent::prepend($this->createInstance($item));
+    }
+
+    public function unshift($item)
+    {
+        return parent::unshift($this->createInstance($item));
+    }
+
+    public function insertBefore($item, $existingItem)
+    {
+        return parent::insertBefore($this->createInstance($item), $existingItem);
+    }
+
+    public function insertAfter($item, $existingItem)
+    {
+        return parent::insertAfter($this->createInstance($item), $existingItem);
     }
 
     public function import($items)
@@ -144,17 +161,45 @@ class DashboardPanelArray extends WireArray
     }
 
     /**
+     * Create a panel and return it.
+     *
+     * @param array $config
+     *
+     * @return DashboardPanelGroup
+     */
+    public function createPanel(array $config)
+    {
+        if (!is_array($config)) {
+            return;
+        }
+        if (!($config['panel'] ?? false)) {
+            throw new \Exception('Missing required `panel` parameter');
+        }
+
+        $config['type'] = 'panel';
+        if ($config['data'] ?? false) {
+            $config['dataArray'] = $config['data'];
+            unset($config['data']);
+        }
+        $instance = new DashboardPanelInstance();
+        $instance->setArray($config);
+
+        return $instance;
+    }
+
+    /**
      * Create a group of panels and return it.
      *
      * @param array $config
      *
      * @return DashboardPanelGroup
      */
-    public function createGroup($config)
+    public function createGroup(array $config)
     {
         if (!is_array($config)) {
             return;
         }
+
         $config['type'] = 'group';
         $config['panels'] = new self();
         $group = new DashboardPanelGroup();
@@ -170,11 +215,12 @@ class DashboardPanelArray extends WireArray
      *
      * @return DashboardPanelTab
      */
-    public function createTab($config)
+    public function createTab(array $config)
     {
         if (!is_array($config)) {
             return;
         }
+
         $config['type'] = 'tab';
         $config['panels'] = new self();
         $tab = new DashboardPanelTab();
@@ -192,21 +238,18 @@ class DashboardPanelArray extends WireArray
      */
     public function createInstance($config)
     {
-        if (is_array($config)) {
-            if (!($config['panel'] ?? false)) {
-                throw new \Exception('Missing required `panel` parameter');
-            }
-            $config['type'] = 'panel';
-            if ($config['data'] ?? false) {
-                $config['dataArray'] = $config['data'];
-                unset($config['data']);
-            }
-            $instance = new DashboardPanelInstance();
-            $instance->setArray($config);
-
-            return $instance;
-        } else {
+        if (!is_array($config)) {
             return $config;
+        }
+
+        switch ($config['type'] ?? null) {
+            case 'tab':
+                return $this->createTab($config);
+            case 'group':
+                return $this->createGroup($config);
+            case 'panel':
+            default:
+                return $this->createPanel($config);
         }
     }
 }
