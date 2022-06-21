@@ -220,6 +220,7 @@ class Dashboard extends Process implements Module
             $page = $this->getDashboardPageInNav();
             if ($page) {
                 $this->session->redirect($page->url);
+                return;
             }
         }
 
@@ -229,11 +230,16 @@ class Dashboard extends Process implements Module
         // Load panel instances from hook
         $this->panels = $this->getPanels();
 
-        // Ajax request? Render requested panel directly
-        if ($this->config->ajax && $this->input->post->dashboard) {
-            $key = $this->input->post->key;
-            $panel = $this->input->post->panel;
-            return $this->renderInstanceByKey($key, $panel);
+        if ($this->config->ajax) {
+            if ($this->input->post->dashboard) {
+                // Ajax request? (Re)render a single requested panel
+                $key = $this->input->post->key;
+                $panel = $this->input->post->panel;
+                return $this->renderInstanceByKey($key, $panel);
+            } else {
+                // Disregard all other ajax requests
+                return;
+            }
         }
 
         // Set browser title
