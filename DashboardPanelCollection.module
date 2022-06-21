@@ -160,6 +160,7 @@ class DashboardPanelCollection extends DashboardPanel
         elseif (false && $fieldtype == 'FieldtypeDatetime') {
             $content = $this->datetime->date($this->dateFormat, $page->getUnformatted($markup));
         }
+
         // All others
         if ($content === null) {
             $content = $page->getText($markup, false, true); // $oneLine, $entities
@@ -262,9 +263,9 @@ class DashboardPanelCollection extends DashboardPanel
     {
         parent::setup();
 
-        $this->editURL = $this->config->urls->admin.'page/edit/';
-        $this->addURL = $this->config->urls->admin.'page/add/';
-        $this->listURL = $this->config->urls->admin.'page/list/';
+        $this->editUrl = $this->config->urls->admin.'page/edit/';
+        $this->addUrl = $this->config->urls->admin.'page/add/';
+        $this->listUrl = $this->config->urls->admin.'page/list/';
 
         $this->collection = $this->data['collection'] ?? null;
         $this->columns = $this->data['columns'] ?? [
@@ -382,13 +383,13 @@ class DashboardPanelCollection extends DashboardPanel
         $out = '';
 
         if ($this->parent && $this->parent->id && $this->parent->addable()) {
-            $action = "{$this->addURL}?parent_id={$this->parent->id}";
+            $action = "{$this->addUrl}?parent_id={$this->parent->id}";
         } elseif ($this->template && ($parent = $this->template->getParentPage(true))) {
             if ($parent->id) {
-                $action = "{$this->addURL}?parent_id={$parent->id}";
+                $action = "{$this->addUrl}?parent_id={$parent->id}";
             } // defined parent
             else {
-                $action = "{$this->addURL}?template_id={$this->template->id}";
+                $action = "{$this->addUrl}?template_id={$this->template->id}";
             } // multiple possible parents
         }
 
@@ -416,10 +417,10 @@ class DashboardPanelCollection extends DashboardPanel
             if ($this->listPage->template == 'admin') {
                 $action = "{$this->listPage->url}"; // admin process page
             } else {
-                $action = "{$this->listURL}?open={$this->listPage->id}"; // open page list at this page
+                $action = "{$this->listUrl}?open={$this->listPage->id}"; // open page list at this page
             }
         } elseif ($this->parent && $this->parent->id) {
-            $action = "{$this->listURL}?open={$this->parent->id}"; // open page list at parent page
+            $action = "{$this->listUrl}?open={$this->parent->id}"; // open page list at parent page
         }
 
         if ($action) {
