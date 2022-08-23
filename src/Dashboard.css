@@ -7,6 +7,7 @@
   --dashboard-grid-gap-large: 40px;
 
   /* Grid sizes */
+  --dashboard-grid-size-micro: 2;
   --dashboard-grid-size-mini: 3;
   --dashboard-grid-size-small: 4;
   --dashboard-grid-size-normal: 6;
@@ -183,6 +184,9 @@ body.Dashboard {
 
   @media (min-width: 768px) {
     grid-column: span var(--dashboard-grid-size-normal);
+    &[data-size='micro'] {
+      grid-column: span var(--dashboard-grid-size-micro);
+    }
     &[data-size='mini'] {
       grid-column: span var(--dashboard-grid-size-mini);
     }
