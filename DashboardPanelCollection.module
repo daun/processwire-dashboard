@@ -135,6 +135,14 @@ class DashboardPanelCollection extends DashboardPanel
         if ($markup === 'actions__') {
             $content = $this->renderPageActions($page);
         }
+        // Special case: page status
+        elseif ($markup === 'status__') {
+            $content = $this->renderStatusIcon($page);
+        }
+        // Special case: published status toggle
+        elseif (in_array($markup, ['published__', 'visible__'])) {
+            $content = $this->renderStatusToggle($page, $markup);
+        }
         // Special case: page icon
         elseif ($markup === 'page_icon') {
             $content = $this->renderIcon($page->getIcon());
@@ -232,6 +240,20 @@ class DashboardPanelCollection extends DashboardPanel
                             $changed = true;
                         }
                         break;
+                    case 'show':
+                        $show = !!$value;
+                        $visible = !$page->isHidden();
+                        if ($page->editable() && $show && !$visible) {
+                            $page->removeStatus(Page::statusHidden);
+                            $page->save('status');
+                            $changed = true;
+                        }
+                        if (!$show && $visible) {
+                            $page->addStatus(Page::statusHidden);
+                            $page->save('status');
+                            $changed = true;
+                        }
+                        break;
                     case 'trash':
                         $trash = !!$value;
                         $trashed = $page->isTrash();
@@ -284,6 +306,7 @@ class DashboardPanelCollection extends DashboardPanel
         $this->listPage = $this->getPageFromObjectOrSelectorOrID($this->data['list'] ?? null);
         $this->editMode = $this->data['editMode'] ?? self::windowModeBlank;
         $this->viewMode = $this->data['viewMode'] ?? self::windowModeBlank;
+        $this->addUrlParams = $this->data['addUrlParams'] ?? [];
 
         if (is_string($this->collection)) {
             $this->collection = $this->pages->find($this->collection);
@@ -404,6 +427,7 @@ class DashboardPanelCollection extends DashboardPanel
                 'modalAutoclose'     => self::modalAutocloseAdd,
                 'reloadOnModalClose' => true,
             ];
+            $action = $this->setQueryParameter($action, $this->addUrlParams);
             if (self::windowModeModal === $mode) {
                 $action = $this->setQueryParameter($action, 'modal', 1);
             }
@@ -553,5 +577,62 @@ class DashboardPanelCollection extends DashboardPanel
         }, $images->getArray());
 
         return implode(' ', $thumbnails);
+    }
+
+    /**
+     * Render status icon.
+     */
+    protected function renderStatusIcon(Page $page)
+    {
+        if ($page->hasStatus(Page::statusTrash)) {
+            $icon = 'trash-can';
+            $tooltip = $this->_('In Trash');
+        } elseif ($page->hasStatus(Page::statusUnpublished)) {
+            $icon = 'pen';
+            $tooltip = $this->_('Draft');
+        } elseif ($page->hasStatus(Page::statusHidden)) {
+            $icon = 'eye-slash';
+            $tooltip = $this->_('Hidden');
+        } else {
+            $icon = 'circle-check';
+            $tooltip = $this->_('Published');
+        }
+        $icon = $this->renderIcon($icon);
+        return "<span class='tooltip' title='{$tooltip}'>{$icon}</span>";
+    }
+
+    /**
+     * Render publish/visibility toggle.
+     */
+    protected function renderStatusToggle(Page $page, $status = 'published')
+    {
+        $status = $this->wire()->sanitizer->option($status, ['published', 'visible']) ?? 'published';
+
+        switch ($status) {
+        case 'visible':
+            $action = 'show';
+            $statusFlag = Page::statusHidden;
+            $labelInactive = $this->_('Hidden');
+            $labelActive = $this->_('Visible');
+            break;
+        case 'published':
+        default:
+            $action = 'publish';
+            $statusFlag = Page::statusUnpublished;
+            $labelInactive = $this->_('Draft');
+            $labelActive = $this->_('Published');
+            break;
+        }
+
+        $active = !$page->hasStatus($statusFlag);
+        $checked = $active ? 'checked' : '';
+        $tooltip = $active ? $labelActive : $labelInactive;
+
+        return "
+            <label class='uk-switch tooltip' for='page-{$status}-{$page}' title='{$tooltip}'>
+                <input type='checkbox' id='page-{$status}-{$page}' name='actions[{$action}][{$page}]' value='1' {$checked}>
+                <div class='uk-switch-slider'></div>
+            </label>
+        ";
     }
 }

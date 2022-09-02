@@ -33,6 +33,18 @@ function initPanel($panel) {
       $panel.trigger('reload', { animate: false, params });
     });
   }
+
+  const $actionInputs = $panel.find('input[name^="actions["]');
+  if ($actionInputs.length) {
+    $actionInputs.on('change', (event) => {
+      event.preventDefault();
+      const name = event.target.name;
+      const checked = event.target.checked;
+      const value = checked ? 1 : '';
+      const params = { [name]: value };
+      $panel.trigger('reload', { animate: false, params });
+    });
+  }
 }
 
 $(document).on('dashboard:panel(collection)', (event, { $element }) => {
