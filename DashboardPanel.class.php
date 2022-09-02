@@ -429,13 +429,20 @@ abstract class DashboardPanel extends Wire implements Module
      *
      * @return string Updated URL
      */
-    protected function setQueryParameter($url, $key, $value)
+    protected function setQueryParameter($url, $key, $value = null)
     {
         $info = parse_url($url);
         $query = $info['query'] ?? '';
         parse_str($query, $params);
 
-        $params[$key] = $value;
+        if (is_array($key)) {
+            foreach ($key as $k => $v) {
+                $params[$k] = $v;
+            }
+        } else {
+            $params[$key] = $value;
+        }
+
         $query = http_build_query($params);
 
         $result = $info['path'] ?? '';
@@ -543,12 +550,12 @@ abstract class DashboardPanel extends Wire implements Module
      *
      * @param Page|int|string|null $input
      *
-     * @return Page|null
+     * @return Page|NullPage|null
      */
     protected function getPageFromObjectOrSelectorOrID($input)
     {
         if (!$input) {
-            return;
+            return null;
         }
 
         if (is_object($input) && $input instanceof Page) {
@@ -559,6 +566,6 @@ abstract class DashboardPanel extends Wire implements Module
             $page = $this->pages->get($input);
         }
 
-        return $page;
+        return $page ?? null;
     }
 }

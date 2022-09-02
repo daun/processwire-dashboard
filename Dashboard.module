@@ -13,7 +13,7 @@ use function ProcessWire\wireIconMarkup;
  * @author Philipp Daun <post@philippdaun.net>
  * @license GPL-3.0
  *
- * @version 1.4.2
+ * @version 1.5.0
  */
 
 // Include abstract panel base class
@@ -31,7 +31,7 @@ class Dashboard extends Process implements Module
             'summary'     => __('Configurable dashboard page', __FILE__),
             'href'        => 'https://github.com/daun/processwire-dashboard',
             'author'      => 'Philipp Daun',
-            'version'     => '1.4.2',
+            'version'     => '1.5.0',
             'icon'        => 'compass',
             'permission'  => 'dashboard-view',
             'permissions' => [
@@ -70,6 +70,7 @@ class Dashboard extends Process implements Module
      * Supported panel sizes.
      */
     const panelSizes = [
+        'micro',  // 1/6
         'mini',   // 1/4
         'small',  // 1/3
         'normal', // 1/2
@@ -116,7 +117,7 @@ class Dashboard extends Process implements Module
             'headline_without_user' => $this->_('Welcome'),
             'panel_not_found'       => $this->_('Dashboard panel not found: %s'),
             'empty_panel_notice'    => $this->_('Your dashboard is empty'),
-            'setup_hint'            => $this->sanitizer->entitiesMarkdown(
+            'setup_hint'            => $this->wire()->sanitizer->entitiesMarkdown(
                 $this->_('Learn how to add and configure panels reading the [documentation](%s).')
             ),
             'get_started'     => $this->_('Get started'),
@@ -174,19 +175,17 @@ class Dashboard extends Process implements Module
     protected function addUserNavItem()
     {
         $this->addHookAfter('AdminThemeFramework::getUserNavArray', function ($event) {
-            $navArray = $event->return;
-
             $page = $this->getDashboardPageInNav() ?: $this->getDashboardPage();
             if ($page && $page->viewable) {
                 $icon = $this->modules->getModuleInfoProperty($this, 'icon');
-                array_unshift($navArray, [
+                $nav = $event->return;
+                array_unshift($nav, [
                     'url'   => $page->url,
                     'title' => $this->texts->usernav,
                     'icon'  => $icon,
                 ]);
+                $event->return = $nav;
             }
-
-            $event->return = $navArray;
         });
     }
 
@@ -195,7 +194,7 @@ class Dashboard extends Process implements Module
      */
     protected function getDashboardPage()
     {
-        $admin = $this->pages->get(2);
+        $admin = $this->wire()->pages->get($this->wire()->config->adminRootPageID);
         $children = $admin->children('include=hidden, check_access=0');
 
         return $admin->and($children)->get("process={$this}");
@@ -206,7 +205,7 @@ class Dashboard extends Process implements Module
      */
     protected function getDashboardPageInNav()
     {
-        $admin = $this->pages->get(2);
+        $admin = $this->wire()->pages->get($this->wire()->config->adminRootPageID);
         $pages = $admin->children('check_access=0');
 
         return $pages->get("process={$this}");
@@ -218,10 +217,11 @@ class Dashboard extends Process implements Module
     public function ___execute()
     {
         // Redirect admin homepage to process page if in navigation
-        if ($this->page->id === 2) {
+        if ($this->page->id === $this->wire()->config->adminRootPageID) {
             $page = $this->getDashboardPageInNav();
             if ($page) {
                 $this->session->redirect($page->url);
+                return;
             }
         }
 
@@ -231,11 +231,16 @@ class Dashboard extends Process implements Module
         // Load panel instances from hook
         $this->panels = $this->getPanels();
 
-        // Ajax request? Render requested panel directly
-        if ($this->config->ajax && $this->input->post->dashboard) {
-            $key = $this->input->post->key;
-            $panel = $this->input->post->panel;
-            return $this->renderInstanceByKey($key, $panel);
+        if ($this->config->ajax) {
+            if ($this->input->post->dashboard) {
+                // Ajax request? (Re)render a single requested panel
+                $key = $this->input->post->key;
+                $panel = $this->input->post->panel;
+                return $this->renderInstanceByKey($key, $panel);
+            } else {
+                // Disregard all other ajax requests
+                return;
+            }
         }
 
         // Set browser title
@@ -399,7 +404,7 @@ class Dashboard extends Process implements Module
      */
     private function getPanelClassName($name)
     {
-        $panelName = $this->sanitizer()->pascalCase($name);
+        $panelName = $this->wire()->sanitizer->pascalCase($name);
 
         return self::panelModulePrefix.$panelName;
     }
@@ -409,10 +414,10 @@ class Dashboard extends Process implements Module
      */
     public function sanitizePanelSize($input)
     {
-        $size = $this->sanitizer->option($input, self::panelSizes);
+        $size = $this->wire()->sanitizer->option($input, self::panelSizes);
         if (!$size) {
             $default = $this->settings->defaultPanelSize;
-            $size = $this->sanitizer->option($default, self::panelSizes);
+            $size = $this->wire()->sanitizer->option($default, self::panelSizes);
         }
 
         return $size ?: self::fallbackPanelSize;
@@ -554,7 +559,7 @@ class Dashboard extends Process implements Module
             parent::___install();
             if ($this->installOnHomepage) {
                 // Set the admin process to use this module
-                $admin = $this->pages->get(2);
+                $admin = $this->wire()->pages->get($this->wire()->config->adminRootPageID);
                 $admin->process = $this;
                 $admin->save();
             }
@@ -572,7 +577,7 @@ class Dashboard extends Process implements Module
             parent::___uninstall();
             if ($this->installOnHomepage) {
                 // Restore the admin process to use ProcessHome again
-                $admin = $this->pages->get(2);
+                $admin = $this->wire()->pages->get($this->wire()->config->adminRootPageID);
                 $admin->process = 'ProcessHome';
                 $admin->save();
             }

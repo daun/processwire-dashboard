@@ -19,7 +19,7 @@ class DashboardPanelShortcuts extends DashboardPanel
                 'title'    => __('Dashboard Panel: Shortcuts', __FILE__),
                 'summary'  => __('Display a list of shortcuts to admin pages', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => '1.4.2',
+                'version'  => '1.5.0',
             ]
         );
     }
@@ -52,76 +52,124 @@ class DashboardPanelShortcuts extends DashboardPanel
             return;
         }
 
-        $rows = array_map(function ($shortcut, $key) {
-            $page = null;
-            $pageIcon = '';
-            $title = '';
-            $summary = '';
-            $url = '';
-            $icon = '';
-
-            // Passed array? Extract to shortcut, icon and summary
-            // e.g. [1020, 'user', 'Edit your profile']
-            if (is_array($shortcut)) {
-                // Avoiding list() construct since indices can be undefined
-                $summary = $shortcut[2] ?? null;
-                $icon = $shortcut[1] ?? null;
-                $shortcut = $shortcut[0] ?? null;
-            }
-
-            // Get URL from shortcut if page/id/selector given,
-            // otherwise treat shortcut as URL string
-            if (is_object($shortcut) && $shortcut instanceof Page) {
-                $page = $shortcut;
-            } elseif (is_int($shortcut)) {
-                $page = $this->pages->get($shortcut);
-            } elseif (is_string($shortcut)) {
-                if (Selectors::stringHasSelector($shortcut)) {
-                    $page = $this->pages->get($shortcut);
-                } else {
-                    $url = $shortcut;
-                }
-            }
-
-            if ($page) {
-                if (!$this->isPageViewable($page)) {
-                    return;
-                }
-                $info = $this->getPageInfo($page);
-                $title = is_string($key) ? $key : $info->title;
-                $summary = $summary ?: $info->summary;
-                $pageIcon = $info->icon;
-                $url = $page->url;
-            } elseif ($url) {
-                $title = $key;
-            } else {
-                return;
-            }
-
-            $icon = $this->renderPageIcon($icon ?: $pageIcon);
-            $title = $this->sanitizer->entities1($title);
-            $summary = $this->summaries ? $this->sanitizer->entities1($summary) : '';
-            $linkClass = $summary && $this->display === 'grid' ? 'tooltip' : '';
-            $isAdminLink = strpos($url, $this->config->urls->admin) === 0;
-            $target = !$isAdminLink ? '_blank' : '';
-
-            return
-                "<li>
-                    <a href='{$url}' class='{$linkClass}' title='{$summary}' target='{$target}'>
-                        <span>
-                            {$icon}
-                            <span class='title'>{$title}</span>
-                        </span>
-                        <span>
-                            <span class='summary' title='{$summary}'>{$summary}</span>
-                        </span>
-                    </a>
-                </li>";
+        $links = array_map(function ($shortcut, $key) {
+            $info = $this->getShortcutInfo($shortcut, $key);
+            $link = $this->renderShortcutLink($info);
+            return $link ? "<li>{$link}</li>" : "";
         }, $this->shortcuts, array_keys($this->shortcuts));
 
-        $output = implode('', $rows);
+        $output = implode('', $links);
 
         return "<ul data-display='{$this->display}'>{$output}</ul>";
+    }
+
+    protected function getShortcutInfo($shortcut, $key = null)
+    {
+        $page = null;
+        $title = null;
+        $summary = null;
+        $url = null;
+        $anchor = null;
+        $icon = null;
+        $mode = null;
+
+        if (is_array($shortcut) && is_string(array_key_first($shortcut))) {
+            // Verbose array with keys passed
+            // ['page' => 1020, 'icon' => 'user', 'summary' => 'Edit your profile']
+            $page = $shortcut['page'] ?? null;
+            $title = $shortcut['title'] ?? null;
+            $summary = $shortcut['summary'] ?? null;
+            $url = $shortcut['url'] ?? null;
+            $anchor = $shortcut['anchor'] ?? null;
+            $mode = $shortcut['mode'] ?? null;
+            $icon = $shortcut['icon'] ?? null;
+        } elseif (is_array($shortcut)) {
+            // Simple numerical array passed: Extract shortcut, icon and summary
+            // [1020, 'user', 'Edit your profile']
+            $summary = $shortcut[2] ?? null;
+            $icon = $shortcut[1] ?? null;
+            $page = $shortcut[0] ?? null;
+        } else {
+            // Single page passed
+            // 1020
+            $page = $shortcut;
+        }
+
+        // Get URL if page/id/selector given,
+        // otherwise treat as URL string
+        if (is_object($page) && $page instanceof Page) {
+            $page = $page;
+        } elseif (is_int($page)) {
+            $page = $this->pages->get($page);
+        } elseif (is_string($page)) {
+            if (Selectors::stringHasSelector($page)) {
+                $page = $this->pages->get($page);
+            } else {
+                $url = $url ?? $page;
+            }
+        }
+
+        if ($page && $this->isPageViewable($page)) {
+            $info = $this->getPageInfo($page);
+            $title = $title ?? (is_string($key) ? $key : $info->title);
+            $summary = $summary ?? $info->summary;
+            $icon = $icon ?? $info->icon;
+            $url = $page->url;
+        } elseif ($url) {
+            $title = $title ?? (is_string($key) ? $key : $url);
+        } else {
+            return;
+        }
+
+        return [
+            'url' => $url,
+            'anchor' => $anchor,
+            'mode' => $mode,
+            'title' => $title,
+            'summary' => $summary,
+            'icon' => $icon,
+        ];
+    }
+
+    protected function renderShortcutLink($link)
+    {
+        if (!$link || !($link['url'] ?? null)) {
+            return '';
+        }
+
+        $url = $link['url'] ?? null;
+        $isAdminLink = strpos($url, $this->config->urls->admin) === 0;
+        $title = $this->sanitizer->entities1($link['title'] ?? $link['url'] ?? '');
+        $summary = $this->summaries ? $this->sanitizer->entities1($link['summary'] ?? '') : '';
+        $icon = $this->renderPageIcon($link['icon'] ?? null);
+        $mode = $link['mode'] ?? (!$isAdminLink ? self::windowModeBlank : '');
+        $anchor = $link['anchor'] ?? '';
+
+        $classes = [];
+        if ($summary && $this->display === 'grid') {
+            $classes[] = 'tooltip';
+        }
+
+        $target = '';
+        if ($mode === self::windowModeBlank) {
+            $target = '_blank';
+        } elseif ($mode === self::windowModeModal) {
+            $classes[] = 'pw-modal';
+            $classes[] = 'pw-modal-large';
+        }
+
+        $class = implode(' ', $classes);
+
+        return
+            "<a href='{$url}{$anchor}' class='{$class}' title='{$summary}' target='{$target}'>
+                <span>
+                    {$icon}
+                    <span class='title'>{$title}</span>
+                </span>
+                <span>
+                    <span class='summary' title='{$summary}'>{$summary}</span>
+                </span>
+            </a>";
     }
 
     protected function renderPageIcon($icon)

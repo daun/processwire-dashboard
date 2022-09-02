@@ -18,7 +18,7 @@ class DashboardPanelCollection extends DashboardPanel
                 'title'    => __('Dashboard Panel: Collection', __FILE__),
                 'summary'  => __('Display a collection of pages in a table', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => '1.4.2',
+                'version'  => '1.5.0',
             ]
         );
     }
@@ -135,6 +135,14 @@ class DashboardPanelCollection extends DashboardPanel
         if ($markup === 'actions__') {
             $content = $this->renderPageActions($page);
         }
+        // Special case: page status
+        elseif ($markup === 'status__') {
+            $content = $this->renderStatusIcon($page);
+        }
+        // Special case: published status toggle
+        elseif (in_array($markup, ['published__', 'visible__'])) {
+            $content = $this->renderStatusToggle($page, $markup);
+        }
         // Special case: page icon
         elseif ($markup === 'page_icon') {
             $content = $this->renderIcon($page->getIcon());
@@ -160,6 +168,7 @@ class DashboardPanelCollection extends DashboardPanel
         elseif (false && $fieldtype == 'FieldtypeDatetime') {
             $content = $this->datetime->date($this->dateFormat, $page->getUnformatted($markup));
         }
+
         // All others
         if ($content === null) {
             $content = $page->getText($markup, false, true); // $oneLine, $entities
@@ -231,6 +240,20 @@ class DashboardPanelCollection extends DashboardPanel
                             $changed = true;
                         }
                         break;
+                    case 'show':
+                        $show = !!$value;
+                        $visible = !$page->isHidden();
+                        if ($page->editable() && $show && !$visible) {
+                            $page->removeStatus(Page::statusHidden);
+                            $page->save('status');
+                            $changed = true;
+                        }
+                        if (!$show && $visible) {
+                            $page->addStatus(Page::statusHidden);
+                            $page->save('status');
+                            $changed = true;
+                        }
+                        break;
                     case 'trash':
                         $trash = !!$value;
                         $trashed = $page->isTrash();
@@ -262,9 +285,9 @@ class DashboardPanelCollection extends DashboardPanel
     {
         parent::setup();
 
-        $this->editURL = $this->config->urls->admin.'page/edit/';
-        $this->addURL = $this->config->urls->admin.'page/add/';
-        $this->listURL = $this->config->urls->admin.'page/list/';
+        $this->editUrl = $this->config->urls->admin.'page/edit/';
+        $this->addUrl = $this->config->urls->admin.'page/add/';
+        $this->listUrl = $this->config->urls->admin.'page/list/';
 
         $this->collection = $this->data['collection'] ?? null;
         $this->columns = $this->data['columns'] ?? [
@@ -283,6 +306,7 @@ class DashboardPanelCollection extends DashboardPanel
         $this->listPage = $this->getPageFromObjectOrSelectorOrID($this->data['list'] ?? null);
         $this->editMode = $this->data['editMode'] ?? self::windowModeBlank;
         $this->viewMode = $this->data['viewMode'] ?? self::windowModeBlank;
+        $this->addUrlParams = $this->data['addUrlParams'] ?? [];
 
         if (is_string($this->collection)) {
             $this->collection = $this->pages->find($this->collection);
@@ -382,13 +406,13 @@ class DashboardPanelCollection extends DashboardPanel
         $out = '';
 
         if ($this->parent && $this->parent->id && $this->parent->addable()) {
-            $action = "{$this->addURL}?parent_id={$this->parent->id}";
+            $action = "{$this->addUrl}?parent_id={$this->parent->id}";
         } elseif ($this->template && ($parent = $this->template->getParentPage(true))) {
             if ($parent->id) {
-                $action = "{$this->addURL}?parent_id={$parent->id}";
+                $action = "{$this->addUrl}?parent_id={$parent->id}";
             } // defined parent
             else {
-                $action = "{$this->addURL}?template_id={$this->template->id}";
+                $action = "{$this->addUrl}?template_id={$this->template->id}";
             } // multiple possible parents
         }
 
@@ -403,6 +427,7 @@ class DashboardPanelCollection extends DashboardPanel
                 'modalAutoclose'     => self::modalAutocloseAdd,
                 'reloadOnModalClose' => true,
             ];
+            $action = $this->setQueryParameter($action, $this->addUrlParams);
             if (self::windowModeModal === $mode) {
                 $action = $this->setQueryParameter($action, 'modal', 1);
             }
@@ -416,10 +441,10 @@ class DashboardPanelCollection extends DashboardPanel
             if ($this->listPage->template == 'admin') {
                 $action = "{$this->listPage->url}"; // admin process page
             } else {
-                $action = "{$this->listURL}?open={$this->listPage->id}"; // open page list at this page
+                $action = "{$this->listUrl}?open={$this->listPage->id}"; // open page list at this page
             }
         } elseif ($this->parent && $this->parent->id) {
-            $action = "{$this->listURL}?open={$this->parent->id}"; // open page list at parent page
+            $action = "{$this->listUrl}?open={$this->parent->id}"; // open page list at parent page
         }
 
         if ($action) {
@@ -552,5 +577,62 @@ class DashboardPanelCollection extends DashboardPanel
         }, $images->getArray());
 
         return implode(' ', $thumbnails);
+    }
+
+    /**
+     * Render status icon.
+     */
+    protected function renderStatusIcon(Page $page)
+    {
+        if ($page->hasStatus(Page::statusTrash)) {
+            $icon = 'trash-can';
+            $tooltip = $this->_('In Trash');
+        } elseif ($page->hasStatus(Page::statusUnpublished)) {
+            $icon = 'pen';
+            $tooltip = $this->_('Draft');
+        } elseif ($page->hasStatus(Page::statusHidden)) {
+            $icon = 'eye-slash';
+            $tooltip = $this->_('Hidden');
+        } else {
+            $icon = 'circle-check';
+            $tooltip = $this->_('Published');
+        }
+        $icon = $this->renderIcon($icon);
+        return "<span class='tooltip' title='{$tooltip}'>{$icon}</span>";
+    }
+
+    /**
+     * Render publish/visibility toggle.
+     */
+    protected function renderStatusToggle(Page $page, $status = 'published')
+    {
+        $status = $this->wire()->sanitizer->option($status, ['published', 'visible']) ?? 'published';
+
+        switch ($status) {
+        case 'visible':
+            $action = 'show';
+            $statusFlag = Page::statusHidden;
+            $labelInactive = $this->_('Hidden');
+            $labelActive = $this->_('Visible');
+            break;
+        case 'published':
+        default:
+            $action = 'publish';
+            $statusFlag = Page::statusUnpublished;
+            $labelInactive = $this->_('Draft');
+            $labelActive = $this->_('Published');
+            break;
+        }
+
+        $active = !$page->hasStatus($statusFlag);
+        $checked = $active ? 'checked' : '';
+        $tooltip = $active ? $labelActive : $labelInactive;
+
+        return "
+            <label class='uk-switch tooltip' for='page-{$status}-{$page}' title='{$tooltip}'>
+                <input type='checkbox' id='page-{$status}-{$page}' name='actions[{$action}][{$page}]' value='1' {$checked}>
+                <div class='uk-switch-slider'></div>
+            </label>
+        ";
     }
 }

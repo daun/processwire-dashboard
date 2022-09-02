@@ -12,7 +12,7 @@ class Dashboard {
   }
 
   init() {
-    this.url = document.location.pathname;
+    this.url = document.location.pathname + document.location.search;
     this.$panels = $(this.selectors.panel);
     this.$tabs = $(this.selectors.tabs);
 

@@ -86,3 +86,63 @@
     border-radius: var(--dashboard-panel-collection-color-radius);
   }
 }
+
+/* Switch wrapper */
+
+.uk-switch {
+  --switch-width: 1.9em;
+  --switch-height: 1.1em;
+  --switch-pointer-offset: 2px;
+  --switch-pointer-size: calc(var(--switch-height) - 2 * var(--switch-pointer-offset));
+  --switch-active-color: var(--dashboard-color-button-hover-bg, currentColor);
+  position: relative;
+  display: inline-block;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  transform: translateY(0.2em);
+}
+
+/* Hide default HTML checkbox */
+
+.uk-switch input {
+  display: none;
+}
+
+/* Switch slider */
+
+.uk-switch-slider {
+  background-color: rgba(0,0,0,0.22);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-radius: 999vw;
+  bottom: 0;
+  cursor: pointer;
+  transition-property: background-color;
+	transition-duration: .2s;
+}
+
+/* Switch pointer */
+.uk-switch-slider:before {
+  content: '';
+  background-color: #fff;
+  position: absolute;
+  width: var(--switch-pointer-size);
+  height: var(--switch-pointer-size);
+  left: var(--switch-pointer-offset);
+  bottom: var(--switch-pointer-offset);
+  border-radius: 50%;
+  transition-property: transform, box-shadow;
+	transition-duration: .2s;
+}
+
+/* Active slider */
+input:checked + .uk-switch-slider {
+  background-color: var(--switch-active-color) !important;
+}
+
+/* Animate to active state */
+input:checked + .uk-switch-slider:before {
+  transform: translateX(-100%) translateX(calc(var(--switch-width) - var(--switch-pointer-offset) * 2));
+}
