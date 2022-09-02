@@ -70,6 +70,7 @@ class Dashboard extends Process implements Module
      * Supported panel sizes.
      */
     const panelSizes = [
+        'micro',  // 1/6
         'mini',   // 1/4
         'small',  // 1/3
         'normal', // 1/2
