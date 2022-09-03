@@ -135,17 +135,21 @@ class DashboardPanelCollection extends DashboardPanel
         if ($markup === 'actions__') {
             $content = $this->renderPageActions($page);
         }
+        // Special case: page icon
+        elseif ($markup === 'page_icon') {
+            $content = $this->renderIcon($page->getIcon());
+        }
         // Special case: page status
         elseif ($markup === 'status__') {
             $content = $this->renderStatusIcon($page);
         }
         // Special case: published status toggle
-        elseif (in_array($markup, ['published__', 'visible__'])) {
-            $content = $this->renderStatusToggle($page, $markup);
+        elseif ($markup === 'published__') {
+            $content = $this->renderStatusToggle($page, 'published');
         }
-        // Special case: page icon
-        elseif ($markup === 'page_icon') {
-            $content = $this->renderIcon($page->getIcon());
+        // Special case: visible status toggle
+        elseif ($markup === 'visible__') {
+            $content = $this->renderStatusToggle($page, 'visible');
         }
         // Special case: system timestamps
         elseif (in_array($markup, ['modified', 'created'])) {
