@@ -59,6 +59,8 @@
     padding: var(--dashboard-card-padding-list-y) var(--dashboard-card-padding-content-x);
     border-bottom: 1px solid var(--dashboard-color-separator);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     &:hover {
       background: var(--dashboard-color-list-hover-bg);
     }

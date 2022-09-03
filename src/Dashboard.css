@@ -17,16 +17,31 @@
   --dashboard-color-body-bg: #f0f3f7;
   --dashboard-color-panel-bg: #fff;
   --dashboard-color-separator: #e5e5e5;
+
   --dashboard-color-text-light: #97aab4;
+
   --dashboard-color-icon: #97aab4;
+
   --dashboard-color-button-bg: #f0f3f7;
   --dashboard-color-button-border: #d7dadf;
   --dashboard-color-button-text: #354b60;
   --dashboard-color-button-hover-bg: #6c8dae;
   --dashboard-color-button-hover-text: #fff;
+
   --dashboard-color-th-bg: #fafbfc;
+
   --dashboard-color-list-hover-bg: #fafbfc;
 
+  --dashboard-color-success: hsl(151, 45%, 47%);
+  --dashboard-color-success-bg: hsl(151, 45%, 95%);
+  --dashboard-color-warning: hsl(26, 84%, 51%);
+  --dashboard-color-warning-bg: hsl(26, 84%, 94%);
+  --dashboard-color-error: hsl(4, 74%, 57%);
+  --dashboard-color-error-bg: hsl(4, 74%, 96%);
+  --dashboard-color-progress: #354b60;
+  --dashboard-color-progress-bg: hsl(201, 16%, 80%);
+
+  /* Font sizes */
   --dashboard-fontsize-icon: 1.25em;
 
   /* Panels */

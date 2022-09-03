@@ -135,17 +135,21 @@ class DashboardPanelCollection extends DashboardPanel
         if ($markup === 'actions__') {
             $content = $this->renderPageActions($page);
         }
+        // Special case: page icon
+        elseif ($markup === 'page_icon') {
+            $content = $this->renderIcon($page->getIcon());
+        }
         // Special case: page status
         elseif ($markup === 'status__') {
             $content = $this->renderStatusIcon($page);
         }
         // Special case: published status toggle
-        elseif (in_array($markup, ['published__', 'visible__'])) {
-            $content = $this->renderStatusToggle($page, $markup);
+        elseif ($markup === 'published__') {
+            $content = $this->renderStatusToggle($page, 'published');
         }
-        // Special case: page icon
-        elseif ($markup === 'page_icon') {
-            $content = $this->renderIcon($page->getIcon());
+        // Special case: visible status toggle
+        elseif ($markup === 'visible__') {
+            $content = $this->renderStatusToggle($page, 'visible');
         }
         // Special case: system timestamps
         elseif (in_array($markup, ['modified', 'created'])) {
@@ -285,6 +289,8 @@ class DashboardPanelCollection extends DashboardPanel
     {
         parent::setup();
 
+        $this->wire()->modules->get('JqueryUI')->use('vex');
+
         $this->editUrl = $this->config->urls->admin.'page/edit/';
         $this->addUrl = $this->config->urls->admin.'page/add/';
         $this->listUrl = $this->config->urls->admin.'page/list/';
@@ -307,6 +313,8 @@ class DashboardPanelCollection extends DashboardPanel
         $this->editMode = $this->data['editMode'] ?? self::windowModeBlank;
         $this->viewMode = $this->data['viewMode'] ?? self::windowModeBlank;
         $this->addUrlParams = $this->data['addUrlParams'] ?? [];
+        $this->confirmTrash = $this->data['confirmTrash'] ?? true;
+        $this->confirmTrashMessage = $this->data['confirmTrashMessage'] ?? $this->_('Are you sure?');
 
         if (is_string($this->collection)) {
             $this->collection = $this->pages->find($this->collection);
@@ -504,7 +512,9 @@ class DashboardPanelCollection extends DashboardPanel
                     'attributes' => [
                         'data-action'  => "[trash][{$page}]",
                         'data-action-value'  => "1",
-                    ],
+                    ] + ($this->confirmTrash ? [
+                        'data-action-confirm' => $this->confirmTrashMessage,
+                    ] : []),
                 ];
             }
         }
