@@ -32,6 +32,14 @@
 
   --dashboard-color-list-hover-bg: #fafbfc;
 
+  --dashboard-color-success: hsl(151, 45%, 47%);
+  --dashboard-color-success-bg: hsl(151, 45%, 95%);
+  --dashboard-color-warning: hsl(26, 84%, 51%);
+  --dashboard-color-warning-bg: hsl(26, 84%, 94%);
+  --dashboard-color-error: hsl(4, 74%, 57%);
+  --dashboard-color-error-bg: hsl(4, 74%, 96%);
+  --dashboard-color-progress: #354b60;
+  --dashboard-color-progress-bg: hsl(201, 16%, 80%);
 
   /* Font sizes */
   --dashboard-fontsize-icon: 1.25em;
