@@ -1,6 +1,11 @@
 /* global $ */
 
 function initPanel($panel) {
+
+  const submitParamsAndReload = (params) => {
+    $panel.trigger('reload', { animate: false, params });
+  };
+
   const $reloadlinks = $panel.find('.pw-modal[data-reload-on-close]');
   if ($reloadlinks.length) {
     const page = $panel.data('page') || 1;
@@ -16,9 +21,8 @@ function initPanel($panel) {
       event.preventDefault();
       const url = event.currentTarget.href;
       const page = (url.match(/\d+$/) || [])[0] || 1;
-      const params = { page };
       $panel.data('page', page);
-      $panel.trigger('reload', { animate: false, params });
+      submitParamsAndReload({ page });
     });
   }
 
@@ -27,10 +31,16 @@ function initPanel($panel) {
     $actionButtons.on('click', (event) => {
       event.preventDefault();
       const action = event.currentTarget.dataset.action;
+      const confirm = event.currentTarget.dataset.actionConfirm;
       const key = `actions${action}`
       const value = event.currentTarget.dataset.actionValue;
       const params = { [key]: value };
-      $panel.trigger('reload', { animate: false, params });
+      console.log(confirm);
+      if (confirm) {
+        ProcessWire.confirm(confirm, () => submitParamsAndReload(params));
+      } else {
+        submitParamsAndReload(params);
+      }
     });
   }
 
@@ -42,7 +52,7 @@ function initPanel($panel) {
       const checked = event.target.checked;
       const value = checked ? 1 : '';
       const params = { [name]: value };
-      $panel.trigger('reload', { animate: false, params });
+      submitParamsAndReload(params);
     });
   }
 }

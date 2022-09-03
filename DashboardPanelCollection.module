@@ -285,6 +285,8 @@ class DashboardPanelCollection extends DashboardPanel
     {
         parent::setup();
 
+        $this->wire()->modules->get('JqueryUI')->use('vex');
+
         $this->editUrl = $this->config->urls->admin.'page/edit/';
         $this->addUrl = $this->config->urls->admin.'page/add/';
         $this->listUrl = $this->config->urls->admin.'page/list/';
@@ -307,6 +309,8 @@ class DashboardPanelCollection extends DashboardPanel
         $this->editMode = $this->data['editMode'] ?? self::windowModeBlank;
         $this->viewMode = $this->data['viewMode'] ?? self::windowModeBlank;
         $this->addUrlParams = $this->data['addUrlParams'] ?? [];
+        $this->confirmTrash = $this->data['confirmTrash'] ?? true;
+        $this->confirmTrashMessage = $this->data['confirmTrashMessage'] ?? $this->_('Are you sure?');
 
         if (is_string($this->collection)) {
             $this->collection = $this->pages->find($this->collection);
@@ -504,7 +508,9 @@ class DashboardPanelCollection extends DashboardPanel
                     'attributes' => [
                         'data-action'  => "[trash][{$page}]",
                         'data-action-value'  => "1",
-                    ],
+                    ] + ($this->confirmTrash ? [
+                        'data-action-confirm' => $this->confirmTrashMessage,
+                    ] : []),
                 ];
             }
         }
