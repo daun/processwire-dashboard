@@ -17,16 +17,23 @@
   --dashboard-color-body-bg: #f0f3f7;
   --dashboard-color-panel-bg: #fff;
   --dashboard-color-separator: #e5e5e5;
+
   --dashboard-color-text-light: #97aab4;
+
   --dashboard-color-icon: #97aab4;
+
   --dashboard-color-button-bg: #f0f3f7;
   --dashboard-color-button-border: #d7dadf;
   --dashboard-color-button-text: #354b60;
   --dashboard-color-button-hover-bg: #6c8dae;
   --dashboard-color-button-hover-text: #fff;
+
   --dashboard-color-th-bg: #fafbfc;
+
   --dashboard-color-list-hover-bg: #fafbfc;
 
+
+  /* Font sizes */
   --dashboard-fontsize-icon: 1.25em;
 
   /* Panels */
