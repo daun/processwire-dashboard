@@ -109,7 +109,7 @@ class DashboardPanelShortcuts extends DashboardPanel
             }
         }
 
-        if ($page && $this->isPageViewable($page)) {
+        if (is_object($page) && $this->isPageViewable($page)) {
             $info = $this->getPageInfo($page);
             $title = $title ?? (is_string($key) ? $key : $info->title);
             $summary = $summary ?? $info->summary;
@@ -223,7 +223,7 @@ class DashboardPanelShortcuts extends DashboardPanel
 
     protected function isPageViewable($page)
     {
-        if (!$page || !$page->url) {
+        if (!($page->url ?? null)) {
             return false;
         }
         if (!$this->checkAccess) {
