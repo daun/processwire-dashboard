@@ -2,6 +2,21 @@
 
 ## [Unreleased]
 
+## [1.5.2] - 2022-09-20
+
+- Fix notice when adding shortcut URLs as strings
+
+## [1.5.1] - 2022-09-03
+
+- Confirm before trashing pages in collection panel
+- Avoid overflowing shortcut titles
+- Add default color variables for third-party plugins
+
+## [1.5.0] - 2022-09-02
+
+- Add new panel size micro (@netcarver)
+- Allow publishing & hiding pages in collection panel by using special column names
+
 ## [1.4.2] - 2022-05-20
 
 - Fix invisible icons by checking for supported icons
@@ -236,8 +251,11 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.4.2...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.5.2...HEAD
 
+[1.5.2]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.2
+[1.5.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.1
+[1.5.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.0
 [1.4.2]: https://github.com/daun/processwire-dashboard/releases/tag/v1.4.2
 [1.4.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.4.1
 [1.4.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.4.0
