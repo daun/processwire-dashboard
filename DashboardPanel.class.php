@@ -16,6 +16,8 @@ use function ProcessWire\__;
  * @author Philipp Daun <post@philippdaun.net>
  * @license GPL-3.0
  */
+
+#[\AllowDynamicProperties]
 abstract class DashboardPanel extends Wire implements Module
 {
     /**
