@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.5.3] - 2023-03-18
+
+- Fix PHP 8.2 deprecation warning by allowing dynamic properties (@adrianbj)
+
 ## [1.5.2] - 2022-09-20
 
 - Fix notice when adding shortcut URLs as strings
@@ -251,8 +255,9 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.5.2...HEAD
+[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.5.3...HEAD
 
+[1.5.3]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.3
 [1.5.2]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.2
 [1.5.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.1
 [1.5.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.0
