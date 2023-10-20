@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.5.4] - 2023-10-20
+
+- Update dependencies
+
 ## [1.5.3] - 2023-03-18
 
 - Fix PHP 8.2 deprecation warning by allowing dynamic properties (@adrianbj)
