@@ -1,1 +1,1 @@
-$(document).on("dashboard:panel(hello-world)",(function(o,l){var n,e=l.$element;n=e.find("p").length,console.log("Hello world! I found ".concat(n," paragraph(s)"))}));
+$(document).on("dashboard:panel(hello-world)",function(o,l){var n;n=l.$element.find("p").length,console.log("Hello world! I found ".concat(n," paragraph(s)"))});
