@@ -107,7 +107,7 @@ class DashboardPanelCollection extends DashboardPanel
             }
 
             // Special case: icon as column header
-            if (strpos($label, 'fa-') === 0) {
+            if (strpos($label ?: '', 'fa-') === 0) {
                 $label = $this->renderIcon($label);
             }
 
