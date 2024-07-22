@@ -15,7 +15,7 @@ class DashboardPanelChart extends DashboardPanel
                 'title'    => __('Dashboard Panel: Chart', __FILE__),
                 'summary'  => __('Display a customizable chart from any data source', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => '1.5.5',
+                'version'  => '1.5.6',
             ]
         );
     }
