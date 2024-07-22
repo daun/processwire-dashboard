@@ -239,6 +239,7 @@ body.Dashboard {
 
 .Dashboard__tabs__list {
   display: flex;
+  flex-wrap: wrap;
   list-style: none;
   margin: 0 0 var(--dashboard-grid-gap);
   padding: 0;

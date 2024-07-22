@@ -4,6 +4,9 @@ Display a chart using [Chart.js](https://www.chartjs.org/).
 
 ![Chart](../images/chart.png ':size=400')
 
+The panel uses Chart.js v2 and could do with an update to v3 or v4. The maintainer
+currently lacks the time to tackle this, but a pull request is more than welcome.
+
 ## Options
 
 Required parameters are marked with an asterisk `*`
