@@ -1,6 +1,8 @@
 # Changelog
 
-## [Unreleased]
+## [1.5.6] - 2024-07-22
+
+- Improve responsive tab rendering
 
 ## [1.5.5] - 2024-02-28
 
@@ -263,8 +265,7 @@ Chart panel improvements:
 
 - Initial public release
 
-[Unreleased]: https://github.com/daun/processwire-dashboard/compare/v1.5.5...HEAD
-
+[1.5.6]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.6
 [1.5.5]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.5
 [1.5.4]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.4
 [1.5.3]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.3
