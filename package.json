@@ -13,12 +13,9 @@
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.17.10",
-    "autoprefixer": "^10.4.7",
-    "cssnano": "^5.1.7",
     "parcel": "^2.5.0",
     "postcss": "^8.4.13",
-    "postcss-nested": "^5.0.6",
-    "postcss-preset-env": "^7.5.0"
+    "postcss-nested": "^6.2.0"
   },
   "dependencies": {
     "lodash": "^4.17.21",
