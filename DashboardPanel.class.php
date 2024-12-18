@@ -401,17 +401,21 @@ abstract class DashboardPanel extends Wire implements Module
         if (!is_array($attributes)) {
             return $attributes;
         }
+
         if (empty($attributes)) {
             return '';
         }
 
         $attributePairs = [];
         foreach ($attributes as $key => $val) {
+            if ($val === false || $val === null) {
+                continue;
+            }
             if (is_int($key)) {
                 $attributePairs[] = $val;
                 continue;
             }
-            $val = htmlspecialchars($val, ENT_QUOTES);
+            $val = htmlspecialchars((string) $val, ENT_QUOTES);
             $attributePairs[] = "{$key}=\"{$val}\"";
         }
 
