@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.7] - 2024-12-18
+
+- Avoid rendering empty attributes
+
 ## [1.5.6] - 2024-07-22
 
 - Improve responsive tab rendering
@@ -265,6 +269,7 @@ Chart panel improvements:
 
 - Initial public release
 
+[1.5.7]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.7
 [1.5.6]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.6
 [1.5.5]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.5
 [1.5.4]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.4
