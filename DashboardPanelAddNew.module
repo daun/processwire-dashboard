@@ -19,7 +19,7 @@ class DashboardPanelAddNew extends DashboardPanel
                 'title'    => __('Dashboard Panel: Add New Page', __FILE__),
                 'summary'  => __('Allow adding new pages from the dashboard', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => '1.5.6',
+                'version'  => '1.5.7',
             ]
         );
     }
