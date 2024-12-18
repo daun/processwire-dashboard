@@ -19,7 +19,7 @@ class DashboardPanelShortcuts extends DashboardPanel
                 'title'    => __('Dashboard Panel: Shortcuts', __FILE__),
                 'summary'  => __('Display a list of shortcuts to admin pages', __FILE__),
                 'author'   => 'Philipp Daun',
-                'version'  => '1.5.2',
+                'version'  => '1.5.6',
             ]
         );
     }
@@ -138,7 +138,7 @@ class DashboardPanelShortcuts extends DashboardPanel
         }
 
         $url = $link['url'] ?? null;
-        $isAdminLink = strpos($url, $this->config->urls->admin) === 0;
+        $isAdminLink = strpos($url ?: '', $this->config->urls->admin) === 0;
         $title = $this->sanitizer->entities1($link['title'] ?? $link['url'] ?? '');
         $summary = $this->summaries ? $this->sanitizer->entities1($link['summary'] ?? '') : '';
         $icon = $this->renderPageIcon($link['icon'] ?? null);

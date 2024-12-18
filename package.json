@@ -1,6 +1,6 @@
 {
   "name": "processwire-dashboard",
-  "version": "1.5.2",
+  "version": "1.5.6",
   "description": "Configurable dashboard for ProcessWire's admin interface",
   "scripts": {
     "dev": "parcel src/*.js src/*.css --dist-dir . --no-source-maps --no-hmr",
