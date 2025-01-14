@@ -224,7 +224,7 @@ abstract class DashboardPanel extends Wire implements Module
         }
 
         // Update style with default options after setup
-        $this->style = $this->style ?? $this->getStyleOptions() ?? [];
+        $this->style ??= $this->getStyleOptions() ?? [];
 
         // Include scripts and stylesheets
         $this->includeFiles();
