@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.5.8] - 2025-01-14
+
+- Fix warning when rendering parent in collection panel
+
 ## [1.5.7] - 2024-12-18
 
 - Avoid rendering empty attributes
@@ -269,6 +273,7 @@ Chart panel improvements:
 
 - Initial public release
 
+[1.5.8]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.8
 [1.5.7]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.7
 [1.5.6]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.6
 [1.5.5]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.5
