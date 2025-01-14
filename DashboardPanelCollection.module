@@ -128,7 +128,12 @@ class DashboardPanelCollection extends DashboardPanel
         $class = $column->class;
 
         $field = $this->fields->get($markup);
-        $fieldtype = $field ? "$field->type" : null;
+        $fieldtype = is_object($field)
+            ? "$field->type"
+            : (is_string($field)
+                ? $field
+                : null);
+
         $content = null;
 
         // Special case: action links
