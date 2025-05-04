@@ -225,22 +225,22 @@ class Dashboard extends Process implements Module
             }
         }
 
+        // Ignore ajax requests that are not requesting a panel render
+        if ($this->config->ajax && !$this->input->post->dashboard) {
+            return;
+        }
+
         // Load settings from hook
         $this->settings = $this->getSettings();
 
         // Load panel instances from hook
         $this->panels = $this->getPanels();
 
-        if ($this->config->ajax) {
-            if ($this->input->post->dashboard) {
-                // Ajax request? (Re)render a single requested panel
-                $key = $this->input->post->key;
-                $panel = $this->input->post->panel;
-                return $this->renderInstanceByKey($key, $panel);
-            } else {
-                // Disregard all other ajax requests
-                return;
-            }
+        // Check if we have any panels to render via ajax
+        if ($this->config->ajax && $this->input->post->dashboard) {
+            $key = $this->input->post->key;
+            $panel = $this->input->post->panel;
+            return $this->renderInstanceByKey($key, $panel);
         }
 
         // Set browser title
