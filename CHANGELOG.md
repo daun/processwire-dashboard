@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.5.9] - 2025-05-04
+
+- Ignore ajax requests that do not render a panel
+- Bump tooling dependencies
+
 ## [1.5.8] - 2025-01-14
 
 - Fix warning when rendering parent in collection panel
@@ -273,6 +278,7 @@ Chart panel improvements:
 
 - Initial public release
 
+[1.5.9]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.9
 [1.5.8]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.8
 [1.5.7]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.7
 [1.5.6]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.6
