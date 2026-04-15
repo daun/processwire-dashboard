@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6.0] - 2026-04-15
+
+- Use new admin theme colors
+
 ## [1.5.9] - 2025-05-04
 
 - Ignore ajax requests that do not render a panel
@@ -278,6 +282,7 @@ Chart panel improvements:
 
 - Initial public release
 
+[1.6.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.6.0
 [1.5.9]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.9
 [1.5.8]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.8
 [1.5.7]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.7
