@@ -31,20 +31,17 @@
   &.notice-status--notice {}
 
   &.notice-status--success {
-    color: rgb(66, 175, 123);
-    color: hsl(151, 45%, 47%);
-    background-color: hsl(151, 45%, 95%);
+    color: var(--dashboard-color-success);
+    background-color: var(--dashboard-color-success-bg);
   }
 
   &.notice-status--warning {
-    color: rgb(235, 116, 25);
-    color: hsl(26, 84%, 51%);
-    background-color: hsl(26, 84%, 94%);
+    color: var(--dashboard-color-warning);
+    background-color: var(--dashboard-color-warning-bg);
   }
 
   &.notice-status--error {
-    color: rgb(227, 78, 66);
-    color: hsl(4, 74%, 57%);
-    background-color: hsl(4, 74%, 96%);
+    color: var(--dashboard-color-error);
+    background-color: var(--dashboard-color-error-bg);
   }
 }

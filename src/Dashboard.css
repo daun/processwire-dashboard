@@ -14,13 +14,13 @@
   --dashboard-grid-size-large: 8;
 
   /* Colors */
-  --dashboard-color-body-bg: #f0f3f7;
-  --dashboard-color-panel-bg: #fff;
+  --dashboard-color-body-bg: var(--pw-main-background, #f0f3f7);
+  --dashboard-color-panel-bg: var(--pw-blocks-background, #fff);
   --dashboard-color-separator: #e5e5e5;
 
-  --dashboard-color-text-light: #97aab4;
+  --dashboard-color-text-light: var(--pw-muted-color, #97aab4);
 
-  --dashboard-color-icon: #97aab4;
+  --dashboard-color-icon: var(--pw-muted-color, #97aab4);
 
   --dashboard-color-button-bg: #f0f3f7;
   --dashboard-color-button-border: #d7dadf;
@@ -126,6 +126,14 @@ body.Dashboard {
 
 .uk-card-small .uk-card-footer {
   padding: var(--dashboard-card-padding-header-y) var(--dashboard-card-padding-header-x);
+}
+
+/* UIKit card overrides */
+
+.AdminThemeUikit {
+  .uk-card :is(a, .uk-link) {
+    text-decoration: inherit;
+  }
 }
 
 /* Dashboard without headline */
@@ -335,6 +343,9 @@ body.Dashboard {
 
   &:not(.Dashboard__group) {
     overflow: hidden;
+    /* &, &:hover {
+      border: 1px solid var(--pw-border-color) !important;
+    } */
   }
 
   .uk-card-title {
@@ -389,6 +400,10 @@ body.Dashboard {
       border: none;
     }
   }
+
+  /* .uk-card-footer {
+    margin-top: -1px;
+  } */
 }
 
 /* Buttons */
@@ -410,6 +425,7 @@ body.Dashboard {
   .uk-card-body > .pw-table-responsive {
     margin: -20px;
     margin-bottom: -21px;
+    padding: 0;
   }
   .uk-card-body > .AdminDataTable {
     margin-top: -10px;
