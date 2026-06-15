@@ -157,8 +157,18 @@ class DashboardPanelCollection extends DashboardPanel
             $content = $this->renderStatusToggle($page, 'visible');
         }
         // Special case: system timestamps
-        elseif (in_array($markup, ['modified', 'created'])) {
-            $content = $this->datetime->date($this->dateFormat, $page->$markup);
+        elseif (in_array($markup, ['modified', 'created', 'published'])) {
+            if ($timestamp = $page->$markup) {
+                $format = $this->dateFormat ?: 'relative';
+                $content = $this->datetime->date($format, $timestamp);
+            }
+        }
+        // Special case: timestamp fields
+        elseif ($fieldtype == 'FieldtypeDatetime') {
+            if ($timestamp = $page->getUnformatted($markup)) {
+                $format = $this->dateFormat ?: $field->get('dateOutputFormat') ?: 'relative';
+                $content = $this->datetime->date($format, $timestamp);
+            }
         }
         // Special case: image fields
         elseif ($fieldtype == 'FieldtypeImage') {
@@ -171,11 +181,6 @@ class DashboardPanelCollection extends DashboardPanel
             $class .= ' is-color-column';
             $color = $page->getFormatted($markup);
             $content = "<span style='background-color:{$color}'></span>";
-        }
-        // Special case: timestamp fields
-        // disabled for now (formatted datetime values work just as well)
-        elseif (false && $fieldtype == 'FieldtypeDatetime') {
-            $content = $this->datetime->date($this->dateFormat, $page->getUnformatted($markup));
         }
 
         // All others
@@ -309,7 +314,7 @@ class DashboardPanelCollection extends DashboardPanel
         $this->pagination = $this->data['pagination'] ?? true;
         $this->sortable = $this->data['sortable'] ?? false;
         $this->showHeaders = $this->data['headers'] ?? true;
-        $this->dateFormat = $this->data['dateFormat'] ?? 'relative';
+        $this->dateFormat = $this->data['dateFormat'] ?? null;
         $this->emptyMessage = $this->data['emptyMessage'] ?? '';
         $this->maxImageNum = $this->data['maxImageNum'] ?? 1;
         $this->parent = $this->getPageFromObjectOrSelectorOrID($this->data['parent'] ?? null);
