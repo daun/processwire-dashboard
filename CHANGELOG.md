@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.6.1] - 2026-06-15
+
+- Fix date output format fallback chain
+- Apply datetime formatting to `published` timestamp
+
 ## [1.6.0] - 2026-04-15
 
 - Use new admin theme colors
@@ -282,6 +287,7 @@ Chart panel improvements:
 
 - Initial public release
 
+[1.6.1]: https://github.com/daun/processwire-dashboard/releases/tag/v1.6.1
 [1.6.0]: https://github.com/daun/processwire-dashboard/releases/tag/v1.6.0
 [1.5.9]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.9
 [1.5.8]: https://github.com/daun/processwire-dashboard/releases/tag/v1.5.8
